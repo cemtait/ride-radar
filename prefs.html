@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ride Radar Preferences</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7f7; }
+    h1 { text-align: center; margin-bottom: 20px; }
+    .prefs { background: #fff; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    label { display: block; margin-top: 10px; margin-bottom: 4px; font-weight: bold; }
+    input[type="text"], input[type="number"] { width: 100%; padding: 6px; border-radius: 4px; border: 1px solid #ccc; }
+    button { margin-top: 15px; padding: 10px 14px; background-color: #28a745; border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer; width: 100%; }
+    a { display: block; text-align: center; margin-top: 20px; text-decoration: none; color: #007bff; }
+  </style>
+</head>
+<body>
+
+<h1>Ride Radar Preferences</h1>
+
+<div class="prefs">
+  <label for="prefMaxDrive">Max drive time (minutes)</label>
+  <input type="number" id="prefMaxDrive" min="10" max="300">
+
+  <label for="prefMaxRides">Max number of rides to show</label>
+  <input type="number" id="prefMaxRides" min="1" max="50">
+
+  <label for="prefRideTypes">Ride types to show (comma-separated, leave blank for all)</label>
+  <input type="text" id="prefRideTypes">
+
+  <label for="prefAlwaysInclude">Always include rides (comma-separated, case-insensitive)</label>
+  <input type="text" id="prefAlwaysInclude">
+
+  <button id="savePrefsBtn">Save Preferences</button>
+  <a href="index.html">← Back to Ride Radar</a>
+</div>
+
+<script>
+const prefMaxDrive = document.getElementById("prefMaxDrive");
+const prefMaxRides = document.getElementById("prefMaxRides");
+const prefRideTypes = document.getElementById("prefRideTypes");
+const prefAlwaysInclude = document.getElementById("prefAlwaysInclude");
+const savePrefsBtn = document.getElementById("savePrefsBtn");
+
+// Load saved preferences
+function loadPreferences() {
+  const stored = JSON.parse(localStorage.getItem("rideRadarPrefs") || "{}");
+  prefMaxDrive.value = stored.maxDriveTime || 120;
+  prefMaxRides.value = stored.maxRides || 10;
+  prefRideTypes.value = (stored.rideTypes || []).join(", ");
+  prefAlwaysInclude.value = (stored.alwaysInclude || []).join(", ");
+}
+
+// Save preferences
+savePrefsBtn.onclick = () => {
+  const maxDriveTime = parseInt(prefMaxDrive.value);
+  const maxRides = parseInt(prefMaxRides.value);
+  const rideTypes = prefRideTypes.value.split(",").map(s => s.trim()).filter(s => s);
+  const alwaysInclude = prefAlwaysInclude.value.split(",").map(s => s.trim().toLowerCase()).filter(s => s);
+
+  localStorage.setItem("rideRadarPrefs", JSON.stringify({
+    maxDriveTime,
+    maxRides,
+    rideTypes,
+    alwaysInclude
+  }));
+
+  alert("Preferences saved!");
+  // Redirect back to main page
+  window.location.href = "index.html";
+};
+
+loadPreferences();
+</script>
+
+</body>
+</html>
