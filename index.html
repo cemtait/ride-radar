@@ -1,224 +1,277 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Ride Radar</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7f7; }
-    h1 { text-align: center; }
-    .filters { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-    .filters button { padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; }
-    .filters button.active { background-color: #007bff; color: #fff; }
-    .ride-list { display: flex; flex-direction: column; gap: 12px; }
-    .ride-card { background: #fff; padding: 12px 16px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-    .ride-card h3 { margin: 0 0 4px 0; }
-    .ride-card p { margin: 2px 0; font-size: 0.9em; color: #555; }
-    .ride-card .drive-time { font-weight: bold; }
-    .prefs-button { text-align: center; margin-bottom: 15px; }
-    .prefs-button a { text-decoration: none; color: #007bff; font-weight: bold; }
-  </style>
+<meta charset="UTF-8">
+<title>Ride Radar</title>
+
+<style>
+
+body{
+  background:#0f1412;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto;
+  margin:0;
+  color:#e6efe8;
+}
+
+/* header */
+
+header{
+  padding:22px;
+  font-size:26px;
+  font-weight:700;
+  letter-spacing:0.5px;
+}
+
+/* grid */
+
+#rides{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:18px;
+  padding:20px;
+}
+
+/* card */
+
+.card{
+
+  background:#1a221d;
+  border-radius:14px;
+  overflow:hidden;
+
+  box-shadow:
+  0 6px 18px rgba(0,0,0,0.45),
+  inset 0 1px 0 rgba(255,255,255,0.03);
+
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:
+  0 10px 26px rgba(0,0,0,0.55);
+}
+
+/* top ride type bar */
+
+.typebar{
+  height:6px;
+}
+
+/* palette */
+
+.trail .typebar{ background:#4CAF50 }
+.enduro .typebar{ background:#8BC34A }
+.crosscountry .typebar{ background:#8D6E63 }
+.motocross .typebar{ background:#A1887F }
+.other .typebar{ background:#607D8B }
+
+/* content */
+
+.content{
+  padding:18px;
+}
+
+.title{
+  font-size:20px;
+  font-weight:600;
+  margin-bottom:6px;
+  line-height:1.2;
+}
+
+.district{
+  color:#9fb0a4;
+  font-size:14px;
+  margin-bottom:14px;
+}
+
+/* info row */
+
+.meta{
+  display:flex;
+  gap:16px;
+  font-size:14px;
+  color:#cfe0d3;
+}
+
+/* icons */
+
+.meta span{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+/* footer */
+
+.footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:16px;
+}
+
+/* calendar button */
+
+.calendar{
+
+  width:36px;
+  height:36px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:8px;
+
+  background:#26352c;
+
+  cursor:pointer;
+
+  font-size:18px;
+
+  transition:background .15s;
+}
+
+.calendar:hover{
+  background:#32463a;
+}
+
+/* subtle divider */
+
+.divider{
+  height:1px;
+  background:rgba(255,255,255,0.05);
+  margin-top:14px;
+}
+
+</style>
 </head>
+
 <body>
 
-<h1>Ride Radar</h1>
+<header>
+Ride Radar
+</header>
 
-<div class="prefs-button">
-  <a href="prefs.html">⚙ Preferences</a>
-</div>
-
-<div class="filters" id="rideTypeFilters"></div>
-
-<div class="ride-list" id="rideList"></div>
+<div id="rides"></div>
 
 <script>
-const rideListEl = document.getElementById("rideList");
-const filtersEl = document.getElementById("rideTypeFilters");
 
-let rides = [];
-let selectedTypes = new Set();
-let alwaysInclude = [];
-let maxDriveTime = 120;
-let maxRides = 10;
-let userLocation = null;
+function getCardType(type){
 
-// Load preferences from localStorage
-function loadPreferences() {
-  const stored = JSON.parse(localStorage.getItem("rideRadarPrefs") || "{}");
-  maxDriveTime = stored.maxDriveTime || 120;
-  maxRides = stored.maxRides || 10;
-  alwaysInclude = (stored.alwaysInclude || []).map(s => s.toLowerCase());
-  const types = stored.rideTypes || [];
-  selectedTypes = new Set(types);
+  if(!type) return "other"
+
+  type=type.toLowerCase()
+
+  if(type.includes("trail")) return "trail"
+  if(type.includes("enduro")) return "enduro"
+  if(type.includes("cross")) return "crosscountry"
+  if(type.includes("moto")) return "motocross"
+
+  return "other"
 }
 
-// Setup ride type buttons
-function setupFilters() {
-  const types = Array.from(new Set(rides.map(r => r.type))).sort();
-  filtersEl.innerHTML = "";
-  types.forEach(type => {
-    const btn = document.createElement("button");
-    btn.textContent = type;
-    if (selectedTypes.has(type)) btn.classList.add("active");
-    btn.onclick = () => {
-      if (selectedTypes.has(type)) {
-        selectedTypes.delete(type);
-        btn.classList.remove("active");
-      } else {
-        selectedTypes.add(type);
-        btn.classList.add("active");
-      }
-      renderRides();
-    };
-    filtersEl.appendChild(btn);
-  });
+function formatDate(dateStr){
+
+  const d=new Date(dateStr)
+
+  return d.toLocaleDateString("en-NZ",{
+    day:"numeric",
+    month:"short"
+  })
 }
 
-// Render rides applying filters, drive time, always include, and limit
-function renderRides() {
-  rideListEl.innerHTML = "";
-  let filtered = rides;
+function createCalendarLink(ride){
 
-  if (selectedTypes.size > 0) {
-    filtered = rides.filter(r => selectedTypes.has(r.type));
-  }
+  const date=new Date(ride.date)
 
-  // Filter by max drive time unless always include
-  filtered = filtered.filter(r => {
-    const titleLower = r.title.toLowerCase();
-    const always = alwaysInclude.some(name => titleLower.includes(name));
-    return (r.driveTimeMinutes != null && r.driveTimeMinutes <= maxDriveTime) || always || r.driveTimeMinutes == null;
-  });
+  const end=new Date(date)
+  end.setHours(end.getHours()+6)
 
-  // Sort by date
-  filtered.sort((a,b) => new Date(a.when) - new Date(b.when));
+  const format=(d)=>d.toISOString().replace(/-|:|\.\d+/g,'')
 
-  // Limit number of rides
-  filtered = filtered.slice(0, maxRides);
+  const start=format(date)
+  const finish=format(end)
 
-  filtered.forEach(r => {
-    const card = document.createElement("div");
-    card.className = "ride-card";
-
-    const title = document.createElement("h3");
-    title.textContent = r.title;
-    card.appendChild(title);
-
-    const typeP = document.createElement("p");
-    typeP.textContent = `Type: ${r.type}`;
-    card.appendChild(typeP);
-
-    const districtP = document.createElement("p");
-    districtP.textContent = `District: ${r.district}`;
-    card.appendChild(districtP);
-
-    const whenP = document.createElement("p");
-    whenP.textContent = `When: ${r.when}`;
-    card.appendChild(whenP);
-
-    const whereP = document.createElement("p");
-    whereP.textContent = `Where: ${r.link || ""}`;
-    card.appendChild(whereP);
-
-    const driveTimeP = document.createElement("p");
-    driveTimeP.className = "drive-time";
-    if (r.driveTimeMinutes != null) {
-      driveTimeP.textContent = `Drive time: ${r.driveTimeMinutes} min`;
-    } else {
-      driveTimeP.textContent = "Drive time: calculating...";
-    }
-    card.appendChild(driveTimeP);
-
-    rideListEl.appendChild(card);
-  });
+  return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(ride.title)}&dates=${start}/${finish}&location=${encodeURIComponent(ride.district)}`
 }
 
-// Geocode ride using Nominatim
-async function geocodeRide(r) {
-  if (!r.link) return null;
-  try {
-    const res = await fetch(`/api/ride-details?url=${encodeURIComponent(r.link)}`);
-    const data = await res.json();
-    if (!data.where) return null;
-    const geoRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(data.where)}`);
-    const geoData = await geoRes.json();
-    if (geoData.length > 0) {
-      return { lat: parseFloat(geoData[0].lat), lon: parseFloat(geoData[0].lon), address: data.where };
-    }
-    return null;
-  } catch (err) {
-    console.error("Failed to geocode ride:", r.title, err);
-    return null;
-  }
+async function loadRides(){
+
+  const res=await fetch("/rides")
+  let rides=await res.json()
+
+  rides.sort((a,b)=>new Date(a.date)-new Date(b.date))
+
+  const container=document.getElementById("rides")
+
+  rides.forEach(ride=>{
+
+    const card=document.createElement("div")
+    card.className="card "+getCardType(ride.type)
+
+    const typebar=document.createElement("div")
+    typebar.className="typebar"
+
+    const content=document.createElement("div")
+    content.className="content"
+
+    const title=document.createElement("div")
+    title.className="title"
+    title.textContent=ride.title
+
+    const district=document.createElement("div")
+    district.className="district"
+    district.textContent=ride.district
+
+    const meta=document.createElement("div")
+    meta.className="meta"
+
+    const date=document.createElement("span")
+    date.textContent="📅 "+formatDate(ride.date)
+
+    const drive=document.createElement("span")
+
+    if(ride.distance_km)
+      drive.textContent=`🚗 ${ride.distance_km} km • ${ride.drive_time_minutes} min`
+
+    meta.appendChild(date)
+    meta.appendChild(drive)
+
+    const divider=document.createElement("div")
+    divider.className="divider"
+
+    const footer=document.createElement("div")
+    footer.className="footer"
+
+    const spacer=document.createElement("div")
+
+    const calendar=document.createElement("div")
+    calendar.className="calendar"
+    calendar.textContent="📆"
+    calendar.onclick=()=>window.open(createCalendarLink(ride),"_blank")
+
+    footer.appendChild(spacer)
+    footer.appendChild(calendar)
+
+    content.appendChild(title)
+    content.appendChild(district)
+    content.appendChild(meta)
+    content.appendChild(divider)
+    content.appendChild(footer)
+
+    card.appendChild(typebar)
+    card.appendChild(content)
+
+    container.appendChild(card)
+
+  })
+
 }
 
-// Get user location
-async function getUserLocation() {
-  if (!navigator.geolocation) {
-    alert("Geolocation not supported.");
-    renderRides();
-    return;
-  }
+loadRides()
 
-  navigator.geolocation.getCurrentPosition(async (pos) => {
-    userLocation = { lat: pos.coords.latitude, lon: pos.coords.longitude };
-
-    // Geocode rides
-    const coordsList = [];
-    for (const r of rides) {
-      const coords = await geocodeRide(r);
-      if (coords) {
-        r.coordinates = coords;
-        coordsList.push(coords);
-      }
-    }
-
-    // Compute drive times OSRM Table API
-    await fetchDriveTimesOSRM(coordsList);
-
-    renderRides();
-  }, (err) => {
-    console.error("Geolocation error:", err);
-    renderRides();
-  });
-}
-
-// OSRM Table API for drive times
-async function fetchDriveTimesOSRM(coordsList) {
-  if (!userLocation || coordsList.length === 0) return;
-
-  const userCoordStr = `${userLocation.lon},${userLocation.lat}`;
-  const destCoordsStr = coordsList.map(c => `${c.lon},${c.lat}`).join(';');
-  const url = `https://router.project-osrm.org/table/v1/driving/${userCoordStr};${destCoordsStr}?annotations=duration`;
-
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-
-    if (data.durations && data.durations[0]) {
-      data.durations[0].slice(1).forEach((sec, i) => {
-        rides[i].driveTimeMinutes = sec != null ? Math.round(sec / 60) : null;
-      });
-    }
-  } catch (err) {
-    console.error("Failed to fetch OSRM drive times:", err);
-  }
-}
-
-// Load rides from server
-async function loadRides() {
-  try {
-    loadPreferences();
-    const res = await fetch("/api/rides");
-    rides = await res.json();
-    setupFilters();
-    getUserLocation();
-  } catch (err) {
-    console.error("Failed to load rides:", err);
-  }
-}
-
-// Start
-loadRides();
 </script>
 
 </body>

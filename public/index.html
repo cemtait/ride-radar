@@ -3,37 +3,68 @@
 <head>
 <meta charset="utf-8"/>
 <title>Ride Radar</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <header>
-<h1>Ride Radar</h1>
+  <h1>Ride Radar</h1>
 </header>
 
-<div id="map"></div>
+<div id="tabs">
+
+  <div id="tab-list" class="tab-panel active">
+    <div id="rideList"></div>
+  </div>
+
+  <div id="tab-map" class="tab-panel">
+    <div id="map"></div>
+  </div>
+
+  <div id="tab-prefs" class="tab-panel">
+    <div id="prefsPanel">
+      <h2>Preferences</h2>
+
+      <div class="pref-group">
+        <label>Origin for drive distance</label>
+        <input type="text" id="prefOriginName" placeholder="e.g. Auckland"/>
+        <input type="number" id="prefLat" placeholder="Latitude" step="any"/>
+        <input type="number" id="prefLon" placeholder="Longitude" step="any"/>
+        <button id="savePrefs">Save &amp; Recalculate</button>
+        <p id="prefMsg"></p>
+      </div>
+
+      <div class="pref-group">
+        <label>Filter by ride type</label>
+        <div id="typeFilters"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<nav id="tabBar">
+  <button class="tab-btn active" data-tab="tab-list">&#9776; Rides List</button>
+  <button class="tab-btn" data-tab="tab-map">&#128506; Map</button>
+  <button class="tab-btn" data-tab="tab-prefs">&#9881; Preferences</button>
+</nav>
 
 <div id="rideCard" class="hidden">
-<h2 id="rideTitle"></h2>
-
-<div class="rideInfo">
-<div id="rideDate"></div>
-<div id="rideType"></div>
-<div id="rideDistrict"></div>
-<div id="rideAddress"></div>
-</div>
-
-<div class="buttons">
-<button id="calendarBtn">Add to Calendar</button>
-<button id="openEventBtn">Open Event Page</button>
-<button id="closeCard">Close</button>
-</div>
+  <h2 id="rideTitle"></h2>
+  <div class="rideInfo">
+    <div id="rideDate"></div>
+    <div id="rideType"></div>
+    <div id="rideDistrict"></div>
+    <div id="rideAddress"></div>
+    <div id="rideDrive"></div>
+  </div>
+  <div class="buttons">
+    <button id="calendarBtn">Add to Calendar</button>
+    <button id="openEventBtn">Open Event Page</button>
+    <button id="closeCard">Close</button>
+  </div>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
