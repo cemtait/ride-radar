@@ -1,0 +1,390 @@
+{
+  "2026 Yamaha New Zealand Cross Country Nationals Rnd 3": {
+    "lat": -41.4561705,
+    "lon": 173.0589582,
+    "original": "566 church valley road, wakefield new zealand"
+  },
+  "Riverhead Twilight Trail Ride": {
+    "lat": -36.7142257,
+    "lon": 174.590625,
+    "original": "riverhead forest, 476 ararimu valley road new zealand"
+  },
+  "Whangamomona Trail ride": {
+    "lat": -39.3396858,
+    "lon": 174.2840888
+  },
+  "2026 Yamaha New Zealand Cross Country Nationals Rnd 4": {
+    "lat": -41.4561705,
+    "lon": 173.0589582,
+    "original": "566 church valley road, wakefield new zealand"
+  },
+  "Honda Riding Academy - ADV TRAINING": {
+    "lat": -37.280488,
+    "lon": 175.541424
+  },
+  "RSH": {
+    "lat": -37.8767224,
+    "lon": 176.6940496
+  },
+  "NI Champs, Rnd 1": {
+    "lat": -39.6187816,
+    "lon": 176.8934828
+  },
+  "Karamu Trail Track Trail Ride": {
+    "lat": -37.8796456,
+    "lon": 175.1355473,
+    "original": "37 smith road, karamu new zealand"
+  },
+  "IPONE Trail Ride": {
+    "lat": -36.4016289,
+    "lon": 174.4479423,
+    "original": "kaipara coast highway 16 new zealand"
+  },
+  "Matarau Trail Ride": {
+    "lat": -35.6685349,
+    "lon": 174.1004509,
+    "original": "aponga road, purua, whangarei new zealand"
+  },
+  "Onga Onga School Trail Ride": {
+    "lat": -39.9413969,
+    "lon": 176.5696492
+  },
+  "Maramarua Trail Ride": {
+    "lat": -37.280488,
+    "lon": 175.541424
+  },
+  "Steel Horse Trail Ride": {
+    "lat": -39.9324904,
+    "lon": 175.0519306
+  },
+  "CAN": {
+    "lat": -39.2591812,
+    "lon": 174.5677211,
+    "original": "huiakama, 2973 state highway 43 new zealand"
+  },
+  "NI Champs, Rnd 2": {
+    "lat": -39.6187816,
+    "lon": 176.8934828
+  },
+  "Bugger The Boss": {
+    "lat": -37.280488,
+    "lon": 175.541424
+  },
+  "4 Fifty Six Vinduro": {
+    "lat": -40.1879487,
+    "lon": 176.4473437,
+    "original": "456 ngawaka road, flemmington new zealand"
+  },
+  "Dirt World Ride Day": {
+    "lat": -38.0834477,
+    "lon": 176.1881336
+  },
+  "Trail & Track Open Weekend": {
+    "lat": -40.6435115,
+    "lon": 176.1091162,
+    "original": "410 waihoki valley road tiraumea new zealand"
+  },
+  "Waikato Warrior Adventure Ride": {
+    "lat": -38.0688215,
+    "lon": 175.7905648
+  },
+  "Possum Palace trail ride": {
+    "lat": -35.9000882,
+    "lon": 174.0931291
+  },
+  "Riverhead Trail Ride": {
+    "lat": -36.7142257,
+    "lon": 174.590625,
+    "original": "riverhead forest, 476 ararimu valley road new zealand"
+  },
+  "Puketapu School Trail Ride": {
+    "lat": -39.5095524,
+    "lon": 176.7847992,
+    "original": "1926 dartmoor road, puketapu new zealand"
+  },
+  "MOMCC Club Trial": {
+    "lat": -40.3284102,
+    "lon": 175.8190684
+  },
+  "Summer series round 3 – Ohimi (tbc)": {
+    "lat": -43.0505052,
+    "lon": 172.9536203,
+    "original": "1045 reeces road, new zealand"
+  },
+  "HMCC/BOP Club Champs - Rnd 2": {
+    "lat": -38.1234064,
+    "lon": 176.2127891
+  },
+  "Power Adventures Honda Kids Camp - Locinver Station": {
+    "lat": -38.8775052,
+    "lon": 176.3644872
+  },
+  "Korito Technical Matrix": {
+    "lat": -36.882989,
+    "lon": 174.7506896,
+    "original": "herbert road, korito, taranaki new zealand"
+  },
+  "MR Motorcycles Naike Trail Ride": {
+    "lat": -37.5275549,
+    "lon": 174.9344847,
+    "original": "270 woodleigh rd, naike new zealand"
+  },
+  "Marotiri School Trail Ride": {
+    "lat": -38.0688215,
+    "lon": 175.7905648
+  },
+  "Waitanguru Trail Ride": {
+    "lat": -38.2610936,
+    "lon": 175.1103222
+  },
+  "Burt's Trail Ride Side x Side (SxS)": {
+    "lat": -37.8767224,
+    "lon": 176.6940496
+  },
+  "Ixion Club Trial": {
+    "lat": -41.2887953,
+    "lon": 174.7772114
+  },
+  "Pirinoa Trail Ride": {
+    "lat": -41.353467,
+    "lon": 175.2227835,
+    "original": "165 humes road, pirinoa new zealand"
+  },
+  "Reg's Ruapehu Rally": {
+    "lat": -38.9115412,
+    "lon": 175.2448599
+  },
+  "Waikawau Whopper Trail Ride": {
+    "lat": -38.4419635,
+    "lon": 174.6630716
+  },
+  "La Mullet Farm Bike Race": {
+    "lat": -39.9359478,
+    "lon": 176.4435104,
+    "original": "fairfield road, ongaonga new zealand"
+  },
+  "Pony express 2 Man 2 Hour Race": {
+    "lat": -40.4352783,
+    "lon": 175.8537735,
+    "original": "82859 state highway 2 pahiatua new zealand"
+  },
+  "Pakeho Bike Ride": {
+    "lat": -38.3649187,
+    "lon": 175.0407434,
+    "original": "1284 oparure road, rd5, te kuiti new zealand"
+  },
+  "Burt’s Trail Ride": {
+    "lat": -37.8767224,
+    "lon": 176.6940496
+  },
+  "NCES Rnd 2": {
+    "lat": -38.1765883,
+    "lon": 176.2508074
+  },
+  "South Island Champs, R1": {
+    "lat": -43.530955,
+    "lon": 172.6364343
+  },
+  "Hamilton TC/AC Trial, R1": {
+    "lat": -37.7792272,
+    "lon": 175.2010324
+  },
+  "Fun Day MX": {
+    "lat": -36.6231082,
+    "lon": 174.5437106,
+    "original": "276 rapson road, kaukapakapa, 0871 new zealand"
+  },
+  "Taranaki Club Trial": {
+    "lat": -39.0579941,
+    "lon": 174.0806474
+  },
+  "South Island Champs, R2": {
+    "lat": -43.530955,
+    "lon": 172.6364343
+  },
+  "Trail ride coromandel": {
+    "lat": -37.3842956,
+    "lon": 175.2182757,
+    "original": "mill creek rd, kaimarama 3591 new zealand"
+  },
+  "Matiere Trail Ride": {
+    "lat": -38.750241,
+    "lon": 175.0588606,
+    "original": "496 waikaka road matiere new zealand"
+  },
+  "NI Champs, Rnd 3": {
+    "lat": -38.1234064,
+    "lon": 176.2127891
+  },
+  "Tunnels Trail Ride": {
+    "lat": -38.0688215,
+    "lon": 175.7905648
+  },
+  "THE PINES - HARD ENDURO MARAMARUA": {
+    "lat": -37.280488,
+    "lon": 175.541424
+  },
+  "MOMCC Club Champs, R1": {
+    "lat": -40.3284102,
+    "lon": 175.8190684
+  },
+  "NI Champs, Rnd 4": {
+    "lat": -37.7792272,
+    "lon": 175.2010324
+  },
+  "Sand Country Run - Charity Trail Ride": {
+    "lat": -40.5506895,
+    "lon": 175.1978162,
+    "original": "waitarere new zealand"
+  },
+  "Berm Buster  Trail Ride Taupo": {
+    "lat": -38.6866197,
+    "lon": 176.0694773
+  },
+  "Daisybank Farm Trail Ride": {
+    "lat": -41.2911219,
+    "lon": 175.4138863,
+    "original": "498 dry river road martinborough new zealand"
+  },
+  "BOPMCC Interschools MX": {
+    "lat": -37.9519223,
+    "lon": 176.9945977
+  },
+  "Back Country Hard Enduro": {
+    "lat": -43.530955,
+    "lon": 172.6364343
+  },
+  "NZSS Rnd 3": {
+    "lat": -39.6822798,
+    "lon": 175.540564,
+    "original": "777 turakina valley road new zealand"
+  },
+  "HMCC/BOP Club Champs - Rnd 3": {
+    "lat": -38.1234064,
+    "lon": 176.2127891
+  },
+  "NCES Rnd 3": {
+    "lat": -38.4102841,
+    "lon": 176.1269892,
+    "original": "ohakuri new zealand"
+  },
+  "NI Champs, Rnd 5": {
+    "lat": -39.0579941,
+    "lon": 174.0806474
+  },
+  "Club Trial – Graylees Road": {
+    "lat": -43.7569376,
+    "lon": 172.627907,
+    "original": "graylees rd 2217 christchurch akaroa road, ataahua, new zealand"
+  },
+  "NI Champs, Rnd 6": {
+    "lat": -39.0579941,
+    "lon": 174.0806474
+  },
+  "MOMCC Club Champs, R2": {
+    "lat": -40.3284102,
+    "lon": 175.8190684
+  },
+  "Kaikoura 3 Day": {
+    "lat": -42.4005999,
+    "lon": 173.6811428
+  },
+  "Redwoods Trail Ride": {
+    "lat": -38.0688215,
+    "lon": 175.7905648
+  },
+  "HMCC/BOP Club Champs - Rnd 4": {
+    "lat": -37.7792272,
+    "lon": 175.2010324
+  },
+  "NCES Rnd 4": {
+    "lat": -38.4102841,
+    "lon": 176.1269892,
+    "original": "ohakuri new zealand"
+  },
+  "South Island Champs, R3": {
+    "lat": -41.0802399,
+    "lon": 172.9967803,
+    "original": "riwaka new zealand"
+  },
+  "MOMCC Club Champs, R3": {
+    "lat": -40.3284102,
+    "lon": 175.8190684
+  },
+  "South Island Champs, R4": {
+    "lat": -41.3064065,
+    "lon": 173.2572913
+  },
+  "MOMCC Winter Cup": {
+    "lat": -40.3284102,
+    "lon": 175.8190684
+  },
+  "X-Grip NZ Woodhill Two Man Series, Rnd 1": {
+    "lat": -36.6836411,
+    "lon": 174.4105179,
+    "original": "rimmer road, helensville new zealand"
+  },
+  "NI Champs, Rnd 7": {
+    "lat": -35.7275268,
+    "lon": 174.3194202
+  },
+  "NI Champs, Rnd 8": {
+    "lat": -35.7275268,
+    "lon": 174.3194202
+  },
+  "MOMCC Adrian Walcroft Memorial": {
+    "lat": -40.3284102,
+    "lon": 175.8190684
+  },
+  "X-Grip NZ Woodhill Two Man Series, Rnd 2": {
+    "lat": -36.6836411,
+    "lon": 174.4105179,
+    "original": "rimmer road, helensville new zealand"
+  },
+  "HMCC/BOP Club Champs - Rnd 5": {
+    "lat": -38.1234064,
+    "lon": 176.2127891
+  },
+  "MOMCC Club Champs, R4 (Bruce & Bai)": {
+    "lat": -40.3284102,
+    "lon": 175.8190684
+  },
+  "X-Grip NZ Woodhill Two Man Series, Rnd 3": {
+    "lat": -36.7475539,
+    "lon": 174.4267895,
+    "original": "restall road, helensville new zealand"
+  },
+  "HMCC/BOP Club Champs - Rnd 6": {
+    "lat": -37.7792272,
+    "lon": 175.2010324
+  },
+  "MOMCC Club Champs, R5": {
+    "lat": -40.3284102,
+    "lon": 175.8190684
+  },
+  "Forestland Hard Enduro": {
+    "lat": -38.0688215,
+    "lon": 175.7905648
+  },
+  "BSA Shield Trial": {
+    "lat": -41.2887953,
+    "lon": 174.7772114
+  },
+  "Hamilton TC/AC Trial": {
+    "lat": -37.7792272,
+    "lon": 175.2010324
+  },
+  "Colyton School Trail Ride": {
+    "lat": -40.2246028,
+    "lon": 175.6490896
+  },
+  "Bush Riders Xmas Trail Ride": {
+    "lat": -40.6046489,
+    "lon": 175.8515683,
+    "original": "753 pa valley road new zealand"
+  },
+  "Mighty Mokau Trail Bike Ride": {
+    "lat": -38.2610936,
+    "lon": 175.1103222
+  }
+}

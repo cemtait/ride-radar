@@ -1,0 +1,53 @@
+body {
+margin:0;
+font-family: Arial, Helvetica, sans-serif;
+background:#111;
+color:white;
+}
+
+header {
+text-align:center;
+padding:10px;
+background:#222;
+}
+
+#map {
+height:100vh;
+width:100%;
+}
+
+#rideCard {
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#1e1e1e;
+border-top:2px solid #444;
+padding:20px;
+z-index:1000;
+}
+
+.hidden {
+display:none;
+}
+
+.buttons {
+margin-top:15px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+button {
+padding:10px;
+border:none;
+border-radius:6px;
+background:#3a8cff;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover {
+background:#2f6ed4;
+}

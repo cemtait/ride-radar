@@ -1,82 +1,268 @@
-// server.js
-const express = require("express");
-const cheerio = require("cheerio");
-
-// Modern Node.js fetch workaround
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+import express from "express";
+import * as cheerio from "cheerio";
+import fs from "fs";
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 5000;
 
-// --- Route: get all rides ---
-app.get("/api/rides", async (req, res) => {
-  try {
-    const url = "https://silverbullet.co.nz/events.php";
-    const response = await fetch(url);
-    const html = await response.text();
+app.use(express.static("public"));
 
-    const $ = cheerio.load(html);
-    const rides = [];
+const EVENTS_URL = "https://silverbullet.co.nz/events.php";
 
-    $("table tr").each((i, row) => {
-      const cols = $(row).find("td");
-      if (cols.length === 5) {
-        const when = $(cols[0]).text().trim();
-        const district = $(cols[1]).text().trim();
-        const type = $(cols[2]).text().trim();
-        const title = $(cols[3]).text().trim();
-        let link = $(cols[3]).find("a").attr("href");
+let rideCache = [];
 
-        // Convert relative link to full absolute URL
-        if (link && !link.startsWith("http")) {
-          link = "https://silverbullet.co.nz/" + link.replace(/^\//, "");
-        }
+// -----------------------------
+// Console colours
+// -----------------------------
+const LOG = {
+  success: (msg) => console.log("\x1b[32m%s\x1b[0m", msg),
+  warn: (msg) => console.log("\x1b[33m%s\x1b[0m", msg),
+  fail: (msg) => console.log("\x1b[31m%s\x1b[0m", msg),
+  info: (msg) => console.log("\x1b[36m%s\x1b[0m", msg),
+};
 
-        rides.push({ when, district, type, title, link });
-      }
-    });
+// -----------------------------
+// Address cache
+// -----------------------------
+const CACHE_FILE = "./addressCache.json";
 
-    res.json(rides);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to fetch rides" });
+let addressCache = {};
+if (fs.existsSync(CACHE_FILE)) {
+  addressCache = JSON.parse(fs.readFileSync(CACHE_FILE));
+}
+
+// -----------------------------
+const JUNK_WORDS = [
+  "start","finish","signposted","campground","trail ride","ride",
+  "domain","reserve","clubrooms","showgrounds","motorcamp",
+  "school","hall","a&p",
+];
+
+// -----------------------------
+const LOCALITY_CORRECTIONS = {
+  "south head": "South Head, Auckland",
+  waimauk: "Waimauku, Auckland",
+};
+
+// -----------------------------
+// Extract Google Map embed data
+// -----------------------------
+function extractGoogleMapData(html) {
+  if (!html) return null;
+
+  const coordMatch = html.match(/!2d([-0-9.]+)!3d([-0-9.]+)/);
+  const addressMatch = html.match(/!2s([^!]+)!/);
+
+  if (!coordMatch) return null;
+
+  let address = null;
+  if (addressMatch) {
+    address = decodeURIComponent(addressMatch[1]).replace(/\+/g, " ").trim();
+    if (!address.toLowerCase().includes("new zealand"))
+      address += " New Zealand";
   }
-});
 
-// --- Route: get ride details using .event_row structure ---
-app.get("/api/ride-details", async (req, res) => {
-  const rideUrl = req.query.url;
-  if (!rideUrl) return res.status(400).json({ error: "Missing url parameter" });
+  return { lat: parseFloat(coordMatch[2]), lon: parseFloat(coordMatch[1]), address };
+}
 
+// -----------------------------
+function cleanRideLocation(str) {
+  if (!str) return null;
+  str = str.toLowerCase().replace(/\(.*?\)/g, "").replace(/@/g, " ");
+  JUNK_WORDS.forEach((word) => {
+    str = str.replace(new RegExp("\\b" + word + "\\b", "g"), "");
+  });
+  return str.replace(/\s+/g, " ").trim();
+}
+
+// -----------------------------
+function normalizeAddress(addr) {
+  if (!addr) return null;
+  let str = addr.replace(/\s+/g, " ").trim().replace(/\(.*?\)/g, "").replace(/@/g, "");
+  if (!str.toLowerCase().includes("new zealand")) str += " New Zealand";
+  return str.trim();
+}
+
+// -----------------------------
+function extractStreetTown(addr) {
+  if (!addr) return {};
+  const str = addr.replace(/\(.*?\)/g, "").replace(/@/g, "").trim();
+  const parts = str.split(",");
+  return { street: parts[0]?.trim() || "", town: parts[1]?.trim() || "" };
+}
+
+// -----------------------------
+// Geocode
+// -----------------------------
+async function geocodeAddress(address) {
+  if (!address) return null;
+  let normalized = address.replace(/\s+/g, " ").trim();
+  if (!normalized.toLowerCase().includes("new zealand")) normalized += " New Zealand";
+
+  if (addressCache[normalized]) return addressCache[normalized];
+
+  const attempts = [{ query: normalized }];
+  const cleaned = cleanRideLocation(address);
+  if (cleaned && cleaned !== normalized) attempts.push({ query: cleaned + ", New Zealand" });
+
+  const { town, street } = extractStreetTown(address);
+  if (town && street) attempts.push({ query: `${town}, ${street}, New Zealand` });
+  if (street) attempts.push({ query: `${street}, New Zealand` });
+
+  for (const key in LOCALITY_CORRECTIONS) {
+    if (address.toLowerCase().includes(key)) {
+      const corrected = address.toLowerCase().replace(key, LOCALITY_CORRECTIONS[key]);
+      attempts.push({ query: corrected + ", New Zealand" });
+    }
+  }
+
+  for (const attempt of attempts) {
+    try {
+      const url = "https://nominatim.openstreetmap.org/search?q=" +
+        encodeURIComponent(attempt.query) +
+        "&format=json&limit=1&countrycodes=nz";
+
+      const res = await fetch(url, { headers: { "User-Agent": "RideRadar/1.0" } });
+      const data = await res.json();
+
+      if (data.length > 0) {
+        const coords = { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon), original: normalized };
+        addressCache[normalized] = coords;
+        fs.writeFileSync(CACHE_FILE, JSON.stringify(addressCache, null, 2));
+        return coords;
+      }
+    } catch {}
+    await new Promise((r) => setTimeout(r, 1100));
+  }
+  return null;
+}
+
+// -----------------------------
+async function scrapeRidePage(link) {
   try {
-    const response = await fetch(rideUrl);
-    const html = await response.text();
+    const res = await fetch(link);
+    const html = await res.text();
     const $ = cheerio.load(html);
 
-    let when = "";
-    let where = "";
-
+    const page = { where: null, district: null, directions: null, html };
     $(".event_row").each((i, el) => {
       const label = $(el).find(".row_desc").text().trim().toLowerCase();
-      const value = $(el).find(".row_detail").text().trim();
+      const detail = $(el).find(".row_detail").text().trim();
+      if (label.includes("where")) page.where = detail;
+      if (label.includes("district")) page.district = detail;
+      if (label.includes("directions")) page.directions = detail;
+    });
+    return page;
+  } catch {
+    return { where: null, district: null, directions: null, html: null };
+  }
+}
 
-      if (label === "when:" && !when) {
-        when = value;
-      }
+// -----------------------------
+// Main scraper
+// -----------------------------
+async function refreshRideCache() {
+  console.log("\nFetching Silver Bullet events page...");
 
-      if (label === "where:" && !where) {
-        where = value;
-      }
+  try {
+    const res = await fetch(EVENTS_URL);
+    const html = await res.text();
+    const $ = cheerio.load(html);
+
+    const rides = [];
+    const seenLinks = new Set();
+
+    $("a[href*='event.php?id']").each((i, el) => {
+      const title = $(el).text().trim();
+      if (!title) return;
+      const href = $(el).attr("href");
+      if (!href || seenLinks.has(href)) return;
+      seenLinks.add(href);
+
+      const row = $(el).closest("tr");
+      const cells = row.find("td");
+      if (cells.length < 4) return;
+
+      const date = $(cells[0]).text().trim();
+      const district = $(cells[1]).text().trim();
+      const type = $(cells[2]).text().trim();
+      if (!date || date.includes("-") || date.toLowerCase().includes("most")) return;
+
+      rides.push({ title, type, date, district, link: "https://silverbullet.co.nz/" + href });
     });
 
-    res.json({ when, where });
+    console.log("Found rides:", rides.length, "\n");
+
+    for (const ride of rides) {
+      let status = "FAIL";
+      const page = await scrapeRidePage(ride.link);
+
+      const mapData = extractGoogleMapData(page.html);
+      if (mapData) {
+        ride.lat = mapData.lat;
+        ride.lon = mapData.lon;
+        ride.originalAddress = mapData.address;
+
+        addressCache[ride.title] = { lat: ride.lat, lon: ride.lon, original: ride.originalAddress };
+        fs.writeFileSync(CACHE_FILE, JSON.stringify(addressCache, null, 2));
+
+        status = "MAP";
+      } else {
+        let candidateAddress = page.where;
+        if (!candidateAddress && page.directions && page.district) {
+          const lastRoadMatch = page.directions.match(/([\w\s]+) road/gi);
+          candidateAddress = lastRoadMatch
+            ? `${lastRoadMatch[lastRoadMatch.length - 1]}, ${page.district}`
+            : page.district;
+        }
+
+        ride.originalAddress = candidateAddress ? normalizeAddress(candidateAddress) : null;
+
+        if (ride.originalAddress) {
+          const coords = await geocodeAddress(ride.originalAddress);
+          if (coords) {
+            ride.lat = coords.lat;
+            ride.lon = coords.lon;
+            status = "GEOCODE";
+          }
+        }
+      }
+
+      if (status === "MAP") LOG.success(`MAP      | ${ride.title}`);
+      else if (status === "GEOCODE") LOG.warn(`GEOCODE  | ${ride.title}`);
+      else LOG.fail(`FAIL     | ${ride.title}`);
+    }
+
+    rideCache = rides;
+    console.log("\nRide cache refreshed.\n");
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to fetch ride details" });
+    console.log("Error refreshing rides:", err.message);
   }
+}
+
+// -----------------------------
+app.get("/rides", (req, res) => res.json(rideCache));
+
+// -----------------------------
+// Start server immediately, then run scraper in background
+// -----------------------------
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Ride Radar server running on port ${PORT}`);
+
+  // run scraper in background
+  refreshRideCache().catch((err) => console.error(err));
 });
 
-// --- Start server ---
-app.listen(PORT, () => {
-  console.log(`Ride Radar server running on port ${PORT}`);
-});
+// -----------------------------
+// Hourly refresh
+// -----------------------------
+setInterval(refreshRideCache, 1000 * 60 * 60);
+
+
+
+
+
+
+
+
+
