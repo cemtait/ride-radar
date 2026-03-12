@@ -9,8 +9,6 @@ app.use(express.static("public"));
 
 const EVENTS_URL = "https://silverbullet.co.nz/events.php";
 
-let rideCache = [];
-
 // -----------------------------
 const LOG = {
   success: (msg) => console.log("\x1b[32m%s\x1b[0m", msg),
@@ -23,10 +21,19 @@ const LOG = {
 // Address cache
 // -----------------------------
 const CACHE_FILE = "./addressCache.json";
+const RIDES_FILE = "./rides.json";
 
 let addressCache = {};
 if (fs.existsSync(CACHE_FILE)) {
   addressCache = JSON.parse(fs.readFileSync(CACHE_FILE));
+}
+
+let rideCache = [];
+if (fs.existsSync(RIDES_FILE)) {
+  try {
+    const saved = JSON.parse(fs.readFileSync(RIDES_FILE));
+    if (Array.isArray(saved) && saved.length > 0) rideCache = saved;
+  } catch {}
 }
 
 // -----------------------------
@@ -340,6 +347,8 @@ async function refreshRideCache() {
     }
 
     rideCache = rides;
+
+    fs.writeFileSync(RIDES_FILE, JSON.stringify(rides, null, 2));
 
     console.log("\nRide cache refreshed.\n");
 
