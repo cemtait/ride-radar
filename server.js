@@ -286,7 +286,7 @@ async function scrapeRidePage(link) {
 
     const $ = cheerio.load(html);
 
-    const page = { title: null, where: null, district: null, directions: null, html };
+    const page = { title: null, where: null, district: null, directions: null, imageUrl: null, html };
 
     const h1 = $("h1").first().text().trim();
     if (h1) page.title = h1;
@@ -301,11 +301,18 @@ async function scrapeRidePage(link) {
       if (label.includes("directions")) page.directions = detail;
     });
 
+    const imgSrc = $('img[src*="media/images/events"]').last().attr("src");
+    if (imgSrc) {
+      page.imageUrl = imgSrc.startsWith("http")
+        ? imgSrc
+        : "https://www.silverbullet.co.nz/" + imgSrc.replace(/^\//, "");
+    }
+
     return page;
 
   } catch {
 
-    return { title: null, where: null, district: null, directions: null, html: null };
+    return { title: null, where: null, district: null, directions: null, imageUrl: null, html: null };
 
   }
 }
@@ -398,6 +405,7 @@ async function refreshRideCache() {
       const page = await scrapeRidePage(ride.link);
 
       if (page.title) ride.title = page.title;
+      if (page.imageUrl) ride.imageUrl = page.imageUrl;
 
       // --- Fast path: h1 title already resolved this run ---
       if (titleLocationCache[ride.title]) {

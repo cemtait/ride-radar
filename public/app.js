@@ -133,6 +133,14 @@ function openRideCard(ride) {
   document.getElementById("rideAddress").innerText = ride.originalAddress || "";
   const drive = formatDrive(ride);
   document.getElementById("rideDrive").innerText = drive ? "🚗 " + drive : "";
+  const poster = document.getElementById("ridePoster");
+  if (ride.imageUrl) {
+    poster.src = ride.imageUrl;
+    poster.classList.remove("hidden");
+  } else {
+    poster.src = "";
+    poster.classList.add("hidden");
+  }
   document.getElementById("rideCard").classList.add("open");
 }
 
