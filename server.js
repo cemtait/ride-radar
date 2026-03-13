@@ -338,6 +338,8 @@ async function refreshRideCache() {
       if (!date || date.toLowerCase().includes("most")) return;
       // Allow multi-day events like "Sat 25th - Sun 26th Apr" but reject bare "-" placeholder dates
       if (date === "-") return;
+      // Omit trials events entirely
+      if (type.toLowerCase() === "trials") return;
 
       rides.push({
         title,

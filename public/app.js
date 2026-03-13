@@ -11,15 +11,22 @@ const driveInfo = new Map();
 let fetchQueue = [];
 let fetchRunning = false;
 
-const RIDE_TYPES = ["trail","cross","enduro","moto","trial","other"];
+const RIDE_TYPES = ["trail","cross","enduro","moto","other"];
 
 const TYPE_COLOURS = {
   trail: "green",
   cross: "blue",
   enduro: "orange",
   moto: "red",
-  trial: "purple",
   other: "grey"
+};
+
+const TYPE_LABELS = {
+  trail: "Trail",
+  cross: "XC",
+  enduro: "Enduro",
+  moto: "Moto",
+  other: "Other"
 };
 
 function rideTypeKey(type) {
@@ -29,7 +36,6 @@ function rideTypeKey(type) {
   if (t.includes("cross")) return "cross";
   if (t.includes("enduro")) return "enduro";
   if (t.includes("moto")) return "moto";
-  if (t.includes("trial")) return "trial";
   return "other";
 }
 
@@ -222,7 +228,7 @@ function renderMapMarkers() {
 function renderTypeFilters() {
   const container = document.getElementById("typeFilters");
   container.innerHTML = RIDE_TYPES.map(t => {
-    const label = t.charAt(0).toUpperCase() + t.slice(1);
+    const label = TYPE_LABELS[t] || (t.charAt(0).toUpperCase() + t.slice(1));
     const colour = TYPE_COLOURS[t];
     return `<button class="type-filter-btn on" data-type="${t}" style="border-color:${colour}">
       <span class="ride-type-dot" style="background:${colour}"></span>${label}

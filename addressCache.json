@@ -1099,5 +1099,15 @@
     "lat": -38.6618706,
     "lon": 174.6457646,
     "original": "4775 State Highway 3, Awakino 4376, New Zealand"
+  },
+  "Taumaranui New Zealand": {
+    "lat": -38.9115412,
+    "lon": 175.2448599,
+    "original": "Taumaranui New Zealand"
+  },
+  "Putaruru, Tokoroa, Taupo New Zealand": {
+    "lat": -38.0510978,
+    "lon": 175.7790198,
+    "original": "Putaruru, Tokoroa, Taupo New Zealand"
   }
 }

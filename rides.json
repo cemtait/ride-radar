@@ -228,6 +228,18 @@
     "drive_time_minutes": 192
   },
   {
+    "title": "Trail & Track Open Weekend",
+    "type": "Trail Ride",
+    "date": "Sat 21st - Sun 22nd Mar",
+    "district": "Tararua",
+    "link": "https://silverbullet.co.nz//event.php?id=18186",
+    "lat": -40.64522,
+    "lon": 175.98175,
+    "originalAddress": "Eketahuna, Manawatu-Wanganui New Zealand",
+    "distance_km": "586.4",
+    "drive_time_minutes": 462
+  },
+  {
     "title": "Waikato Warrior Adventure Ride",
     "type": "Adventure Ride",
     "date": "Sat 21st Mar",
@@ -300,16 +312,16 @@
     "drive_time_minutes": 490
   },
   {
-    "title": "Summer series round 3 – Ohimi (tbc)",
-    "type": "Trials",
-    "date": "Sun 22nd Mar",
-    "district": "Christchurch",
-    "link": "https://silverbullet.co.nz//event.php?id=18223",
-    "originalAddress": "1045 Reeces Road, New Zealand",
-    "lat": -43.0505052,
-    "lon": 172.9536203,
-    "distance_km": "1021.3",
-    "drive_time_minutes": 946
+    "title": "Power Adventures Honda Kids Camp - Locinver Station",
+    "type": "Fun Day",
+    "date": "Fri 27th - Sun 29th Mar",
+    "district": "Waikato",
+    "link": "https://silverbullet.co.nz//event.php?id=18162",
+    "lat": -38.8764802,
+    "lon": 176.3620922,
+    "originalAddress": "Lochinver Station New Zealand",
+    "distance_km": "303.7",
+    "drive_time_minutes": 225
   },
   {
     "title": "Korito Technical Matrix",
@@ -322,6 +334,18 @@
     "originalAddress": "Herbert Road, Korito 4371 New Zealand",
     "distance_km": "377.3",
     "drive_time_minutes": 306
+  },
+  {
+    "title": "Trail & Track Open Weekend",
+    "type": "Quad",
+    "date": "Sat 28th - Sun 29th Mar",
+    "district": "Tararua",
+    "link": "https://silverbullet.co.nz//event.php?id=18190",
+    "lat": -40.64522,
+    "lon": 175.98175,
+    "originalAddress": "Eketahuna, Manawatu-Wanganui New Zealand",
+    "distance_km": "586.4",
+    "drive_time_minutes": 462
   },
   {
     "title": "MR Motorcycles Naike Trail Ride",
@@ -372,18 +396,6 @@
     "drive_time_minutes": 212
   },
   {
-    "title": "Ixion Club Trial",
-    "type": "Trials",
-    "date": "Sun 29th Mar",
-    "district": "Manawatu",
-    "link": "https://silverbullet.co.nz//event.php?id=18175",
-    "lat": -40.949,
-    "lon": 175.032472,
-    "originalAddress": "Maungakotukutuku Road",
-    "distance_km": "599.9",
-    "drive_time_minutes": 478
-  },
-  {
     "title": "Pirinoa Trail Ride",
     "type": "Trail Ride",
     "date": "Sun 29th Mar",
@@ -394,6 +406,30 @@
     "originalAddress": "Martinborough New Zealand",
     "distance_km": "677.5",
     "drive_time_minutes": 560
+  },
+  {
+    "title": "Reg's Ruapehu Rally",
+    "type": "Adventure Ride",
+    "date": "Fri 3rd - Sun 5th Apr",
+    "district": "South Waikato",
+    "link": "https://silverbullet.co.nz//event.php?id=17960",
+    "originalAddress": "Taumaranui New Zealand",
+    "lat": -38.9115412,
+    "lon": 175.2448599,
+    "distance_km": "285.1",
+    "drive_time_minutes": 229
+  },
+  {
+    "title": "Waikawau Whopper Trail Ride",
+    "type": "Trail Ride",
+    "date": "Sat 4th - Sun 5th Apr",
+    "district": "Waitomo",
+    "link": "https://silverbullet.co.nz//event.php?id=18146",
+    "lat": -38.53019496632449,
+    "lon": 174.6963353835937,
+    "originalAddress": "Awakino Rd, Te Kuiti New Zealand",
+    "distance_km": "289.4",
+    "drive_time_minutes": 260
   },
   {
     "title": "La Mullet Farm Bike Race",
@@ -468,18 +504,6 @@
     "drive_time_minutes": 154
   },
   {
-    "title": "South Island Champs, R1",
-    "type": "Trials",
-    "date": "Sat 11th Apr",
-    "district": "Christchurch",
-    "link": "https://silverbullet.co.nz//event.php?id=18221",
-    "originalAddress": "Western Valley 221 Western Valley Rd, Christchurch, New Zealand",
-    "lat": -43.530955,
-    "lon": 172.6364343,
-    "distance_km": "1077.4",
-    "drive_time_minutes": 989
-  },
-  {
     "title": "Top End Trail Ride - North",
     "type": "Trail Ride",
     "date": "Sun 12th Apr",
@@ -528,18 +552,6 @@
     "drive_time_minutes": 39
   },
   {
-    "title": "South Island Champs, R2",
-    "type": "Trials",
-    "date": "Sun 12th Apr",
-    "district": "Christchurch",
-    "link": "https://silverbullet.co.nz//event.php?id=18222",
-    "originalAddress": "Western Valley 221 Western Valley Rd, Christchurch, New Zealand",
-    "lat": -43.530955,
-    "lon": 172.6364343,
-    "distance_km": "1077.4",
-    "drive_time_minutes": 989
-  },
-  {
     "title": "Trail ride coromandel",
     "type": "Trail Ride",
     "date": "Sat 18th Apr",
@@ -562,6 +574,18 @@
     "originalAddress": "2028 State Highway 5, Waimangu 3073 New Zealand",
     "distance_km": "249.8",
     "drive_time_minutes": 192
+  },
+  {
+    "title": "Trail & Track Open Weekend",
+    "type": "Trail Ride",
+    "date": "Sat 18th - Sun 19th Apr",
+    "district": "Tararua",
+    "link": "https://silverbullet.co.nz//event.php?id=18188",
+    "lat": -40.64522,
+    "lon": 175.98175,
+    "originalAddress": "Eketahuna, Manawatu-Wanganui New Zealand",
+    "distance_km": "586.4",
+    "drive_time_minutes": 462
   },
   {
     "title": "Matiere Trail Ride",
@@ -624,6 +648,17 @@
     "drive_time_minutes": 212
   },
   {
+    "title": "Berm Buster Trail Ride Taupo",
+    "type": "Trail Ride",
+    "date": "Sat 25th - Sun 26th Apr",
+    "district": "Taupo",
+    "link": "https://silverbullet.co.nz//event.php?id=18041",
+    "lat": -38.921848,
+    "lon": 176.270546,
+    "distance_km": "305.4",
+    "drive_time_minutes": 241
+  },
+  {
     "title": "Burt's Trail Ride Side x Side (SxS)",
     "type": "Side X Side",
     "date": "Sun 26th Apr",
@@ -660,16 +695,16 @@
     "drive_time_minutes": 220
   },
   {
-    "title": "Ixion Club Trial",
-    "type": "Trials",
-    "date": "Sun 3rd May",
-    "district": "Manawatu",
-    "link": "https://silverbullet.co.nz//event.php?id=18210",
-    "lat": -40.949,
-    "lon": 175.032472,
-    "originalAddress": "Maungakotukutuku Road",
-    "distance_km": "599.9",
-    "drive_time_minutes": 478
+    "title": "Trail & Track Open Weekend",
+    "type": "Trail Ride",
+    "date": "Sat 2nd - Sun 3rd May",
+    "district": "Tararua",
+    "link": "https://silverbullet.co.nz//event.php?id=18189",
+    "lat": -40.64522,
+    "lon": 175.98175,
+    "originalAddress": "Eketahuna, Manawatu-Wanganui New Zealand",
+    "distance_km": "586.4",
+    "drive_time_minutes": 462
   },
   {
     "title": "Burt’s Trail Ride",
@@ -682,6 +717,18 @@
     "lon": 176.6940496,
     "distance_km": "282.3",
     "drive_time_minutes": 212
+  },
+  {
+    "title": "Back Country Hard Enduro",
+    "type": "Enduro",
+    "date": "Sat 9th - Sun 10th May",
+    "district": "Christchurch",
+    "link": "https://silverbullet.co.nz//event.php?id=18194",
+    "lat": -43.03720593044554,
+    "lon": 172.71893899361626,
+    "originalAddress": "1045 Reeces Road, Teviotdale 7483 New Zealand",
+    "distance_km": "1025.7",
+    "drive_time_minutes": 940
   },
   {
     "title": "NZSS Rnd 3",
@@ -720,18 +767,6 @@
     "drive_time_minutes": 192
   },
   {
-    "title": "Club Trial – Graylees Road",
-    "type": "Trials",
-    "date": "Sun 17th May",
-    "district": "Christchurch",
-    "link": "https://silverbullet.co.nz//event.php?id=18224",
-    "originalAddress": "Graylees Rd 2217 Christchurch Akaroa Road, Ataahua, New Zealand",
-    "lat": -43.7569376,
-    "lon": 172.627907,
-    "distance_km": "1114.0",
-    "drive_time_minutes": 1021
-  },
-  {
     "title": "Burt’s Trail Ride",
     "type": "Trail Ride",
     "date": "Sat 23rd May",
@@ -768,6 +803,17 @@
     "drive_time_minutes": 18
   },
   {
+    "title": "Berm Buster Trail Ride Taupo",
+    "type": "Trail Ride",
+    "date": "Sat 30th - Sun 31st May",
+    "district": "Taupo",
+    "link": "https://silverbullet.co.nz//event.php?id=18042",
+    "lat": -38.921848,
+    "lon": 176.270546,
+    "distance_km": "305.4",
+    "drive_time_minutes": 241
+  },
+  {
     "title": "Redwoods Trail Ride",
     "type": "Trail Ride",
     "date": "Sun 7th Jun",
@@ -778,18 +824,6 @@
     "lon": 174.4292648,
     "distance_km": "43.8",
     "drive_time_minutes": 42
-  },
-  {
-    "title": "Ixion Club Trial",
-    "type": "Trials",
-    "date": "Sun 7th Jun",
-    "district": "Manawatu",
-    "link": "https://silverbullet.co.nz//event.php?id=18211",
-    "lat": -40.949,
-    "lon": 175.032472,
-    "originalAddress": "Maungakotukutuku Road",
-    "distance_km": "599.9",
-    "drive_time_minutes": 478
   },
   {
     "title": "Burt’s Trail Ride",
@@ -828,18 +862,6 @@
     "drive_time_minutes": 192
   },
   {
-    "title": "South Island Champs, R3",
-    "type": "Trials",
-    "date": "Sat 20th Jun",
-    "district": "Nelson",
-    "link": "https://silverbullet.co.nz//event.php?id=18226",
-    "originalAddress": "Riwaka New Zealand",
-    "lat": -41.0802399,
-    "lon": 172.9967803,
-    "distance_km": "898.6",
-    "drive_time_minutes": 871
-  },
-  {
     "title": "Mighty Muriwai Trail Ride",
     "type": "Trail Ride",
     "date": "Sun 21st Jun",
@@ -850,18 +872,6 @@
     "lon": 174.4267222,
     "distance_km": "38.3",
     "drive_time_minutes": 37
-  },
-  {
-    "title": "South Island Champs, R4",
-    "type": "Trials",
-    "date": "Sun 21st Jun",
-    "district": "Nelson",
-    "link": "https://silverbullet.co.nz//event.php?id=18227",
-    "originalAddress": "Enner Glynn  New Zealand",
-    "lat": -41.3064065,
-    "lon": 173.2572913,
-    "distance_km": "852.0",
-    "drive_time_minutes": 828
   },
   {
     "title": "Burt’s Trail Ride",
@@ -876,6 +886,17 @@
     "drive_time_minutes": 212
   },
   {
+    "title": "Berm Buster Trail Ride Taupo",
+    "type": "Trail Ride",
+    "date": "Sat 27th - Sun 28th Jun",
+    "district": "Taupo",
+    "link": "https://silverbullet.co.nz//event.php?id=18043",
+    "lat": -38.921848,
+    "lon": 176.270546,
+    "distance_km": "305.4",
+    "drive_time_minutes": 241
+  },
+  {
     "title": "Burt's Trail Ride Side x Side (SxS)",
     "type": "Side X Side",
     "date": "Sun 28th Jun",
@@ -886,18 +907,6 @@
     "lon": 176.6940496,
     "distance_km": "282.3",
     "drive_time_minutes": 212
-  },
-  {
-    "title": "Ixion Club Trial",
-    "type": "Trials",
-    "date": "Sun 5th Jul",
-    "district": "Manawatu",
-    "link": "https://silverbullet.co.nz//event.php?id=18212",
-    "lat": -40.949,
-    "lon": 175.032472,
-    "originalAddress": "Maungakotukutuku Road",
-    "distance_km": "599.9",
-    "drive_time_minutes": 478
   },
   {
     "title": "Dirt World Ride Day",
@@ -972,18 +981,6 @@
     "drive_time_minutes": 42
   },
   {
-    "title": "Ixion Club Trial",
-    "type": "Trials",
-    "date": "Sun 2nd Aug",
-    "district": "Manawatu",
-    "link": "https://silverbullet.co.nz//event.php?id=18213",
-    "lat": -40.949,
-    "lon": 175.032472,
-    "originalAddress": "Maungakotukutuku Road",
-    "distance_km": "599.9",
-    "drive_time_minutes": 478
-  },
-  {
     "title": "Burt’s Trail Ride",
     "type": "Trail Ride",
     "date": "Sat 8th Aug",
@@ -1044,16 +1041,15 @@
     "drive_time_minutes": 42
   },
   {
-    "title": "Ixion Club Trial",
-    "type": "Trials",
-    "date": "Sun 6th Sep",
-    "district": "Manawatu",
-    "link": "https://silverbullet.co.nz//event.php?id=18214",
-    "lat": -40.949,
-    "lon": 175.032472,
-    "originalAddress": "Maungakotukutuku Road",
-    "distance_km": "599.9",
-    "drive_time_minutes": 478
+    "title": "Berm Buster Trail Ride Taupo",
+    "type": "Trail Ride",
+    "date": "Sat 29th - Sun 30th Aug",
+    "district": "Taupo",
+    "link": "https://silverbullet.co.nz//event.php?id=18044",
+    "lat": -38.921848,
+    "lon": 176.270546,
+    "distance_km": "305.4",
+    "drive_time_minutes": 241
   },
   {
     "title": "Burt’s Trail Ride",
@@ -1128,16 +1124,15 @@
     "drive_time_minutes": 42
   },
   {
-    "title": "Ixion Club Trial",
-    "type": "Trials",
-    "date": "Sun 4th Oct",
-    "district": "Manawatu",
-    "link": "https://silverbullet.co.nz//event.php?id=18215",
-    "lat": -40.949,
-    "lon": 175.032472,
-    "originalAddress": "Maungakotukutuku Road",
-    "distance_km": "599.9",
-    "drive_time_minutes": 478
+    "title": "Berm Buster Trail Ride Taupo",
+    "type": "Trail Ride",
+    "date": "Sat 3rd - Sun 4th Oct",
+    "district": "Taupo",
+    "link": "https://silverbullet.co.nz//event.php?id=18045",
+    "lat": -38.921848,
+    "lon": 176.270546,
+    "distance_km": "305.4",
+    "drive_time_minutes": 241
   },
   {
     "title": "Burt’s Trail Ride",
@@ -1162,6 +1157,18 @@
     "originalAddress": "2028 State Highway 5, Waimangu 3073 New Zealand",
     "distance_km": "249.8",
     "drive_time_minutes": 192
+  },
+  {
+    "title": "Forestland Hard Enduro",
+    "type": "Enduro",
+    "date": "Fri 23rd - Sun 25th Oct",
+    "district": "South Waikato",
+    "link": "https://silverbullet.co.nz//event.php?id=18053",
+    "originalAddress": "Putaruru, Tokoroa, Taupo New Zealand",
+    "lat": -38.0510978,
+    "lon": 175.7790198,
+    "distance_km": "184.7",
+    "drive_time_minutes": 138
   },
   {
     "title": "Burt’s Trail Ride",
@@ -1200,18 +1207,6 @@
     "drive_time_minutes": 42
   },
   {
-    "title": "BSA Shield Trial",
-    "type": "Trials",
-    "date": "Sun 1st Nov",
-    "district": "Wellington",
-    "link": "https://silverbullet.co.nz//event.php?id=18216",
-    "originalAddress": "Wellington New Zealand",
-    "lat": -41.2887953,
-    "lon": 174.7772114,
-    "distance_km": "641.2",
-    "drive_time_minutes": 493
-  },
-  {
     "title": "Dirt World Ride Day",
     "type": "Trail Ride",
     "date": "Sat 7th Nov",
@@ -1248,6 +1243,17 @@
     "drive_time_minutes": 212
   },
   {
+    "title": "Berm Buster Trail Ride Taupo",
+    "type": "Trail Ride",
+    "date": "Sat 14th - Sun 15th Nov",
+    "district": "Taupo",
+    "link": "https://silverbullet.co.nz//event.php?id=18046",
+    "lat": -38.921848,
+    "lon": 176.270546,
+    "distance_km": "305.4",
+    "drive_time_minutes": 241
+  },
+  {
     "title": "Burt’s Trail Ride",
     "type": "Trail Ride",
     "date": "Sat 28th Nov",
@@ -1282,18 +1288,6 @@
     "originalAddress": "Feilding Aerodrome Campbell Road, Bunnythorpe New Zealand",
     "distance_km": "505.0",
     "drive_time_minutes": 394
-  },
-  {
-    "title": "Ixion Club Trial",
-    "type": "Trials",
-    "date": "Sun 6th Dec",
-    "district": "Manawatu",
-    "link": "https://silverbullet.co.nz//event.php?id=18217",
-    "lat": -40.949,
-    "lon": 175.032472,
-    "originalAddress": "Maungakotukutuku Road",
-    "distance_km": "599.9",
-    "drive_time_minutes": 478
   },
   {
     "title": "Burt’s Trail Ride",
