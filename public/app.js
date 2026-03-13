@@ -16,17 +16,17 @@ const RIDE_TYPES = ["trail","cross","enduro","moto","other"];
 const TYPE_COLOURS = {
   trail:  "#5c8a3c",
   cross:  "#4a7fa8",
-  enduro: "#8b5e3c",
-  moto:   "#a07835",
-  other:  "#7a7460"
+  enduro: "#b04520",
+  moto:   "#c8952a",
+  other:  "#909090"
 };
 
 const TYPE_BG_COLOURS = {
   trail:  "rgba(92,138,60,0.30)",
   cross:  "rgba(74,127,168,0.30)",
-  enduro: "rgba(139,94,60,0.30)",
-  moto:   "rgba(160,120,53,0.30)",
-  other:  "rgba(122,116,96,0.30)"
+  enduro: "rgba(176,69,32,0.30)",
+  moto:   "rgba(200,149,42,0.30)",
+  other:  "rgba(144,144,144,0.30)"
 };
 
 function rideBgColour(type) {
