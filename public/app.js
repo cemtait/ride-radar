@@ -6,6 +6,7 @@ let showBermBuster = true;
 let mapInitialized = false;
 let map = null;
 let userOrigin = null;
+let lastFetched = null;
 
 const driveInfo = new Map();
 let fetchQueue = [];
@@ -53,6 +54,29 @@ function rideTypeKey(type) {
 
 function rideColour(type) {
   return TYPE_COLOURS[rideTypeKey(type)] || "grey";
+}
+
+function driveTimeColour(ride) {
+  if (!userOrigin || !ride.lat || !ride.lon) return null;
+  if (!driveInfo.has(ride.link)) return null;
+  const d = driveInfo.get(ride.link);
+  if (!d) return null;
+  const m = d.drive_time_minutes;
+  if (m < 60)  return { bg: "rgba(92,138,60,0.55)",   color: "#c8eaaa" };
+  if (m < 120) return { bg: "rgba(200,149,42,0.55)",  color: "#ffe5a0" };
+  if (m < 180) return { bg: "rgba(176,100,32,0.55)",  color: "#ffd0a0" };
+  return               { bg: "rgba(176,69,32,0.55)",   color: "#ffb8a0" };
+}
+
+function updateHeaderSub() {
+  const el = document.getElementById("headerSub");
+  if (!el) return;
+  const count = visibleRides().length;
+  const total = rides.length;
+  const timeStr = lastFetched
+    ? lastFetched.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+    : "…";
+  el.textContent = `${count} of ${total} rides · updated ${timeStr}`;
 }
 
 function formatDrive(ride) {
@@ -107,11 +131,11 @@ function openRideCard(ride) {
   document.getElementById("rideAddress").innerText = ride.originalAddress || "";
   const drive = formatDrive(ride);
   document.getElementById("rideDrive").innerText = drive ? "🚗 " + drive : "";
-  document.getElementById("rideCard").classList.remove("hidden");
+  document.getElementById("rideCard").classList.add("open");
 }
 
 document.getElementById("closeCard").onclick = () => {
-  document.getElementById("rideCard").classList.add("hidden");
+  document.getElementById("rideCard").classList.remove("open");
 };
 
 document.getElementById("openEventBtn").onclick = () => {
@@ -143,6 +167,9 @@ function updateRideDriveSpan(ride) {
   const drive = formatDrive(ride);
   el.textContent = drive ? "🚗 " + drive : "";
   el.style.display = drive ? "" : "none";
+  const tc = driveTimeColour(ride);
+  if (tc) { el.style.background = tc.bg; el.style.color = tc.color; }
+  updateHeaderSub();
 
   if (currentRide && currentRide.link === ride.link) {
     document.getElementById("rideDrive").innerText = drive ? "🚗 " + drive : "";
@@ -185,9 +212,16 @@ function initBermBusterPref() {
   });
 }
 
+function drivePillStyle(ride) {
+  const tc = driveTimeColour(ride);
+  if (!tc) return "";
+  return ` style="background:${tc.bg};color:${tc.color}"`;
+}
+
 function renderList() {
   const container = document.getElementById("rideList");
   const visible = visibleRides();
+  updateHeaderSub();
   if (visible.length === 0) {
     container.innerHTML = "<p style='color:#888;padding:20px'>No rides to show.</p>";
     return;
@@ -203,7 +237,7 @@ function renderList() {
         <span>📅 ${ride.date}</span>
         <span>📍 ${ride.district}</span>
         <span>${ride.type}</span>
-        <span class="ride-drive" ${drive ? "" : 'style="display:none"'}>${drive ? "🚗 " + drive : ""}</span>
+        <span class="ride-drive"${drivePillStyle(ride)} ${drive ? "" : 'style="display:none"'}>${drive ? "🚗 " + drive : ""}</span>
       </div>
     </div>`;
   }).join("");
@@ -433,7 +467,7 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
     document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
     btn.classList.add("active");
     document.getElementById(target).classList.add("active");
-    document.getElementById("rideCard").classList.add("hidden");
+    document.getElementById("rideCard").classList.remove("open");
     if (target === "tab-map") {
       initMap();
       setTimeout(() => map && map.invalidateSize(), 50);
@@ -444,6 +478,7 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
 async function loadRides() {
   const res = await fetch("/rides");
   rides = await res.json();
+  lastFetched = new Date();
   initDriveFilter();
   initBermBusterPref();
   renderList();
