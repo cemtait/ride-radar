@@ -377,11 +377,11 @@
     "date": "Sun 29th Mar",
     "district": "Wellington",
     "link": "https://silverbullet.co.nz//event.php?id=18175",
-    "originalAddress": "Wellington New Zealand",
-    "lat": -41.2887953,
-    "lon": 174.7772114,
-    "distance_km": "641.2",
-    "drive_time_minutes": 493
+    "lat": -40.949,
+    "lon": 175.032472,
+    "originalAddress": "Maungakotukutuku Road",
+    "distance_km": "599.9",
+    "drive_time_minutes": 478
   },
   {
     "title": "Pirinoa Trail Ride",
@@ -665,11 +665,11 @@
     "date": "Sun 3rd May",
     "district": "Wellington",
     "link": "https://silverbullet.co.nz//event.php?id=18210",
-    "originalAddress": "Wellington New Zealand",
-    "lat": -41.2887953,
-    "lon": 174.7772114,
-    "distance_km": "641.2",
-    "drive_time_minutes": 493
+    "lat": -40.949,
+    "lon": 175.032472,
+    "originalAddress": "Maungakotukutuku Road",
+    "distance_km": "599.9",
+    "drive_time_minutes": 478
   },
   {
     "title": "Burt’s Trail Ride",
@@ -785,11 +785,11 @@
     "date": "Sun 7th Jun",
     "district": "Wellington",
     "link": "https://silverbullet.co.nz//event.php?id=18211",
-    "originalAddress": "Wellington New Zealand",
-    "lat": -41.2887953,
-    "lon": 174.7772114,
-    "distance_km": "641.2",
-    "drive_time_minutes": 493
+    "lat": -40.949,
+    "lon": 175.032472,
+    "originalAddress": "Maungakotukutuku Road",
+    "distance_km": "599.9",
+    "drive_time_minutes": 478
   },
   {
     "title": "Burt’s Trail Ride",
@@ -893,11 +893,11 @@
     "date": "Sun 5th Jul",
     "district": "Wellington",
     "link": "https://silverbullet.co.nz//event.php?id=18212",
-    "originalAddress": "Wellington New Zealand",
-    "lat": -41.2887953,
-    "lon": 174.7772114,
-    "distance_km": "641.2",
-    "drive_time_minutes": 493
+    "lat": -40.949,
+    "lon": 175.032472,
+    "originalAddress": "Maungakotukutuku Road",
+    "distance_km": "599.9",
+    "drive_time_minutes": 478
   },
   {
     "title": "Dirt World Ride Day",
@@ -977,11 +977,11 @@
     "date": "Sun 2nd Aug",
     "district": "Wellington",
     "link": "https://silverbullet.co.nz//event.php?id=18213",
-    "originalAddress": "Wellington New Zealand",
-    "lat": -41.2887953,
-    "lon": 174.7772114,
-    "distance_km": "641.2",
-    "drive_time_minutes": 493
+    "lat": -40.949,
+    "lon": 175.032472,
+    "originalAddress": "Maungakotukutuku Road",
+    "distance_km": "599.9",
+    "drive_time_minutes": 478
   },
   {
     "title": "Burt’s Trail Ride",
@@ -1049,11 +1049,11 @@
     "date": "Sun 6th Sep",
     "district": "Wellington",
     "link": "https://silverbullet.co.nz//event.php?id=18214",
-    "originalAddress": "Wellington New Zealand",
-    "lat": -41.2887953,
-    "lon": 174.7772114,
-    "distance_km": "641.2",
-    "drive_time_minutes": 493
+    "lat": -40.949,
+    "lon": 175.032472,
+    "originalAddress": "Maungakotukutuku Road",
+    "distance_km": "599.9",
+    "drive_time_minutes": 478
   },
   {
     "title": "Burt’s Trail Ride",
@@ -1133,11 +1133,11 @@
     "date": "Sun 4th Oct",
     "district": "Wellington",
     "link": "https://silverbullet.co.nz//event.php?id=18215",
-    "originalAddress": "Wellington New Zealand",
-    "lat": -41.2887953,
-    "lon": 174.7772114,
-    "distance_km": "641.2",
-    "drive_time_minutes": 493
+    "lat": -40.949,
+    "lon": 175.032472,
+    "originalAddress": "Maungakotukutuku Road",
+    "distance_km": "599.9",
+    "drive_time_minutes": 478
   },
   {
     "title": "Burt’s Trail Ride",
@@ -1289,11 +1289,11 @@
     "date": "Sun 6th Dec",
     "district": "Wellington",
     "link": "https://silverbullet.co.nz//event.php?id=18217",
-    "originalAddress": "Wellington New Zealand",
-    "lat": -41.2887953,
-    "lon": 174.7772114,
-    "distance_km": "641.2",
-    "drive_time_minutes": 493
+    "lat": -40.949,
+    "lon": 175.032472,
+    "originalAddress": "Maungakotukutuku Road",
+    "distance_km": "599.9",
+    "drive_time_minutes": 478
   },
   {
     "title": "Burt’s Trail Ride",
@@ -1349,6 +1349,10 @@
     "date": "Sun 21st Feb 2027",
     "district": "Waitomo",
     "link": "https://silverbullet.co.nz//event.php?id=18183",
-    "originalAddress": "Tauimatamaire Road, Waikato Region, New Zealand"
+    "originalAddress": "4775 State Highway 3, Awakino 4376, New Zealand",
+    "lat": -38.6618706,
+    "lon": 174.6457646,
+    "distance_km": "269.9",
+    "drive_time_minutes": 212
   }
 ]

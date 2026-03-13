@@ -101,7 +101,7 @@ const HARDCODED_ADDRESSES = {
   "Whangamomona Trail ride":       "59 Whangamomona Road, Whangamōmona 4396, New Zealand",
   "Tunnels Trail Ride":            "Ngatira Rd, Litchfield, New Zealand",
   "Redwoods Trail Ride":           "Ngatira Rd, Litchfield, New Zealand",
-  "Mighty Mokau Trail Bike Ride":  "Tauimatamaire Road, Waikato Region, New Zealand",
+  "Mighty Mokau Trail Bike Ride":  "4775 State Highway 3, Awakino 4376, New Zealand",
 };
 
 function getHardcodedAddress(title) {
