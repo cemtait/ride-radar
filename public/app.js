@@ -37,6 +37,7 @@ function rideColour(type) {
 
 function formatDrive(ride) {
   if (userOrigin) {
+    if (!ride.lat || !ride.lon) return null;
     if (driveInfo.has(ride.link)) {
       const d = driveInfo.get(ride.link);
       if (!d) return null;

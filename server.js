@@ -73,7 +73,10 @@ async function getDriveInfo(lat, lon) {
       `https://router.project-osrm.org/route/v1/driving/` +
       `${ORIGIN.lon},${ORIGIN.lat};${lon},${lat}?overview=false`;
 
-    const res = await fetch(url);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    const res = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeout);
     const data = await res.json();
 
     if (!data.routes || data.routes.length === 0) return null;
@@ -217,7 +220,10 @@ async function scrapeRidePage(link) {
 
     const $ = cheerio.load(html);
 
-    const page = { where: null, district: null, directions: null, html };
+    const page = { title: null, where: null, district: null, directions: null, html };
+
+    const h1 = $("h1").first().text().trim();
+    if (h1) page.title = h1;
 
     $(".event_row").each((i, el) => {
 
@@ -233,7 +239,7 @@ async function scrapeRidePage(link) {
 
   } catch {
 
-    return { where: null, district: null, directions: null, html: null };
+    return { title: null, where: null, district: null, directions: null, html: null };
 
   }
 }
@@ -292,6 +298,8 @@ async function refreshRideCache() {
       let status = "FAIL";
 
       const page = await scrapeRidePage(ride.link);
+
+      if (page.title) ride.title = page.title;
 
       const mapData = extractGoogleMapData(page.html);
 
@@ -394,7 +402,10 @@ app.post("/drive-time", async (req, res) => {
     const url =
       `https://router.project-osrm.org/route/v1/driving/` +
       `${originLon},${originLat};${rideLon},${rideLat}?overview=false`;
-    const osrmRes = await fetch(url);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    const osrmRes = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeout);
     const data = await osrmRes.json();
 
     if (!data.routes || data.routes.length === 0) return res.json(null);
