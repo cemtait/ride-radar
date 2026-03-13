@@ -81,6 +81,7 @@ function shouldOmit(title) {
 // -----------------------------
 const HARDCODED_COORDS = {
   "IXION": { lat: -40.949000, lon: 175.032472, address: "Maungakotukutuku Road", district: "Manawatu" },
+  "Berm Buster": { lat: -38.921848, lon: 176.270546, district: "Taupo" },
 };
 
 function getHardcodedCoords(title) {
@@ -334,7 +335,9 @@ async function refreshRideCache() {
       const district = $(cells[1]).text().trim();
       const type = $(cells[2]).text().trim();
 
-      if (!date || date.includes("-") || date.toLowerCase().includes("most")) return;
+      if (!date || date.toLowerCase().includes("most")) return;
+      // Allow multi-day events like "Sat 25th - Sun 26th Apr" but reject bare "-" placeholder dates
+      if (date === "-") return;
 
       rides.push({
         title,

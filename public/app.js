@@ -2,6 +2,7 @@ let rides = [];
 let currentRide = null;
 let activeFilters = new Set();
 let maxDriveMinutes = null;
+let showBermBuster = true;
 let mapInitialized = false;
 let map = null;
 let userOrigin = null;
@@ -56,7 +57,12 @@ function formatDrive(ride) {
   return `${ride.distance_km} km · ${timeStr} drive`;
 }
 
+function isBermBuster(ride) {
+  return ride.title && ride.title.toLowerCase().includes("berm buster");
+}
+
 function driveTimeOk(ride) {
+  if (showBermBuster && isBermBuster(ride)) return true;
   if (!maxDriveMinutes || !userOrigin) return true;
   if (!ride.lat || !ride.lon) return true;
   if (!driveInfo.has(ride.link)) return true;
@@ -143,6 +149,21 @@ function initDriveFilter() {
       renderList();
       renderMapMarkers();
     });
+  });
+}
+
+function initBermBusterPref() {
+  const saved = localStorage.getItem("rideRadarShowBermBuster");
+  showBermBuster = saved === null ? true : saved === "true";
+
+  const toggle = document.getElementById("showBermBuster");
+  toggle.checked = showBermBuster;
+
+  toggle.addEventListener("change", () => {
+    showBermBuster = toggle.checked;
+    localStorage.setItem("rideRadarShowBermBuster", showBermBuster ? "true" : "false");
+    renderList();
+    renderMapMarkers();
   });
 }
 
@@ -403,6 +424,7 @@ async function loadRides() {
   const res = await fetch("/rides");
   rides = await res.json();
   initDriveFilter();
+  initBermBusterPref();
   renderList();
   renderTypeFilters();
   initPrefs();
