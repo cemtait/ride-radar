@@ -14,12 +14,24 @@ let fetchRunning = false;
 const RIDE_TYPES = ["trail","cross","enduro","moto","other"];
 
 const TYPE_COLOURS = {
-  trail: "green",
-  cross: "blue",
-  enduro: "orange",
-  moto: "red",
-  other: "grey"
+  trail:  "#5c8a3c",
+  cross:  "#4a7fa8",
+  enduro: "#8b5e3c",
+  moto:   "#a07835",
+  other:  "#7a7460"
 };
+
+const TYPE_BG_COLOURS = {
+  trail:  "rgba(92,138,60,0.18)",
+  cross:  "rgba(74,127,168,0.18)",
+  enduro: "rgba(139,94,60,0.18)",
+  moto:   "rgba(160,120,53,0.18)",
+  other:  "rgba(122,116,96,0.18)"
+};
+
+function rideBgColour(type) {
+  return TYPE_BG_COLOURS[rideTypeKey(type)] || TYPE_BG_COLOURS.other;
+}
 
 const TYPE_LABELS = {
   trail: "Trail",
@@ -182,12 +194,11 @@ function renderList() {
   }
   container.innerHTML = visible.map(ride => {
     const colour = rideColour(ride.type);
+    const bg = rideBgColour(ride.type);
     const drive = formatDrive(ride);
     const idx = rides.indexOf(ride);
-    return `<div class="ride-item" data-link="${ride.link}" onclick="openRideCard(rides[${idx}])">
-      <div class="ride-item-title">
-        <span class="ride-type-dot" style="background:${colour}"></span>${ride.title}
-      </div>
+    return `<div class="ride-item" data-link="${ride.link}" style="background:${bg}; border-left:4px solid ${colour}" onclick="openRideCard(rides[${idx}])">
+      <div class="ride-item-title">${ride.title}</div>
       <div class="ride-item-meta">
         <span>📅 ${ride.date}</span>
         <span>📍 ${ride.district}</span>
@@ -213,6 +224,7 @@ function renderMapMarkers() {
   map.eachLayer(layer => {
     if (layer instanceof L.CircleMarker) map.removeLayer(layer);
   });
+  const points = [];
   visibleRides().forEach(ride => {
     if (!ride.lat || !ride.lon) return;
     const colour = rideColour(ride.type);
@@ -222,7 +234,11 @@ function renderMapMarkers() {
       fillColor: colour,
       fillOpacity: 0.9
     }).addTo(map).on("click", () => openRideCard(ride));
+    points.push([ride.lat, ride.lon]);
   });
+  if (points.length > 0) {
+    map.fitBounds(points, { padding: [24, 24], maxZoom: 12 });
+  }
 }
 
 function renderTypeFilters() {

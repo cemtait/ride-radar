@@ -85,17 +85,16 @@ header h1 {
 }
 
 .ride-item {
-  background: #1e1e1e;
   border: 1px solid #333;
   border-radius: 8px;
   padding: 12px 14px;
   margin-bottom: 10px;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: filter 0.15s;
 }
 
 .ride-item:hover {
-  background: #2a2a2a;
+  filter: brightness(1.35);
 }
 
 .ride-item-title {
