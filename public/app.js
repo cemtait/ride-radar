@@ -5,6 +5,10 @@ let mapInitialized = false;
 let map = null;
 let userOrigin = null;
 
+const driveInfo = new Map();
+let fetchQueue = [];
+let fetchRunning = false;
+
 const RIDE_TYPES = ["trail","cross","enduro","moto","trial","other"];
 
 const TYPE_COLOURS = {
@@ -31,23 +35,17 @@ function rideColour(type) {
   return TYPE_COLOURS[rideTypeKey(type)] || "grey";
 }
 
-function haversineKm(lat1, lon1, lat2, lon2) {
-  const R = 6371;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = Math.sin(dLat/2)**2 +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2)**2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
-
 function formatDrive(ride) {
-  if (userOrigin && ride.lat && ride.lon) {
-    const km = haversineKm(userOrigin.lat, userOrigin.lon, ride.lat, ride.lon);
-    const mins = Math.round((km / 80) * 60);
-    const hrs = Math.floor(mins / 60);
-    const rem = mins % 60;
-    const timeStr = hrs > 0 ? `${hrs}h ${rem}m` : `${mins}m`;
-    return `~${km.toFixed(0)} km · ~${timeStr} drive`;
+  if (userOrigin) {
+    if (driveInfo.has(ride.link)) {
+      const d = driveInfo.get(ride.link);
+      if (!d) return null;
+      const hrs = Math.floor(d.drive_time_minutes / 60);
+      const mins = d.drive_time_minutes % 60;
+      const timeStr = hrs > 0 ? `${hrs}h ${mins}m` : `${mins}m`;
+      return `${d.distance_km} km · ${timeStr} drive`;
+    }
+    return "calculating…";
   }
   if (!ride.distance_km || !ride.drive_time_minutes) return null;
   const hrs = Math.floor(ride.drive_time_minutes / 60);
@@ -59,6 +57,10 @@ function formatDrive(ride) {
 function visibleRides() {
   if (activeFilters.size === 0) return rides;
   return rides.filter(r => activeFilters.has(rideTypeKey(r.type)));
+}
+
+function safeLink(link) {
+  return encodeURIComponent(link);
 }
 
 function openRideCard(ride) {
@@ -94,6 +96,18 @@ document.getElementById("calendarBtn").onclick = () => {
   URL.revokeObjectURL(url);
 };
 
+function updateRideDriveSpan(ride) {
+  const el = document.querySelector(`.ride-item[data-link="${CSS.escape(ride.link)}"] .ride-drive`);
+  if (!el) return;
+  const drive = formatDrive(ride);
+  el.textContent = drive ? "🚗 " + drive : "";
+  el.style.display = drive ? "" : "none";
+
+  if (currentRide && currentRide.link === ride.link) {
+    document.getElementById("rideDrive").innerText = drive ? "🚗 " + drive : "";
+  }
+}
+
 function renderList() {
   const container = document.getElementById("rideList");
   const visible = visibleRides();
@@ -104,7 +118,8 @@ function renderList() {
   container.innerHTML = visible.map(ride => {
     const colour = rideColour(ride.type);
     const drive = formatDrive(ride);
-    return `<div class="ride-item" onclick="openRideCard(rides[${rides.indexOf(ride)}])">
+    const idx = rides.indexOf(ride);
+    return `<div class="ride-item" data-link="${ride.link}" onclick="openRideCard(rides[${idx}])">
       <div class="ride-item-title">
         <span class="ride-type-dot" style="background:${colour}"></span>${ride.title}
       </div>
@@ -112,7 +127,7 @@ function renderList() {
         <span>📅 ${ride.date}</span>
         <span>📍 ${ride.district}</span>
         <span>${ride.type}</span>
-        ${drive ? `<span>🚗 ${drive}</span>` : ""}
+        <span class="ride-drive" ${drive ? "" : 'style="display:none"'}>${drive ? "🚗 " + drive : ""}</span>
       </div>
     </div>`;
   }).join("");
@@ -181,6 +196,56 @@ function renderTypeFilters() {
   });
 }
 
+function buildFetchQueue(origin) {
+  const visible = new Set(visibleRides().map(r => r.link));
+  const withCoords = rides.filter(r => r.lat && r.lon);
+  const prioritised = [
+    ...withCoords.filter(r => visible.has(r.link)),
+    ...withCoords.filter(r => !visible.has(r.link))
+  ];
+  return prioritised.filter(r => !driveInfo.has(r.link));
+}
+
+async function runFetchQueue(origin) {
+  if (fetchRunning) return;
+  fetchRunning = true;
+
+  while (fetchQueue.length > 0) {
+    if (!userOrigin || userOrigin.lat !== origin.lat || userOrigin.lon !== origin.lon) break;
+
+    const ride = fetchQueue.shift();
+    if (driveInfo.has(ride.link)) continue;
+
+    try {
+      const res = await fetch("/drive-time", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          originLat: origin.lat,
+          originLon: origin.lon,
+          rideLat: ride.lat,
+          rideLon: ride.lon,
+          rideLink: ride.link
+        })
+      });
+      const data = await res.json();
+      driveInfo.set(ride.link, data);
+      updateRideDriveSpan(ride);
+    } catch {
+      driveInfo.set(ride.link, null);
+    }
+  }
+
+  fetchRunning = false;
+}
+
+function startDriveFetch(origin) {
+  driveInfo.clear();
+  fetchQueue = buildFetchQueue(origin);
+  renderList();
+  runFetchQueue(origin);
+}
+
 function setGpsStatus(msg, state) {
   const el = document.getElementById("gpsStatus");
   el.textContent = msg;
@@ -189,7 +254,7 @@ function setGpsStatus(msg, state) {
 
 function applyOrigin(lat, lon, label) {
   userOrigin = { lat, lon, label };
-  renderList();
+  startDriveFetch(userOrigin);
 }
 
 function requestGPS() {
@@ -205,11 +270,7 @@ function requestGPS() {
       applyOrigin(lat, lon, "Your location");
     },
     err => {
-      const msgs = {
-        1: "Location permission denied.",
-        2: "Location unavailable.",
-        3: "Location request timed out."
-      };
+      const msgs = { 1: "Location permission denied.", 2: "Location unavailable.", 3: "Location request timed out." };
       setGpsStatus((msgs[err.code] || "Could not get location.") + " Use the manual address below.", "err");
     },
     { timeout: 10000 }
@@ -276,6 +337,8 @@ function initPrefs() {
       manualDiv.classList.remove("disabled");
       setGpsStatus("GPS off — enter an address below.");
       userOrigin = null;
+      driveInfo.clear();
+      fetchQueue = [];
       renderList();
     }
   });

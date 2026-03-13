@@ -22,6 +22,7 @@ const LOG = {
 // -----------------------------
 const CACHE_FILE = "./addressCache.json";
 const RIDES_FILE = "./rides.json";
+const DRIVE_CACHE_FILE = "./driveCache.json";
 
 let addressCache = {};
 if (fs.existsSync(CACHE_FILE)) {
@@ -35,6 +36,13 @@ if (fs.existsSync(RIDES_FILE)) {
     if (Array.isArray(saved) && saved.length > 0) rideCache = saved;
   } catch {}
 }
+
+let driveCache = {};
+if (fs.existsSync(DRIVE_CACHE_FILE)) {
+  try { driveCache = JSON.parse(fs.readFileSync(DRIVE_CACHE_FILE)); } catch {}
+}
+
+app.use(express.json());
 
 // -----------------------------
 const JUNK_WORDS = [
@@ -361,6 +369,50 @@ async function refreshRideCache() {
 
 // -----------------------------
 app.get("/rides", (req, res) => res.json(rideCache));
+
+// -----------------------------
+// Drive-time endpoint (OSRM, cached per origin)
+// -----------------------------
+function originKey(lat, lon) {
+  return `${Math.round(lat * 1000) / 1000}_${Math.round(lon * 1000) / 1000}`;
+}
+
+app.post("/drive-time", async (req, res) => {
+  const { originLat, originLon, rideLat, rideLon, rideLink } = req.body;
+  if (originLat == null || originLon == null || rideLat == null || rideLon == null) {
+    return res.status(400).json({ error: "Missing params" });
+  }
+
+  const key = originKey(originLat, originLon);
+  if (!driveCache[key]) driveCache[key] = {};
+
+  if (driveCache[key][rideLink]) {
+    return res.json(driveCache[key][rideLink]);
+  }
+
+  try {
+    const url =
+      `https://router.project-osrm.org/route/v1/driving/` +
+      `${originLon},${originLat};${rideLon},${rideLat}?overview=false`;
+    const osrmRes = await fetch(url);
+    const data = await osrmRes.json();
+
+    if (!data.routes || data.routes.length === 0) return res.json(null);
+
+    const route = data.routes[0];
+    const result = {
+      distance_km: (route.distance / 1000).toFixed(1),
+      drive_time_minutes: Math.round(route.duration / 60)
+    };
+
+    driveCache[key][rideLink] = result;
+    fs.writeFileSync(DRIVE_CACHE_FILE, JSON.stringify(driveCache, null, 2));
+
+    return res.json(result);
+  } catch {
+    return res.json(null);
+  }
+});
 
 // -----------------------------
 app.listen(PORT, "0.0.0.0", () => {
