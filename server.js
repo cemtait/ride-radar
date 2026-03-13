@@ -58,6 +58,44 @@ const LOCALITY_CORRECTIONS = {
 };
 
 // -----------------------------
+// Rides whose titles match these strings are permanently excluded —
+// they never have useful location details.
+// -----------------------------
+const OMIT_TITLES = [
+  "NI Champs",
+  "MOMCC",
+  "Hamilton TC/AC Trial",
+  "Taranaki Club Trial",
+];
+
+function shouldOmit(title) {
+  const t = title.toLowerCase();
+  return OMIT_TITLES.some(o => t.includes(o.toLowerCase()));
+}
+
+// -----------------------------
+// Hardcoded addresses for rides that consistently fail geocoding.
+// Keys are matched case-insensitively against the final ride title.
+// The address is passed through the normal geocode + cache flow.
+// -----------------------------
+const HARDCODED_ADDRESSES = {
+  "Steel Horse Trail Ride":        "598 State Highway 4, Upokongaro 4575, New Zealand",
+  "Waikato Warrior Adventure Ride":"423 Alexandra Street, Te Awamutu 3800, New Zealand",
+  "Whangamomona Trail ride":       "59 Whangamomona Road, Whangamōmona 4396, New Zealand",
+  "Tunnels Trail Ride":            "Ngatira Rd, Litchfield, New Zealand",
+  "HMCC/BOP Club Champs - Rnd 3": "59 Wharry Road, Waihi 3610, New Zealand",
+  "Redwoods Trail Ride":           "Ngatira Rd, Litchfield, New Zealand",
+  "Mighty Mokau Trail Bike Ride":  "Tauimatamaire Road, Waikato Region, New Zealand",
+};
+
+function getHardcodedAddress(title) {
+  const t = title.toLowerCase();
+  const entry = Object.entries(HARDCODED_ADDRESSES)
+    .find(([key]) => t.includes(key.toLowerCase()));
+  return entry ? entry[1] : null;
+}
+
+// -----------------------------
 // DRIVING ROUTE FUNCTION
 // -----------------------------
 async function getDriveInfo(lat, lon) {
@@ -291,11 +329,16 @@ async function refreshRideCache() {
       });
     });
 
-    console.log("Found rides:", rides.length, "\n");
+    const omitted = rides.filter(r => shouldOmit(r.title));
+    const toProcess = rides.filter(r => !shouldOmit(r.title));
+
+    console.log(`Found rides: ${rides.length} (${omitted.length} omitted)\n`);
+    omitted.forEach(r => LOG.info(`OMIT     | ${r.title}`));
+    if (omitted.length) console.log("");
 
     const failedRides = [];
 
-    for (const ride of rides) {
+    for (const ride of toProcess) {
 
       let status = "FAIL";
 
@@ -315,7 +358,8 @@ async function refreshRideCache() {
 
       } else {
 
-        let candidateAddress = page.where;
+        const hardcoded = getHardcodedAddress(ride.title);
+        let candidateAddress = hardcoded || page.where;
 
         if (!candidateAddress && page.directions && page.district) {
 
@@ -374,9 +418,9 @@ async function refreshRideCache() {
       else LOG.fail(`FAIL     | ${ride.title}`);
     }
 
-    rideCache = rides;
+    rideCache = toProcess;
 
-    fs.writeFileSync(RIDES_FILE, JSON.stringify(rides, null, 2));
+    fs.writeFileSync(RIDES_FILE, JSON.stringify(toProcess, null, 2));
     fs.writeFileSync("./failedGeocodes.json", JSON.stringify(failedRides, null, 2));
 
     console.log(`\n--- FAILED RIDES (${failedRides.length}) ---`);

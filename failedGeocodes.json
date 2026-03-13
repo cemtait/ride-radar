@@ -1,17 +1,226 @@
 [
   {
-    "ride": "Top End Trail Ride - North",
-    "address": "Forestry Entrance, Trig Road, South Head.",
-    "district": "Greater Auckland"
+    "title": "Whangamomona Trail ride",
+    "district": "Stratford",
+    "where": "Down Whangamomana Road @ the camp grounds",
+    "addressAttempted": "Down Whangamomana Road  the camp grounds New Zealand",
+    "link": "https://silverbullet.co.nz//event.php?id=18148"
   },
   {
-    "ride": "Top End Trail Ride - South",
-    "address": "Forestry Entrance, Trig Road, South Head.",
-    "district": "Greater Auckland"
+    "title": "NI Champs, Rnd 1",
+    "district": "Napier/Hastings",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18218"
   },
   {
-    "ride": "Mighty Muriwai Trail Ride",
-    "address": "Forestry Entrance, Restall Road, Waimauk",
-    "district": "Greater Auckland"
+    "title": "Steel Horse Trail Ride",
+    "district": "Wanganui",
+    "where": "598 S.H.4 Whanganui",
+    "addressAttempted": "598 S.H.4 Whanganui New Zealand",
+    "link": "https://silverbullet.co.nz//event.php?id=18165"
+  },
+  {
+    "title": "NI Champs, Rnd 2",
+    "district": "Napier/Hastings",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18219"
+  },
+  {
+    "title": "Waikato Warrior Adventure Ride",
+    "district": "South Waikato",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18196"
+  },
+  {
+    "title": "MOMCC Club Trial",
+    "district": "Manawatu",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18202"
+  },
+  {
+    "title": "Hamilton TC/AC Trial, R1",
+    "district": "Waikato",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18235"
+  },
+  {
+    "title": "Taranaki Club Trial",
+    "district": "New Plymouth",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18220"
+  },
+  {
+    "title": "NI Champs, Rnd 3",
+    "district": "Western Bay Of Plenty",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18228"
+  },
+  {
+    "title": "Tunnels Trail Ride",
+    "district": "South Waikato",
+    "where": "Tunnels – Ngatira Rd, Litchfield.",
+    "addressAttempted": "Tunnels – Ngatira Rd, Litchfield. New Zealand",
+    "link": "https://silverbullet.co.nz//event.php?id=18132"
+  },
+  {
+    "title": "MOMCC Club Champs, R1",
+    "district": "Manawatu",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18203"
+  },
+  {
+    "title": "NI Champs, Rnd 4",
+    "district": "Waikato",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18229"
+  },
+  {
+    "title": "HMCC/BOP Club Champs - Rnd 3",
+    "district": "Western Bay Of Plenty",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18231"
+  },
+  {
+    "title": "NI Champs, Rnd 5",
+    "district": "New Plymouth",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18237"
+  },
+  {
+    "title": "NI Champs, Rnd 6",
+    "district": "New Plymouth",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18238"
+  },
+  {
+    "title": "MOMCC Club Champs, R2",
+    "district": "Manawatu",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18204"
+  },
+  {
+    "title": "Redwoods Trail Ride",
+    "district": "South Waikato",
+    "where": "Redwoods – Ngatira Rd, Litchfield.",
+    "addressAttempted": "Redwoods – Ngatira Rd, Litchfield. New Zealand",
+    "link": "https://silverbullet.co.nz//event.php?id=18135"
+  },
+  {
+    "title": "HMCC/BOP Club Champs - Rnd 4",
+    "district": "Waikato",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18233"
+  },
+  {
+    "title": "MOMCC Club Champs, R3",
+    "district": "Manawatu",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18205"
+  },
+  {
+    "title": "MOMCC Winter Cup",
+    "district": "Manawatu",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18206"
+  },
+  {
+    "title": "Tunnels Trail Ride",
+    "district": "South Waikato",
+    "where": "Tunnels – Ngatira Rd, Litchfield.",
+    "addressAttempted": "Tunnels – Ngatira Rd, Litchfield. New Zealand",
+    "link": "https://silverbullet.co.nz//event.php?id=18133"
+  },
+  {
+    "title": "NI Champs, Rnd 7",
+    "district": "Whangarei",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18239"
+  },
+  {
+    "title": "NI Champs, Rnd 8",
+    "district": "Whangarei",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18240"
+  },
+  {
+    "title": "MOMCC Adrian Walcroft Memorial",
+    "district": "Manawatu",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18207"
+  },
+  {
+    "title": "HMCC/BOP Club Champs - Rnd 5",
+    "district": "Western Bay Of Plenty",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18232"
+  },
+  {
+    "title": "MOMCC Club Champs, R4 (Bruce & Bai)",
+    "district": "Manawatu",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18208"
+  },
+  {
+    "title": "Redwoods Trail Ride",
+    "district": "South Waikato",
+    "where": "Redwoods – Ngatira Rd, Litchfield.",
+    "addressAttempted": "Redwoods – Ngatira Rd, Litchfield. New Zealand",
+    "link": "https://silverbullet.co.nz//event.php?id=18136"
+  },
+  {
+    "title": "HMCC/BOP Club Champs - Rnd 6",
+    "district": "Waikato",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18234"
+  },
+  {
+    "title": "MOMCC Club Champs, R5",
+    "district": "Manawatu",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18209"
+  },
+  {
+    "title": "Tunnels Trail Ride",
+    "district": "South Waikato",
+    "where": "Tunnels – Ngatira Rd, Litchfield.",
+    "addressAttempted": "Tunnels – Ngatira Rd, Litchfield. New Zealand",
+    "link": "https://silverbullet.co.nz//event.php?id=18134"
+  },
+  {
+    "title": "Hamilton TC/AC Trial",
+    "district": "Waikato",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18236"
+  },
+  {
+    "title": "Mighty Mokau Trail Bike Ride",
+    "district": "Waitomo",
+    "where": "Piripiri Station, Taumatamaire Station and McDavitt Farm",
+    "addressAttempted": "Piripiri Station, Taumatamaire Station and McDavitt Farm New Zealand",
+    "link": "https://silverbullet.co.nz//event.php?id=18183"
   }
 ]
