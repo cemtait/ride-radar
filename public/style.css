@@ -99,8 +99,8 @@ header h1 {
 }
 
 .tab-btn.active {
-  color: #d4922a;
-  border-top-color: #d4922a;
+  color: #6aa84f;
+  border-top-color: #6aa84f;
 }
 
 #rideList {
@@ -213,7 +213,7 @@ button {
   padding: 9px 14px;
   border: none;
   border-radius: 6px;
-  background: #d4922a;
+  background: #6aa84f;
   color: white;
   font-family: 'Inter', Arial, Helvetica, sans-serif;
   font-weight: 600;
@@ -222,7 +222,7 @@ button {
 }
 
 button:hover {
-  background: #b87e20;
+  background: #528a3a;
 }
 
 #prefsPanel {
@@ -297,7 +297,7 @@ button:hover {
 }
 
 .toggle input:checked + .toggle-slider {
-  background: #d4922a;
+  background: #6aa84f;
 }
 
 .toggle input:checked + .toggle-slider:before {
@@ -354,13 +354,13 @@ button:hover {
 
 .pref-group input[type="text"]:focus {
   outline: none;
-  border-color: #d4922a;
+  border-color: #6aa84f;
 }
 
 #prefMsg {
   margin: 8px 0 0 0;
   font-size: 0.85rem;
-  color: #d4922a;
+  color: #6aa84f;
   min-height: 1.2em;
 }
 
@@ -416,13 +416,13 @@ button:hover {
 }
 
 .dt-btn:hover {
-  border-color: #d4922a;
+  border-color: #6aa84f;
   color: white;
-  background: rgba(212,146,42,0.1);
+  background: rgba(106,168,79,0.1);
 }
 
 .dt-btn.active {
-  border-color: #d4922a;
+  border-color: #6aa84f;
   color: white;
-  background: rgba(212,146,42,0.2);
+  background: rgba(106,168,79,0.2);
 }
