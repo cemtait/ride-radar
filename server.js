@@ -75,6 +75,22 @@ function shouldOmit(title) {
 }
 
 // -----------------------------
+// Hardcoded GPS coordinates for rides where we have exact coords.
+// Keys matched case-insensitively against the final ride title.
+// These bypass geocoding entirely.
+// -----------------------------
+const HARDCODED_COORDS = {
+  "IXIOM": { lat: -40.949000, lon: 175.032472 },
+};
+
+function getHardcodedCoords(title) {
+  const t = title.toLowerCase();
+  const entry = Object.entries(HARDCODED_COORDS)
+    .find(([key]) => t.includes(key.toLowerCase()));
+  return entry ? entry[1] : null;
+}
+
+// -----------------------------
 // Hardcoded addresses for rides that consistently fail geocoding.
 // Keys are matched case-insensitively against the final ride title.
 // The address is passed through the normal geocode + cache flow.
@@ -358,6 +374,16 @@ async function refreshRideCache() {
 
       } else {
 
+        const hardcodedCoords = getHardcodedCoords(ride.title);
+
+        if (hardcodedCoords) {
+
+          ride.lat = hardcodedCoords.lat;
+          ride.lon = hardcodedCoords.lon;
+          status = "GEOCODE";
+
+        } else {
+
         const hardcoded = getHardcodedAddress(ride.title);
         let candidateAddress = hardcoded || page.where;
 
@@ -396,6 +422,8 @@ async function refreshRideCache() {
             link: ride.link
           });
         }
+
+        } // end inner else (no hardcoded coords)
       }
 
       // -----------------------------

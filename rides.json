@@ -312,18 +312,6 @@
     "drive_time_minutes": 946
   },
   {
-    "title": "HMCC/BOP Club Champs - Rnd 2",
-    "type": "Trials",
-    "date": "Sun 22nd Mar",
-    "district": "Western Bay Of Plenty",
-    "link": "https://silverbullet.co.nz//event.php?id=18230",
-    "lat": -37.37509475909585,
-    "lon": 175.85327352642057,
-    "originalAddress": "59 Wharry Road, Waihi 3610 New Zealand",
-    "distance_km": "145.3",
-    "drive_time_minutes": 123
-  },
-  {
     "title": "Korito Technical Matrix",
     "type": "Enduro-Cross",
     "date": "Sat 28th Mar",
@@ -708,18 +696,6 @@
     "drive_time_minutes": 379
   },
   {
-    "title": "HMCC/BOP Club Champs - Rnd 3",
-    "type": "Trials",
-    "date": "Sun 10th May",
-    "district": "Western Bay Of Plenty",
-    "link": "https://silverbullet.co.nz//event.php?id=18231",
-    "originalAddress": "59 Wharry Road, Waihi 3610, New Zealand",
-    "lat": -37.371806,
-    "lon": 175.8583947,
-    "distance_km": "145.8",
-    "drive_time_minutes": 124
-  },
-  {
     "title": "NCES Rnd 3",
     "type": "Enduro",
     "date": "Sat 16th May",
@@ -826,14 +802,6 @@
     "lon": 176.6940496,
     "distance_km": "282.3",
     "drive_time_minutes": 212
-  },
-  {
-    "title": "HMCC/BOP Club Champs - Rnd 4",
-    "type": "Trials",
-    "date": "Sun 14th Jun",
-    "district": "Waikato",
-    "link": "https://silverbullet.co.nz//event.php?id=18233",
-    "originalAddress": null
   },
   {
     "title": "NCES Rnd 4",
@@ -1076,14 +1044,6 @@
     "drive_time_minutes": 42
   },
   {
-    "title": "HMCC/BOP Club Champs - Rnd 5",
-    "type": "Trials",
-    "date": "Sun 23rd Aug",
-    "district": "Western Bay Of Plenty",
-    "link": "https://silverbullet.co.nz//event.php?id=18232",
-    "originalAddress": null
-  },
-  {
     "title": "Ixion Club Trial",
     "type": "Trials",
     "date": "Sun 6th Sep",
@@ -1190,14 +1150,6 @@
     "lon": 176.6940496,
     "distance_km": "282.3",
     "drive_time_minutes": 212
-  },
-  {
-    "title": "HMCC/BOP Club Champs - Rnd 6",
-    "type": "Trials",
-    "date": "Sun 11th Oct",
-    "district": "Waikato",
-    "link": "https://silverbullet.co.nz//event.php?id=18234",
-    "originalAddress": null
   },
   {
     "title": "Dirt World Ride Day",
