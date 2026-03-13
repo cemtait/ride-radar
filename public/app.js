@@ -1,6 +1,7 @@
 let rides = [];
 let currentRide = null;
 let activeFilters = new Set();
+let maxDriveMinutes = null;
 let mapInitialized = false;
 let map = null;
 let userOrigin = null;
@@ -55,9 +56,18 @@ function formatDrive(ride) {
   return `${ride.distance_km} km · ${timeStr} drive`;
 }
 
+function driveTimeOk(ride) {
+  if (!maxDriveMinutes || !userOrigin) return true;
+  if (!ride.lat || !ride.lon) return true;
+  if (!driveInfo.has(ride.link)) return true;
+  const d = driveInfo.get(ride.link);
+  if (!d) return true;
+  return d.drive_time_minutes <= maxDriveMinutes;
+}
+
 function visibleRides() {
-  if (activeFilters.size === 0) return rides;
-  return rides.filter(r => activeFilters.has(rideTypeKey(r.type)));
+  let result = activeFilters.size === 0 ? rides : rides.filter(r => activeFilters.has(rideTypeKey(r.type)));
+  return result.filter(driveTimeOk);
 }
 
 function safeLink(link) {
@@ -98,6 +108,12 @@ document.getElementById("calendarBtn").onclick = () => {
 };
 
 function updateRideDriveSpan(ride) {
+  if (!driveTimeOk(ride)) {
+    const row = document.querySelector(`.ride-item[data-link="${CSS.escape(ride.link)}"]`);
+    if (row) row.remove();
+    return;
+  }
+
   const el = document.querySelector(`.ride-item[data-link="${CSS.escape(ride.link)}"] .ride-drive`);
   if (!el) return;
   const drive = formatDrive(ride);
@@ -107,6 +123,27 @@ function updateRideDriveSpan(ride) {
   if (currentRide && currentRide.link === ride.link) {
     document.getElementById("rideDrive").innerText = drive ? "🚗 " + drive : "";
   }
+}
+
+function initDriveFilter() {
+  const saved = localStorage.getItem("rideRadarMaxDrive");
+  maxDriveMinutes = saved ? parseInt(saved, 10) : null;
+
+  document.querySelectorAll(".dt-btn").forEach(btn => {
+    const val = btn.dataset.mins;
+    const isActive = val === "" ? !maxDriveMinutes : parseInt(val, 10) === maxDriveMinutes;
+    btn.classList.toggle("active", isActive);
+
+    btn.addEventListener("click", () => {
+      maxDriveMinutes = val === "" ? null : parseInt(val, 10);
+      localStorage.setItem("rideRadarMaxDrive", val);
+      document.querySelectorAll(".dt-btn").forEach(b =>
+        b.classList.toggle("active", b.dataset.mins === val)
+      );
+      renderList();
+      renderMapMarkers();
+    });
+  });
 }
 
 function renderList() {
@@ -365,6 +402,7 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
 async function loadRides() {
   const res = await fetch("/rides");
   rides = await res.json();
+  initDriveFilter();
   renderList();
   renderTypeFilters();
   initPrefs();

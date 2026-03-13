@@ -49,6 +49,19 @@
       </div>
 
       <div class="pref-group">
+        <div class="pref-group-title">Maximum drive time</div>
+        <p class="manual-label">Only show rides within this drive time from your origin. Rides without a calculated time are always shown.</p>
+        <div id="driveTimeFilters" class="drive-time-btns">
+          <button class="dt-btn active" data-mins="">Any</button>
+          <button class="dt-btn" data-mins="60">1 hr</button>
+          <button class="dt-btn" data-mins="90">1½ hr</button>
+          <button class="dt-btn" data-mins="120">2 hrs</button>
+          <button class="dt-btn" data-mins="180">3 hrs</button>
+          <button class="dt-btn" data-mins="240">4 hrs</button>
+        </div>
+      </div>
+
+      <div class="pref-group">
         <div class="pref-group-title">Filter by ride type</div>
         <div id="typeFilters"></div>
       </div>

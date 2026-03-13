@@ -329,3 +329,33 @@ button:hover {
   color: white;
   background: #1a3a6a;
 }
+
+.drive-time-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.dt-btn {
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 2px solid #555;
+  background: transparent;
+  color: #ccc;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.dt-btn:hover {
+  border-color: #3a8cff;
+  color: white;
+  background: #1a2a3a;
+}
+
+.dt-btn.active {
+  border-color: #3a8cff;
+  color: white;
+  background: #1a3a6a;
+}
