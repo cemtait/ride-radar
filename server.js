@@ -282,7 +282,8 @@ async function scrapeRidePage(link) {
   try {
 
     const res = await fetch(link);
-    const html = await res.text();
+    const raw = await res.text();
+    const html = raw.replace(/<!--[\s\S]*?-->/g, "");
 
     const $ = cheerio.load(html);
 
