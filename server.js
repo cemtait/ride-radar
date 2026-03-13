@@ -293,6 +293,8 @@ async function refreshRideCache() {
 
     console.log("Found rides:", rides.length, "\n");
 
+    const failedRides = [];
+
     for (const ride of rides) {
 
       let status = "FAIL";
@@ -340,6 +342,16 @@ async function refreshRideCache() {
             status = "GEOCODE";
           }
         }
+
+        if (status === "FAIL") {
+          failedRides.push({
+            title: ride.title,
+            district: ride.district,
+            where: page.where || null,
+            addressAttempted: ride.originalAddress || null,
+            link: ride.link
+          });
+        }
       }
 
       // -----------------------------
@@ -365,6 +377,16 @@ async function refreshRideCache() {
     rideCache = rides;
 
     fs.writeFileSync(RIDES_FILE, JSON.stringify(rides, null, 2));
+    fs.writeFileSync("./failedGeocodes.json", JSON.stringify(failedRides, null, 2));
+
+    console.log(`\n--- FAILED RIDES (${failedRides.length}) ---`);
+    failedRides.forEach(f => {
+      console.log(`  ${f.title}`);
+      console.log(`    District:  ${f.district || "—"}`);
+      console.log(`    Where:     ${f.where || "—"}`);
+      console.log(`    Attempted: ${f.addressAttempted || "—"}`);
+      console.log(`    Link:      ${f.link}`);
+    });
 
     console.log("\nRide cache refreshed.\n");
 
