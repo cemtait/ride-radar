@@ -80,7 +80,7 @@ function shouldOmit(title) {
 // These bypass geocoding entirely.
 // -----------------------------
 const HARDCODED_COORDS = {
-  "IXIOM": { lat: -40.949000, lon: 175.032472 },
+  "IXION": { lat: -40.949000, lon: 175.032472, address: "Maungakotukutuku Road" },
 };
 
 function getHardcodedCoords(title) {
@@ -380,6 +380,7 @@ async function refreshRideCache() {
 
           ride.lat = hardcodedCoords.lat;
           ride.lon = hardcodedCoords.lon;
+          if (hardcodedCoords.address) ride.originalAddress = hardcodedCoords.address;
           status = "GEOCODE";
 
         } else {
