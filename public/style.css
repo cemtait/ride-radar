@@ -314,19 +314,26 @@ button:hover {
 }
 
 .type-filter-btn {
-  padding: 6px 12px;
-  border-radius: 20px;
-  border: 2px solid #555;
-  background: transparent;
-  color: #ccc;
-  font-size: 0.8rem;
+  padding: 7px 14px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  border-left: 4px solid color-mix(in srgb, var(--tc, #555) 35%, #111);
+  background: rgba(0,0,0,0.55);
+  color: #555;
+  font-size: 0.85rem;
+  font-weight: bold;
   cursor: pointer;
+  transition: filter 0.15s, color 0.15s, background 0.15s;
 }
 
 .type-filter-btn.on {
-  border-color: #3a8cff;
+  border-left-color: var(--tc, #555);
+  background: var(--tb, rgba(100,100,100,0.11));
   color: white;
-  background: #1a3a6a;
+}
+
+.type-filter-btn:hover {
+  filter: brightness(1.3);
 }
 
 .drive-time-btns {

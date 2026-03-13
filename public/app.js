@@ -22,11 +22,11 @@ const TYPE_COLOURS = {
 };
 
 const TYPE_BG_COLOURS = {
-  trail:  "rgba(92,138,60,0.18)",
-  cross:  "rgba(74,127,168,0.18)",
-  enduro: "rgba(139,94,60,0.18)",
-  moto:   "rgba(160,120,53,0.18)",
-  other:  "rgba(122,116,96,0.18)"
+  trail:  "rgba(92,138,60,0.11)",
+  cross:  "rgba(74,127,168,0.11)",
+  enduro: "rgba(139,94,60,0.11)",
+  moto:   "rgba(160,120,53,0.11)",
+  other:  "rgba(122,116,96,0.11)"
 };
 
 function rideBgColour(type) {
@@ -246,9 +246,8 @@ function renderTypeFilters() {
   container.innerHTML = RIDE_TYPES.map(t => {
     const label = TYPE_LABELS[t] || (t.charAt(0).toUpperCase() + t.slice(1));
     const colour = TYPE_COLOURS[t];
-    return `<button class="type-filter-btn on" data-type="${t}" style="border-color:${colour}">
-      <span class="ride-type-dot" style="background:${colour}"></span>${label}
-    </button>`;
+    const bg = TYPE_BG_COLOURS[t];
+    return `<button class="type-filter-btn on" data-type="${t}" style="--tc:${colour};--tb:${bg}">${label}</button>`;
   }).join("");
   container.querySelectorAll(".type-filter-btn").forEach(btn => {
     btn.addEventListener("click", () => {
