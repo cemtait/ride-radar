@@ -115,7 +115,12 @@ function getHardcodedAddress(title) {
 // -----------------------------
 // DRIVING ROUTE FUNCTION
 // -----------------------------
+const driveInfoCache = {};
+
 async function getDriveInfo(lat, lon) {
+
+  const cacheKey = `${lat.toFixed(4)},${lon.toFixed(4)}`;
+  if (driveInfoCache[cacheKey]) return driveInfoCache[cacheKey];
 
   const ORIGIN = {
     lat: -36.8485,
@@ -138,10 +143,13 @@ async function getDriveInfo(lat, lon) {
 
     const route = data.routes[0];
 
-    return {
+    const result = {
       distance_km: (route.distance / 1000).toFixed(1),
       drive_time_minutes: Math.round(route.duration / 60)
     };
+
+    driveInfoCache[cacheKey] = result;
+    return result;
 
   } catch {
     return null;
@@ -228,12 +236,12 @@ async function geocodeAddress(address) {
     }
   }
 
-  for (const attempt of attempts) {
+  for (let i = 0; i < attempts.length; i++) {
     try {
 
       const url =
         "https://nominatim.openstreetmap.org/search?q=" +
-        encodeURIComponent(attempt.query) +
+        encodeURIComponent(attempts[i].query) +
         "&format=json&limit=1&countrycodes=nz";
 
       const res = await fetch(url, {
@@ -259,7 +267,10 @@ async function geocodeAddress(address) {
 
     } catch {}
 
-    await new Promise((r) => setTimeout(r, 1100));
+    // Only pause between attempts — not after the last one
+    if (i < attempts.length - 1) {
+      await new Promise((r) => setTimeout(r, 1100));
+    }
   }
 
   return null;
@@ -358,14 +369,51 @@ async function refreshRideCache() {
     if (omitted.length) console.log("");
 
     const failedRides = [];
+    // Cache resolved locations by final ride title within this scrape run.
+    // Duplicate-title rides (e.g. 20× Burt's Trail Ride) reuse the first result
+    // without re-scraping the page or re-geocoding.
+    const titleLocationCache = {};
 
     for (const ride of toProcess) {
 
       let status = "FAIL";
 
+      // --- Fast path: initial title already resolved this run ---
+      if (titleLocationCache[ride.title]) {
+        const cached = titleLocationCache[ride.title];
+        ride.lat = cached.lat;
+        ride.lon = cached.lon;
+        ride.originalAddress = cached.originalAddress;
+        if (cached.district) ride.district = cached.district;
+        status = cached.status;
+        LOG.info(`CACHED   | ${ride.title}`);
+        // Still need drive time
+        if (ride.lat && ride.lon) {
+          const drive = await getDriveInfo(ride.lat, ride.lon);
+          if (drive) { ride.distance_km = drive.distance_km; ride.drive_time_minutes = drive.drive_time_minutes; }
+        }
+        continue;
+      }
+
       const page = await scrapeRidePage(ride.link);
 
       if (page.title) ride.title = page.title;
+
+      // --- Fast path: h1 title already resolved this run ---
+      if (titleLocationCache[ride.title]) {
+        const cached = titleLocationCache[ride.title];
+        ride.lat = cached.lat;
+        ride.lon = cached.lon;
+        ride.originalAddress = cached.originalAddress;
+        if (cached.district) ride.district = cached.district;
+        status = cached.status;
+        LOG.info(`CACHED   | ${ride.title}`);
+        if (ride.lat && ride.lon) {
+          const drive = await getDriveInfo(ride.lat, ride.lon);
+          if (drive) { ride.distance_km = drive.distance_km; ride.drive_time_minutes = drive.drive_time_minutes; }
+        }
+        continue;
+      }
 
       const mapData = extractGoogleMapData(page.html);
 
@@ -446,6 +494,16 @@ async function refreshRideCache() {
           ride.drive_time_minutes = drive.drive_time_minutes;
 
         }
+      }
+
+      // Store in title cache so duplicate-title rides skip straight to drive time
+      if (status !== "FAIL") {
+        titleLocationCache[ride.title] = {
+          lat: ride.lat, lon: ride.lon,
+          originalAddress: ride.originalAddress || null,
+          district: ride.district || null,
+          status
+        };
       }
 
       if (status === "MAP") LOG.success(`MAP      | ${ride.title}`);
