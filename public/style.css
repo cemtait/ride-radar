@@ -66,6 +66,8 @@ header h1 {
   background: #1a1a1a;
   border-top: 1px solid #2a2a2a;
   flex-shrink: 0;
+  position: relative;
+  z-index: 3000;
 }
 
 .tab-btn {
@@ -153,14 +155,14 @@ header h1 {
 
 #rideCard {
   position: fixed;
-  bottom: 56px;
+  bottom: 0;
   left: 0;
   right: 0;
   background: #1c1c1e;
   border-top: 1px solid #333;
   box-shadow: 0 -8px 32px rgba(0,0,0,0.6);
-  padding: 0 20px 20px;
-  z-index: 2000;
+  padding: 0 20px 76px;
+  z-index: 1000;
   max-height: 60vh;
   overflow-y: auto;
   border-radius: 16px 16px 0 0;
