@@ -4,6 +4,7 @@ let activeFilters = new Set();
 let maxDriveMinutes = null;
 let showBermBuster = true;
 let driveDisplay = "time";
+let searchQuery = "";
 let mapInitialized = false;
 let map = null;
 let userOrigin = null;
@@ -74,6 +75,10 @@ function updateHeaderSub() {
   if (!el) return;
   const count = visibleRides().length;
   const total = rides.length;
+  if (searchQuery) {
+    el.textContent = `${count} result${count !== 1 ? "s" : ""} for "${searchQuery}"`;
+    return;
+  }
   const timeStr = lastFetched
     ? lastFetched.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
     : "…";
@@ -116,6 +121,10 @@ function driveTimeOk(ride) {
 }
 
 function visibleRides() {
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    return rides.filter(r => r.title.toLowerCase().includes(q));
+  }
   let result = activeFilters.size === 0 ? rides : rides.filter(r => activeFilters.has(rideTypeKey(r.type)));
   return result.filter(driveTimeOk);
 }
@@ -517,4 +526,48 @@ async function loadRides() {
   initPrefs();
 }
 
+function initSearch() {
+  const toggleBtn = document.getElementById("searchToggleBtn");
+  const searchBar = document.getElementById("searchBar");
+  const searchInput = document.getElementById("searchInput");
+  const clearBtn = document.getElementById("searchClearBtn");
+
+  toggleBtn.addEventListener("click", () => {
+    const isOpen = !searchBar.classList.contains("hidden");
+    if (isOpen) {
+      searchBar.classList.add("hidden");
+      toggleBtn.classList.remove("active");
+      searchQuery = "";
+      searchInput.value = "";
+      renderList();
+      renderMapMarkers();
+    } else {
+      searchBar.classList.remove("hidden");
+      toggleBtn.classList.add("active");
+      searchInput.focus();
+      document.querySelector('.tab-btn[data-tab="tab-list"]').click();
+    }
+  });
+
+  searchInput.addEventListener("input", () => {
+    searchQuery = searchInput.value.trim();
+    renderList();
+    renderMapMarkers();
+  });
+
+  clearBtn.addEventListener("click", () => {
+    searchQuery = "";
+    searchInput.value = "";
+    searchBar.classList.add("hidden");
+    toggleBtn.classList.remove("active");
+    renderList();
+    renderMapMarkers();
+  });
+
+  document.getElementById("settingsBtn").addEventListener("click", () => {
+    document.querySelector('.tab-btn[data-tab="tab-prefs"]').click();
+  });
+}
+
 loadRides();
+initSearch();
