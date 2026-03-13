@@ -80,7 +80,7 @@ function shouldOmit(title) {
 // These bypass geocoding entirely.
 // -----------------------------
 const HARDCODED_COORDS = {
-  "IXION": { lat: -40.949000, lon: 175.032472, address: "Maungakotukutuku Road" },
+  "IXION": { lat: -40.949000, lon: 175.032472, address: "Maungakotukutuku Road", district: "Manawatu" },
 };
 
 function getHardcodedCoords(title) {
@@ -381,6 +381,7 @@ async function refreshRideCache() {
           ride.lat = hardcodedCoords.lat;
           ride.lon = hardcodedCoords.lon;
           if (hardcodedCoords.address) ride.originalAddress = hardcodedCoords.address;
+          if (hardcodedCoords.district) ride.district = hardcodedCoords.district;
           status = "GEOCODE";
 
         } else {
