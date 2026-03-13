@@ -163,7 +163,7 @@ header h1 {
   box-shadow: 0 -8px 32px rgba(0,0,0,0.6);
   padding: 0 20px 76px;
   z-index: 1000;
-  max-height: 60vh;
+  max-height: 85vh;
   overflow-y: auto;
   border-radius: 16px 16px 0 0;
   transform: translateY(100%);
@@ -205,9 +205,7 @@ header h1 {
 .ride-poster {
   display: block;
   width: 100%;
-  max-height: 220px;
-  object-fit: contain;
-  object-position: left;
+  height: auto;
   margin-top: 14px;
   border-radius: 8px;
 }
