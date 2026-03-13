@@ -1404,6 +1404,18 @@
     "drive_time_minutes": 192
   },
   {
+    "title": "Strange Road Trail ride",
+    "type": "Trail Ride",
+    "date": "Sun 8th Nov",
+    "district": "Hauraki",
+    "link": "https://silverbullet.co.nz//event.php?id=18244",
+    "lat": -37.31643765366868,
+    "lon": 175.67816317337804,
+    "originalAddress": "nz New Zealand",
+    "distance_km": "125.4",
+    "drive_time_minutes": 101
+  },
+  {
     "title": "Burt’s Trail Ride",
     "type": "Trail Ride",
     "date": "Sat 14th Nov",
@@ -1460,7 +1472,7 @@
     "drive_time_minutes": 394
   },
   {
-    "title": "BSA Shield Trial",
+    "title": "Ixion Club Trial",
     "type": "Trials",
     "date": "Sun 6th Dec",
     "district": "Wellington",

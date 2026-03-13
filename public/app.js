@@ -3,6 +3,7 @@ let currentRide = null;
 let activeFilters = new Set();
 let mapInitialized = false;
 let map = null;
+let userOrigin = null;
 
 const RIDE_TYPES = ["trail","cross","enduro","moto","trial","other"];
 
@@ -30,7 +31,24 @@ function rideColour(type) {
   return TYPE_COLOURS[rideTypeKey(type)] || "grey";
 }
 
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
 function formatDrive(ride) {
+  if (userOrigin && ride.lat && ride.lon) {
+    const km = haversineKm(userOrigin.lat, userOrigin.lon, ride.lat, ride.lon);
+    const mins = Math.round((km / 80) * 60);
+    const hrs = Math.floor(mins / 60);
+    const rem = mins % 60;
+    const timeStr = hrs > 0 ? `${hrs}h ${rem}m` : `${mins}m`;
+    return `~${km.toFixed(0)} km · ~${timeStr} drive`;
+  }
   if (!ride.distance_km || !ride.drive_time_minutes) return null;
   const hrs = Math.floor(ride.drive_time_minutes / 60);
   const mins = ride.drive_time_minutes % 60;
@@ -49,7 +67,7 @@ function openRideCard(ride) {
   document.getElementById("rideDate").innerText = "📅 " + ride.date;
   document.getElementById("rideType").innerText = "🏍️ " + ride.type;
   document.getElementById("rideDistrict").innerText = "📍 " + ride.district;
-  document.getElementById("rideAddress").innerText = ride.originalAddress ? ride.originalAddress : "";
+  document.getElementById("rideAddress").innerText = ride.originalAddress || "";
   const drive = formatDrive(ride);
   document.getElementById("rideDrive").innerText = drive ? "🚗 " + drive : "";
   document.getElementById("rideCard").classList.remove("hidden");
@@ -83,10 +101,10 @@ function renderList() {
     container.innerHTML = "<p style='color:#888;padding:20px'>No rides to show.</p>";
     return;
   }
-  container.innerHTML = visible.map((ride, i) => {
+  container.innerHTML = visible.map(ride => {
     const colour = rideColour(ride.type);
     const drive = formatDrive(ride);
-    return `<div class="ride-item" data-idx="${i}" onclick="openRideCard(rides[${rides.indexOf(ride)}])">
+    return `<div class="ride-item" onclick="openRideCard(rides[${rides.indexOf(ride)}])">
       <div class="ride-item-title">
         <span class="ride-type-dot" style="background:${colour}"></span>${ride.title}
       </div>
@@ -163,24 +181,107 @@ function renderTypeFilters() {
   });
 }
 
-function loadPrefs() {
-  const prefs = JSON.parse(localStorage.getItem("rideRadarPrefs") || "{}");
-  document.getElementById("prefOriginName").value = prefs.originName || "Auckland";
-  document.getElementById("prefLat").value = prefs.lat || -36.8485;
-  document.getElementById("prefLon").value = prefs.lon || 174.7633;
+function setGpsStatus(msg, state) {
+  const el = document.getElementById("gpsStatus");
+  el.textContent = msg;
+  el.className = "gps-status" + (state ? " " + state : "");
 }
 
-document.getElementById("savePrefs").onclick = async () => {
-  const name = document.getElementById("prefOriginName").value.trim();
-  const lat = parseFloat(document.getElementById("prefLat").value);
-  const lon = parseFloat(document.getElementById("prefLon").value);
-  if (isNaN(lat) || isNaN(lon)) {
-    document.getElementById("prefMsg").innerText = "Please enter valid coordinates.";
+function applyOrigin(lat, lon, label) {
+  userOrigin = { lat, lon, label };
+  renderList();
+}
+
+function requestGPS() {
+  if (!navigator.geolocation) {
+    setGpsStatus("GPS not supported on this device.", "err");
     return;
   }
-  localStorage.setItem("rideRadarPrefs", JSON.stringify({ originName: name, lat, lon }));
-  document.getElementById("prefMsg").innerText = "Saved! Drive distances will update on next refresh.";
-};
+  setGpsStatus("Acquiring location…");
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      const { latitude: lat, longitude: lon } = pos.coords;
+      setGpsStatus(`📍 Using your current location (${lat.toFixed(4)}, ${lon.toFixed(4)})`, "ok");
+      applyOrigin(lat, lon, "Your location");
+    },
+    err => {
+      const msgs = {
+        1: "Location permission denied.",
+        2: "Location unavailable.",
+        3: "Location request timed out."
+      };
+      setGpsStatus((msgs[err.code] || "Could not get location.") + " Use the manual address below.", "err");
+    },
+    { timeout: 10000 }
+  );
+}
+
+async function geocodeManualAddress() {
+  const address = document.getElementById("prefAddress").value.trim();
+  if (!address) return;
+  const msgEl = document.getElementById("prefMsg");
+  msgEl.style.color = "#aaa";
+  msgEl.textContent = "Looking up address…";
+  try {
+    const url = "https://nominatim.openstreetmap.org/search?q=" +
+      encodeURIComponent(address) + "&format=json&limit=1";
+    const res = await fetch(url, { headers: { "User-Agent": "RideRadar/1.0" } });
+    const data = await res.json();
+    if (!data.length) {
+      msgEl.style.color = "#e57373";
+      msgEl.textContent = "Address not found. Try a more specific address.";
+      return;
+    }
+    const lat = parseFloat(data[0].lat);
+    const lon = parseFloat(data[0].lon);
+    const found = data[0].display_name;
+    msgEl.style.color = "#4caf50";
+    msgEl.textContent = "✓ Found: " + found;
+    localStorage.setItem("rideRadarManualOrigin", JSON.stringify({ lat, lon, address: found }));
+    applyOrigin(lat, lon, found);
+  } catch {
+    msgEl.style.color = "#e57373";
+    msgEl.textContent = "Error looking up address.";
+  }
+}
+
+function initPrefs() {
+  const gpsToggle = document.getElementById("useGPS");
+  const manualDiv = document.getElementById("manualOrigin");
+
+  const savedManual = JSON.parse(localStorage.getItem("rideRadarManualOrigin") || "null");
+  const useGPSSaved = localStorage.getItem("rideRadarUseGPS");
+  const gpsOn = useGPSSaved !== "false";
+
+  gpsToggle.checked = gpsOn;
+
+  if (!gpsOn) {
+    manualDiv.classList.remove("disabled");
+    if (savedManual) {
+      document.getElementById("prefAddress").value = savedManual.address;
+      applyOrigin(savedManual.lat, savedManual.lon, savedManual.address);
+      setGpsStatus("GPS off — using manual address.");
+    }
+  } else {
+    requestGPS();
+  }
+
+  gpsToggle.addEventListener("change", () => {
+    const on = gpsToggle.checked;
+    localStorage.setItem("rideRadarUseGPS", on ? "true" : "false");
+    if (on) {
+      manualDiv.classList.add("disabled");
+      requestGPS();
+    } else {
+      manualDiv.classList.remove("disabled");
+      setGpsStatus("GPS off — enter an address below.");
+      userOrigin = null;
+      renderList();
+    }
+  });
+
+  document.getElementById("geocodeBtn").addEventListener("click", geocodeManualAddress);
+}
 
 document.querySelectorAll(".tab-btn").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -202,7 +303,7 @@ async function loadRides() {
   rides = await res.json();
   renderList();
   renderTypeFilters();
-  loadPrefs();
+  initPrefs();
 }
 
 loadRides();

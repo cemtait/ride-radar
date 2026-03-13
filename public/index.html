@@ -28,16 +28,28 @@
       <h2>Preferences</h2>
 
       <div class="pref-group">
-        <label>Origin for drive distance</label>
-        <input type="text" id="prefOriginName" placeholder="e.g. Auckland"/>
-        <input type="number" id="prefLat" placeholder="Latitude" step="any"/>
-        <input type="number" id="prefLon" placeholder="Longitude" step="any"/>
-        <button id="savePrefs">Save &amp; Recalculate</button>
-        <p id="prefMsg"></p>
+        <div class="pref-group-title">Origin for drive distance</div>
+
+        <div class="toggle-row">
+          <span>Use my current location (GPS)</span>
+          <label class="toggle">
+            <input type="checkbox" id="useGPS" checked/>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div id="gpsStatus" class="gps-status">Acquiring location&hellip;</div>
+
+        <div id="manualOrigin" class="manual-origin disabled">
+          <p class="manual-label">Or set a fixed address:</p>
+          <input type="text" id="prefAddress" placeholder="e.g. 5 Main Street, Wellington"/>
+          <button id="geocodeBtn">Set this address</button>
+          <p id="prefMsg"></p>
+        </div>
       </div>
 
       <div class="pref-group">
-        <label>Filter by ride type</label>
+        <div class="pref-group-title">Filter by ride type</div>
         <div id="typeFilters"></div>
       </div>
     </div>

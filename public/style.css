@@ -196,15 +196,100 @@ button:hover {
   margin-bottom: 16px;
 }
 
-.pref-group label {
-  display: block;
+.pref-group-title {
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   color: #ccc;
 }
 
-.pref-group input[type="text"],
-.pref-group input[type="number"] {
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+}
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: #444;
+  border-radius: 26px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.toggle-slider:before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 3px;
+  top: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.toggle input:checked + .toggle-slider {
+  background: #3a8cff;
+}
+
+.toggle input:checked + .toggle-slider:before {
+  transform: translateX(20px);
+}
+
+.gps-status {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-bottom: 12px;
+  padding: 8px 10px;
+  background: #2a2a2a;
+  border-radius: 6px;
+  min-height: 36px;
+}
+
+.gps-status.ok {
+  color: #4caf50;
+}
+
+.gps-status.err {
+  color: #e57373;
+}
+
+.manual-origin {
+  border-top: 1px solid #333;
+  padding-top: 12px;
+  margin-top: 4px;
+  transition: opacity 0.2s;
+}
+
+.manual-origin.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.manual-label {
+  margin: 0 0 8px 0;
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.pref-group input[type="text"] {
   width: 100%;
   padding: 8px 10px;
   margin-bottom: 8px;
@@ -219,6 +304,7 @@ button:hover {
   margin: 8px 0 0 0;
   font-size: 0.85rem;
   color: #3a8cff;
+  min-height: 1.2em;
 }
 
 #typeFilters {
