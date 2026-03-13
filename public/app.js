@@ -3,6 +3,7 @@ let currentRide = null;
 let activeFilters = new Set();
 let maxDriveMinutes = null;
 let showBermBuster = true;
+let driveDisplay = "time";
 let mapInitialized = false;
 let map = null;
 let userOrigin = null;
@@ -79,24 +80,25 @@ function updateHeaderSub() {
   el.textContent = `${count} of ${total} rides · updated ${timeStr}`;
 }
 
+function formatDriveValue(distanceKm, driveTimeMinutes) {
+  if (driveDisplay === "distance") return `${distanceKm} km`;
+  const hrs = Math.floor(driveTimeMinutes / 60);
+  const mins = driveTimeMinutes % 60;
+  return hrs > 0 ? `${hrs}h ${mins}m` : `${mins}m`;
+}
+
 function formatDrive(ride) {
   if (userOrigin) {
     if (!ride.lat || !ride.lon) return null;
     if (driveInfo.has(ride.link)) {
       const d = driveInfo.get(ride.link);
       if (!d) return null;
-      const hrs = Math.floor(d.drive_time_minutes / 60);
-      const mins = d.drive_time_minutes % 60;
-      const timeStr = hrs > 0 ? `${hrs}h ${mins}m` : `${mins}m`;
-      return `${d.distance_km} km · ${timeStr} drive`;
+      return formatDriveValue(d.distance_km, d.drive_time_minutes);
     }
     return "calculating…";
   }
   if (!ride.distance_km || !ride.drive_time_minutes) return null;
-  const hrs = Math.floor(ride.drive_time_minutes / 60);
-  const mins = ride.drive_time_minutes % 60;
-  const timeStr = hrs > 0 ? `${hrs}h ${mins}m` : `${mins}m`;
-  return `${ride.distance_km} km · ${timeStr} drive`;
+  return formatDriveValue(ride.distance_km, ride.drive_time_minutes);
 }
 
 function isBermBuster(ride) {
@@ -475,12 +477,30 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
   });
 });
 
+function initDriveDisplay() {
+  const saved = localStorage.getItem("rideRadarDriveDisplay");
+  driveDisplay = saved === "distance" ? "distance" : "time";
+
+  document.querySelectorAll(".dd-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.display === driveDisplay);
+    btn.addEventListener("click", () => {
+      driveDisplay = btn.dataset.display;
+      localStorage.setItem("rideRadarDriveDisplay", driveDisplay);
+      document.querySelectorAll(".dd-btn").forEach(b =>
+        b.classList.toggle("active", b.dataset.display === driveDisplay)
+      );
+      renderList();
+    });
+  });
+}
+
 async function loadRides() {
   const res = await fetch("/rides");
   rides = await res.json();
   lastFetched = new Date();
   initDriveFilter();
   initBermBusterPref();
+  initDriveDisplay();
   renderList();
   renderTypeFilters();
   initPrefs();

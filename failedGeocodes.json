@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "title": "Waihi east school and Waitata school trail ride",
+    "district": "Hauraki",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18245"
+  },
+  {
+    "title": "Taungatara Hard Trail Ride",
+    "district": "Hauraki",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18246"
+  },
+  {
+    "title": "Matatoki School Trail Ride",
+    "district": "Hauraki",
+    "where": "SH26 Thames/Paeroa road, up Warahoe Road, Matatoki",
+    "addressAttempted": "SH26 Thames/Paeroa road, up Warahoe Road, Matatoki New Zealand",
+    "link": "https://silverbullet.co.nz//event.php?id=18247"
+  }
+]

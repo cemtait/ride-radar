@@ -767,6 +767,14 @@
     "drive_time_minutes": 192
   },
   {
+    "title": "Waihi east school and Waitata school trail ride",
+    "type": "Trail Ride",
+    "date": "Sun 17th May",
+    "district": "Hauraki",
+    "link": "https://silverbullet.co.nz//event.php?id=18245",
+    "originalAddress": null
+  },
+  {
     "title": "Burt’s Trail Ride",
     "type": "Trail Ride",
     "date": "Sat 23rd May",
@@ -1149,6 +1157,22 @@
     "originalAddress": "Burt's Farm, Mimiha Road, Matata New Zealand",
     "distance_km": "282.3",
     "drive_time_minutes": 212
+  },
+  {
+    "title": "Taungatara Hard Trail Ride",
+    "type": "Trail Ride",
+    "date": "Sun 11th Oct",
+    "district": "Hauraki",
+    "link": "https://silverbullet.co.nz//event.php?id=18246",
+    "originalAddress": null
+  },
+  {
+    "title": "Matatoki School Trail Ride",
+    "type": "Trail Ride",
+    "date": "Sun 11th Oct",
+    "district": "Hauraki",
+    "link": "https://silverbullet.co.nz//event.php?id=18247",
+    "originalAddress": "SH26 Thames/Paeroa road, up Warahoe Road, Matatoki New Zealand"
   },
   {
     "title": "Dirt World Ride Day",
