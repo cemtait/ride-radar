@@ -29,7 +29,11 @@
     "date": "Sat 14th Mar",
     "district": "Stratford",
     "link": "https://silverbullet.co.nz//event.php?id=18148",
-    "originalAddress": "Down Whangamomana Road  the camp grounds New Zealand"
+    "originalAddress": "59 Whangamomona Road, Whangamōmona 4396, New Zealand",
+    "lat": -39.1486467,
+    "lon": 174.739812,
+    "distance_km": "351.2",
+    "drive_time_minutes": 288
   },
   {
     "title": "2026 Yamaha New Zealand Cross Country Nationals Rnd 4",
@@ -66,14 +70,6 @@
     "lon": 176.6940496,
     "distance_km": "282.3",
     "drive_time_minutes": 212
-  },
-  {
-    "title": "NI Champs, Rnd 1",
-    "type": "Trials",
-    "date": "Sat 14th Mar",
-    "district": "Napier/Hastings",
-    "link": "https://silverbullet.co.nz//event.php?id=18218",
-    "originalAddress": null
   },
   {
     "title": "Karamu Trail Track Trail Ride",
@@ -153,7 +149,11 @@
     "date": "Sun 15th Mar",
     "district": "Wanganui",
     "link": "https://silverbullet.co.nz//event.php?id=18165",
-    "originalAddress": "598 S.H.4 Whanganui New Zealand"
+    "originalAddress": "598 State Highway 4, Upokongaro 4575, New Zealand",
+    "lat": -39.8571072,
+    "lon": 175.1178591,
+    "distance_km": "432.1",
+    "drive_time_minutes": 335
   },
   {
     "title": "Huiakama School Trail Ride",
@@ -166,14 +166,6 @@
     "originalAddress": "Stratford New Zealand",
     "distance_km": "387.8",
     "drive_time_minutes": 309
-  },
-  {
-    "title": "NI Champs, Rnd 2",
-    "type": "Trials",
-    "date": "Sun 15th Mar",
-    "district": "Napier/Hastings",
-    "link": "https://silverbullet.co.nz//event.php?id=18219",
-    "originalAddress": null
   },
   {
     "title": "Bugger The Boss",
@@ -241,7 +233,11 @@
     "date": "Sat 21st Mar",
     "district": "South Waikato",
     "link": "https://silverbullet.co.nz//event.php?id=18196",
-    "originalAddress": null
+    "originalAddress": "423 Alexandra Street, Te Awamutu 3800, New Zealand",
+    "lat": -38.009525,
+    "lon": 175.3239981,
+    "distance_km": "153.9",
+    "drive_time_minutes": 117
   },
   {
     "title": "North Island XC Series - Rnd 2",
@@ -302,14 +298,6 @@
     "lon": 175.7045952,
     "distance_km": "620.5",
     "drive_time_minutes": 490
-  },
-  {
-    "title": "MOMCC Club Trial",
-    "type": "Trials",
-    "date": "Sun 22nd Mar",
-    "district": "Manawatu",
-    "link": "https://silverbullet.co.nz//event.php?id=18202",
-    "originalAddress": null
   },
   {
     "title": "Summer series round 3 – Ohimi (tbc)",
@@ -504,14 +492,6 @@
     "drive_time_minutes": 989
   },
   {
-    "title": "Hamilton TC/AC Trial, R1",
-    "type": "Trials",
-    "date": "Sat 11th Apr",
-    "district": "Waikato",
-    "link": "https://silverbullet.co.nz//event.php?id=18235",
-    "originalAddress": null
-  },
-  {
     "title": "Top End Trail Ride - North",
     "type": "Trail Ride",
     "date": "Sun 12th Apr",
@@ -558,14 +538,6 @@
     "originalAddress": "276 Rapson Road, Kaukapakapa 0871 New Zealand",
     "distance_km": "43.8",
     "drive_time_minutes": 39
-  },
-  {
-    "title": "Taranaki Club Trial",
-    "type": "Trials",
-    "date": "Sun 12th Apr",
-    "district": "New Plymouth",
-    "link": "https://silverbullet.co.nz//event.php?id=18220",
-    "originalAddress": null
   },
   {
     "title": "South Island Champs, R2",
@@ -616,20 +588,16 @@
     "drive_time_minutes": 233
   },
   {
-    "title": "NI Champs, Rnd 3",
-    "type": "Trials",
-    "date": "Sat 18th Apr",
-    "district": "Western Bay Of Plenty",
-    "link": "https://silverbullet.co.nz//event.php?id=18228",
-    "originalAddress": null
-  },
-  {
     "title": "Tunnels Trail Ride",
     "type": "Trail Ride",
     "date": "Sun 19th Apr",
     "district": "South Waikato",
     "link": "https://silverbullet.co.nz//event.php?id=18132",
-    "originalAddress": "Tunnels – Ngatira Rd, Litchfield. New Zealand"
+    "originalAddress": "Ngatira Rd, Litchfield, New Zealand",
+    "lat": -36.8381484,
+    "lon": 174.4292648,
+    "distance_km": "43.8",
+    "drive_time_minutes": 42
   },
   {
     "title": "THE PINES - HARD ENDURO MARAMARUA",
@@ -642,22 +610,6 @@
     "originalAddress": "Maramarua Schumacker Rd, Maramarua Forest 3781 New Zealand",
     "distance_km": "72.0",
     "drive_time_minutes": 57
-  },
-  {
-    "title": "MOMCC Club Champs, R1",
-    "type": "Trials",
-    "date": "Sun 19th Apr",
-    "district": "Manawatu",
-    "link": "https://silverbullet.co.nz//event.php?id=18203",
-    "originalAddress": null
-  },
-  {
-    "title": "NI Champs, Rnd 4",
-    "type": "Trials",
-    "date": "Sun 19th Apr",
-    "district": "Waikato",
-    "link": "https://silverbullet.co.nz//event.php?id=18229",
-    "originalAddress": null
   },
   {
     "title": "Sand Country Run - Charity Trail Ride",
@@ -761,7 +713,11 @@
     "date": "Sun 10th May",
     "district": "Western Bay Of Plenty",
     "link": "https://silverbullet.co.nz//event.php?id=18231",
-    "originalAddress": null
+    "originalAddress": "59 Wharry Road, Waihi 3610, New Zealand",
+    "lat": -37.371806,
+    "lon": 175.8583947,
+    "distance_km": "145.8",
+    "drive_time_minutes": 124
   },
   {
     "title": "NCES Rnd 3",
@@ -788,14 +744,6 @@
     "drive_time_minutes": 192
   },
   {
-    "title": "NI Champs, Rnd 5",
-    "type": "Trials",
-    "date": "Sat 16th May",
-    "district": "New Plymouth",
-    "link": "https://silverbullet.co.nz//event.php?id=18237",
-    "originalAddress": null
-  },
-  {
     "title": "Club Trial – Graylees Road",
     "type": "Trials",
     "date": "Sun 17th May",
@@ -806,14 +754,6 @@
     "lon": 172.627907,
     "distance_km": "1114.0",
     "drive_time_minutes": 1021
-  },
-  {
-    "title": "NI Champs, Rnd 6",
-    "type": "Trials",
-    "date": "Sun 17th May",
-    "district": "New Plymouth",
-    "link": "https://silverbullet.co.nz//event.php?id=18238",
-    "originalAddress": null
   },
   {
     "title": "Burt’s Trail Ride",
@@ -852,20 +792,16 @@
     "drive_time_minutes": 18
   },
   {
-    "title": "MOMCC Club Champs, R2",
-    "type": "Trials",
-    "date": "Sun 24th May",
-    "district": "Manawatu",
-    "link": "https://silverbullet.co.nz//event.php?id=18204",
-    "originalAddress": null
-  },
-  {
     "title": "Redwoods Trail Ride",
     "type": "Trail Ride",
     "date": "Sun 7th Jun",
     "district": "South Waikato",
     "link": "https://silverbullet.co.nz//event.php?id=18135",
-    "originalAddress": "Redwoods – Ngatira Rd, Litchfield. New Zealand"
+    "originalAddress": "Ngatira Rd, Litchfield, New Zealand",
+    "lat": -36.8381484,
+    "lon": 174.4292648,
+    "distance_km": "43.8",
+    "drive_time_minutes": 42
   },
   {
     "title": "Ixion Club Trial",
@@ -948,14 +884,6 @@
     "drive_time_minutes": 37
   },
   {
-    "title": "MOMCC Club Champs, R3",
-    "type": "Trials",
-    "date": "Sun 21st Jun",
-    "district": "Manawatu",
-    "link": "https://silverbullet.co.nz//event.php?id=18205",
-    "originalAddress": null
-  },
-  {
     "title": "South Island Champs, R4",
     "type": "Trials",
     "date": "Sun 21st Jun",
@@ -1028,14 +956,6 @@
     "drive_time_minutes": 212
   },
   {
-    "title": "MOMCC Winter Cup",
-    "type": "Trials",
-    "date": "Sun 19th Jul",
-    "district": "Manawatu",
-    "link": "https://silverbullet.co.nz//event.php?id=18206",
-    "originalAddress": null
-  },
-  {
     "title": "Burt’s Trail Ride",
     "type": "Trail Ride",
     "date": "Sat 25th Jul",
@@ -1077,7 +997,11 @@
     "date": "Sun 2nd Aug",
     "district": "South Waikato",
     "link": "https://silverbullet.co.nz//event.php?id=18133",
-    "originalAddress": "Tunnels – Ngatira Rd, Litchfield. New Zealand"
+    "originalAddress": "Ngatira Rd, Litchfield, New Zealand",
+    "lat": -36.8381484,
+    "lon": 174.4292648,
+    "distance_km": "43.8",
+    "drive_time_minutes": 42
   },
   {
     "title": "Ixion Club Trial",
@@ -1104,22 +1028,6 @@
     "drive_time_minutes": 212
   },
   {
-    "title": "NI Champs, Rnd 7",
-    "type": "Trials",
-    "date": "Sat 8th Aug",
-    "district": "Whangarei",
-    "link": "https://silverbullet.co.nz//event.php?id=18239",
-    "originalAddress": null
-  },
-  {
-    "title": "NI Champs, Rnd 8",
-    "type": "Trials",
-    "date": "Sun 9th Aug",
-    "district": "Whangarei",
-    "link": "https://silverbullet.co.nz//event.php?id=18240",
-    "originalAddress": null
-  },
-  {
     "title": "Dirt World Ride Day",
     "type": "Trail Ride",
     "date": "Sat 15th Aug",
@@ -1130,14 +1038,6 @@
     "originalAddress": "2028 State Highway 5, Waimangu 3073 New Zealand",
     "distance_km": "249.8",
     "drive_time_minutes": 192
-  },
-  {
-    "title": "MOMCC Adrian Walcroft Memorial",
-    "type": "Trials",
-    "date": "Sun 16th Aug",
-    "district": "Manawatu",
-    "link": "https://silverbullet.co.nz//event.php?id=18207",
-    "originalAddress": null
   },
   {
     "title": "Burt’s Trail Ride",
@@ -1208,14 +1108,6 @@
     "drive_time_minutes": 212
   },
   {
-    "title": "MOMCC Club Champs, R4 (Bruce & Bai)",
-    "type": "Trials",
-    "date": "Sun 13th Sep",
-    "district": "Manawatu",
-    "link": "https://silverbullet.co.nz//event.php?id=18208",
-    "originalAddress": null
-  },
-  {
     "title": "Dirt World Ride Day",
     "type": "Trail Ride",
     "date": "Sat 19th Sep",
@@ -1226,30 +1118,6 @@
     "originalAddress": "2028 State Highway 5, Waimangu 3073 New Zealand",
     "distance_km": "249.8",
     "drive_time_minutes": 192
-  },
-  {
-    "title": "NI Champs, Rnd 7",
-    "type": "Trials",
-    "date": "Sat 19th Sep",
-    "district": "Wellington",
-    "link": "https://silverbullet.co.nz//event.php?id=18241",
-    "originalAddress": "Wellington New Zealand",
-    "lat": -41.2887953,
-    "lon": 174.7772114,
-    "distance_km": "641.2",
-    "drive_time_minutes": 493
-  },
-  {
-    "title": "NI Champs, Rnd 8",
-    "type": "Trials",
-    "date": "Sun 20th Sep",
-    "district": "Wellington",
-    "link": "https://silverbullet.co.nz//event.php?id=18242",
-    "originalAddress": "Wellington New Zealand",
-    "lat": -41.2887953,
-    "lon": 174.7772114,
-    "distance_km": "641.2",
-    "drive_time_minutes": 493
   },
   {
     "title": "Burt’s Trail Ride",
@@ -1293,7 +1161,11 @@
     "date": "Sun 27th Sep",
     "district": "South Waikato",
     "link": "https://silverbullet.co.nz//event.php?id=18136",
-    "originalAddress": "Redwoods – Ngatira Rd, Litchfield. New Zealand"
+    "originalAddress": "Ngatira Rd, Litchfield, New Zealand",
+    "lat": -36.8381484,
+    "lon": 174.4292648,
+    "distance_km": "43.8",
+    "drive_time_minutes": 42
   },
   {
     "title": "Ixion Club Trial",
@@ -1340,14 +1212,6 @@
     "drive_time_minutes": 192
   },
   {
-    "title": "MOMCC Club Champs, R5",
-    "type": "Trials",
-    "date": "Sun 18th Oct",
-    "district": "Manawatu",
-    "link": "https://silverbullet.co.nz//event.php?id=18209",
-    "originalAddress": null
-  },
-  {
     "title": "Burt’s Trail Ride",
     "type": "Trail Ride",
     "date": "Sat 24th Oct",
@@ -1377,7 +1241,11 @@
     "date": "Sun 1st Nov",
     "district": "South Waikato",
     "link": "https://silverbullet.co.nz//event.php?id=18134",
-    "originalAddress": "Tunnels – Ngatira Rd, Litchfield. New Zealand"
+    "originalAddress": "Ngatira Rd, Litchfield, New Zealand",
+    "lat": -36.8381484,
+    "lon": 174.4292648,
+    "distance_km": "43.8",
+    "drive_time_minutes": 42
   },
   {
     "title": "BSA Shield Trial",
@@ -1426,14 +1294,6 @@
     "lon": 176.6940496,
     "distance_km": "282.3",
     "drive_time_minutes": 212
-  },
-  {
-    "title": "Hamilton TC/AC Trial",
-    "type": "Trials",
-    "date": "Sun 22nd Nov",
-    "district": "Waikato",
-    "link": "https://silverbullet.co.nz//event.php?id=18236",
-    "originalAddress": null
   },
   {
     "title": "Burt’s Trail Ride",
@@ -1537,6 +1397,6 @@
     "date": "Sun 21st Feb 2027",
     "district": "Waitomo",
     "link": "https://silverbullet.co.nz//event.php?id=18183",
-    "originalAddress": "Piripiri Station, Taumatamaire Station and McDavitt Farm New Zealand"
+    "originalAddress": "Tauimatamaire Road, Waikato Region, New Zealand"
   }
 ]

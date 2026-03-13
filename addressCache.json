@@ -1079,5 +1079,20 @@
     "lat": -39.8571072,
     "lon": 175.1178591,
     "original": "598 State Highway 4, Upokongaro 4575, New Zealand"
+  },
+  "423 Alexandra Street, Te Awamutu 3800, New Zealand": {
+    "lat": -38.009525,
+    "lon": 175.3239981,
+    "original": "423 Alexandra Street, Te Awamutu 3800, New Zealand"
+  },
+  "Ngatira Rd, Litchfield, New Zealand": {
+    "lat": -36.8381484,
+    "lon": 174.4292648,
+    "original": "Ngatira Rd, Litchfield, New Zealand"
+  },
+  "59 Wharry Road, Waihi 3610, New Zealand": {
+    "lat": -37.371806,
+    "lon": 175.8583947,
+    "original": "59 Wharry Road, Waihi 3610, New Zealand"
   }
 }

@@ -66,6 +66,7 @@ const OMIT_TITLES = [
   "MOMCC",
   "Hamilton TC/AC Trial",
   "Taranaki Club Trial",
+  "HMCC/BOP",
 ];
 
 function shouldOmit(title) {
@@ -83,7 +84,6 @@ const HARDCODED_ADDRESSES = {
   "Waikato Warrior Adventure Ride":"423 Alexandra Street, Te Awamutu 3800, New Zealand",
   "Whangamomona Trail ride":       "59 Whangamomona Road, Whangamōmona 4396, New Zealand",
   "Tunnels Trail Ride":            "Ngatira Rd, Litchfield, New Zealand",
-  "HMCC/BOP Club Champs - Rnd 3": "59 Wharry Road, Waihi 3610, New Zealand",
   "Redwoods Trail Ride":           "Ngatira Rd, Litchfield, New Zealand",
   "Mighty Mokau Trail Bike Ride":  "Tauimatamaire Road, Waikato Region, New Zealand",
 };

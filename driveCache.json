@@ -433,6 +433,14 @@
     "https://silverbullet.co.nz//event.php?id=18034": {
       "distance_km": "528.0",
       "drive_time_minutes": 434
+    },
+    "https://silverbullet.co.nz//event.php?id=18148": {
+      "distance_km": "379.0",
+      "drive_time_minutes": 310
+    },
+    "https://silverbullet.co.nz//event.php?id=18165": {
+      "distance_km": "209.5",
+      "drive_time_minutes": 173
     }
   }
 }
