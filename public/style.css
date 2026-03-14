@@ -237,10 +237,11 @@ header {
   background: #1c1c1e;
   border-top: 1px solid #333;
   box-shadow: 0 -8px 32px rgba(0,0,0,0.6);
-  padding: 0 20px 76px;
   z-index: 1000;
   max-height: 85vh;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   border-radius: 16px 16px 0 0;
   transform: translateY(100%);
   transition: transform 0.32s cubic-bezier(0.34, 1.0, 0.64, 1.0);
@@ -252,18 +253,81 @@ header {
   pointer-events: auto;
 }
 
+#cardHeader {
+  flex-shrink: 0;
+  padding: 0 20px 8px;
+  cursor: grab;
+}
+
+#cardHeader:active {
+  cursor: grabbing;
+}
+
 .sheet-handle {
   width: 36px;
   height: 4px;
   background: #444;
   border-radius: 2px;
-  margin: 10px auto 14px;
+  margin: 10px auto 10px;
 }
 
 #rideCard h2 {
-  margin: 0 0 10px 0;
+  margin: 0 0 4px 0;
   font-size: 1.05rem;
   font-weight: 600;
+}
+
+#cardViewport {
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+#cardTrack {
+  display: flex;
+  height: 100%;
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.card-page {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 8px 20px 16px;
+}
+
+.card-page-map {
+  overflow: hidden;
+  padding: 8px;
+}
+
+.card-page-map iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 10px;
+  display: block;
+}
+
+#cardFooter {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px 76px;
+  border-top: 1px solid #2a2a2a;
+}
+
+#cardPageNav {
+  display: flex;
+  gap: 2px;
+}
+
+.page-nav-btn.active {
+  color: #6aa84f;
 }
 
 .rideInfo {
@@ -282,12 +346,8 @@ header {
   display: block;
   width: 100%;
   height: auto;
-  margin-top: 14px;
+  margin-top: 12px;
   border-radius: 8px;
-}
-
-.notes-section {
-  margin-top: 14px;
 }
 
 .notes-label {

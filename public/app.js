@@ -154,6 +154,39 @@ function saveNote(title, text) {
   localStorage.setItem("rideRadarNotes", JSON.stringify(notes));
 }
 
+// ── Page system ──────────────────────────────────────────────────
+let activePages = [0, 2];
+let currentPage = 0;
+
+function setPage(pageNum, animated) {
+  if (animated === undefined) animated = true;
+  const track = document.getElementById("cardTrack");
+  track.style.transition = animated
+    ? "transform 0.32s cubic-bezier(0.4, 0, 0.2, 1)"
+    : "none";
+  track.style.transform = `translateX(${-pageNum * 100}%)`;
+  currentPage = pageNum;
+  document.querySelectorAll(".page-nav-btn").forEach(btn => {
+    btn.classList.toggle("active", parseInt(btn.dataset.page) === pageNum);
+  });
+  if (pageNum === 1 && currentRide && currentRide.googleMapUrl) {
+    const frame = document.getElementById("rideMapFrame");
+    if (frame.getAttribute("data-loaded") !== currentRide.link) {
+      frame.src = currentRide.googleMapUrl;
+      frame.setAttribute("data-loaded", currentRide.link);
+    }
+  }
+}
+
+function initPageNav() {
+  document.querySelectorAll(".page-nav-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const p = parseInt(btn.dataset.page);
+      if (activePages.includes(p)) setPage(p);
+    });
+  });
+}
+
 function openRideCard(ride) {
   currentRide = ride;
   document.getElementById("rideTitle").innerText = ride.title;
@@ -163,42 +196,49 @@ function openRideCard(ride) {
   document.getElementById("rideAddress").innerText = ride.originalAddress || "";
   const drive = formatDrive(ride);
   document.getElementById("rideDrive").innerText = drive ? "🚗 " + drive : "";
+
   const poster = document.getElementById("ridePoster");
-  const rideInfo = document.querySelector(".rideInfo");
   if (ride.imageUrl) {
     poster.src = ride.imageUrl;
     poster.classList.remove("hidden");
-    rideInfo.classList.add("hidden");
   } else {
     poster.src = "";
     poster.classList.add("hidden");
-    rideInfo.classList.remove("hidden");
   }
+
+  const navMap = document.getElementById("navPage1");
+  const hasMap = !!ride.googleMapUrl;
+  navMap.style.display = hasMap ? "" : "none";
+  activePages = hasMap ? [0, 1, 2] : [0, 2];
+
+  const frame = document.getElementById("rideMapFrame");
+  frame.removeAttribute("data-loaded");
+  frame.src = "";
+
   const notesEl = document.getElementById("rideNotes");
   const note = getNote(ride.title);
   notesEl.value = note;
   notesEl.classList.toggle("has-note", note.length > 0);
-  const card = document.getElementById("rideCard");
-  card.scrollTop = 0;
-  card.classList.add("open");
+
+  document.querySelectorAll(".card-page").forEach(p => { p.scrollTop = 0; });
+  setPage(0, false);
+  document.getElementById("rideCard").classList.add("open");
 }
 
+// ── Dismiss gesture (drag down on header) ──────────────────────
 (function () {
+  const header = document.getElementById("cardHeader");
   const card = document.getElementById("rideCard");
-  let startY = 0;
-  let lastY = 0;
-  let dragging = false;
+  let startY = 0, lastY = 0, dragging = false;
 
-  card.addEventListener("touchstart", (e) => {
-    if (e.target.closest("textarea, input")) return;
-    if (card.scrollTop > 0) return;
+  header.addEventListener("touchstart", (e) => {
     startY = e.touches[0].clientY;
     lastY = startY;
     dragging = true;
     card.style.transition = "none";
   }, { passive: true });
 
-  card.addEventListener("touchmove", (e) => {
+  window.addEventListener("touchmove", (e) => {
     if (!dragging) return;
     lastY = e.touches[0].clientY;
     const delta = lastY - startY;
@@ -208,18 +248,62 @@ function openRideCard(ride) {
     }
   }, { passive: false });
 
-  card.addEventListener("touchend", () => {
+  window.addEventListener("touchend", () => {
     if (!dragging) return;
     dragging = false;
     const delta = lastY - startY;
     if (delta > 80) {
-      card.scrollTop = 0;
       card.style.transform = "";
       card.style.transition = "";
       card.classList.remove("open");
     } else {
       card.style.transition = "";
       card.style.transform = "";
+    }
+  });
+})();
+
+// ── Horizontal page swipe (on viewport) ───────────────────────
+(function () {
+  const viewport = document.getElementById("cardViewport");
+  const track = document.getElementById("cardTrack");
+  let startX = 0, startY = 0, lockDir = null, baseOffset = 0;
+
+  viewport.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    lockDir = null;
+    const m = track.style.transform.match(/translateX\(([-0-9.]+)%\)/);
+    baseOffset = m ? parseFloat(m[1]) : 0;
+    track.style.transition = "none";
+  }, { passive: true });
+
+  viewport.addEventListener("touchmove", (e) => {
+    const dx = e.touches[0].clientX - startX;
+    const dy = e.touches[0].clientY - startY;
+    if (!lockDir && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+      lockDir = Math.abs(dx) >= Math.abs(dy) ? "h" : "v";
+    }
+    if (lockDir !== "h") return;
+    e.preventDefault();
+    const pct = (dx / viewport.offsetWidth) * 100;
+    let offset = baseOffset + pct;
+    const minOff = -(activePages[activePages.length - 1] * 100);
+    if (offset > 0) offset *= 0.2;
+    if (offset < minOff) offset = minOff + (offset - minOff) * 0.2;
+    track.style.transform = `translateX(${offset}%)`;
+  }, { passive: false });
+
+  viewport.addEventListener("touchend", (e) => {
+    if (lockDir !== "h") return;
+    const dx = e.changedTouches[0].clientX - startX;
+    const idx = activePages.indexOf(currentPage);
+    if (dx < -50 && idx < activePages.length - 1) {
+      setPage(activePages[idx + 1]);
+    } else if (dx > 50 && idx > 0) {
+      setPage(activePages[idx - 1]);
+    } else {
+      setPage(currentPage);
     }
   });
 })();
@@ -615,6 +699,7 @@ async function loadRides() {
   initBermBusterPref();
   initDriveDisplay();
   initReminder();
+  initPageNav();
   renderList();
   renderTypeFilters();
   initPrefs();

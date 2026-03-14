@@ -287,7 +287,7 @@ async function scrapeRidePage(link) {
 
     const $ = cheerio.load(html);
 
-    const page = { title: null, where: null, district: null, directions: null, imageUrl: null, html };
+    const page = { title: null, where: null, district: null, directions: null, imageUrl: null, googleMapUrl: null, html };
 
     const h1 = $("h1").first().text().trim();
     if (h1) page.title = h1;
@@ -309,11 +309,20 @@ async function scrapeRidePage(link) {
         : "https://www.silverbullet.co.nz/" + imgSrc.replace(/^\//, "");
     }
 
+    $("iframe").each((_, el) => {
+      let src = $(el).attr("src") || "";
+      if (src.includes("google.com/maps") || src.includes("maps.google.com")) {
+        if (src.startsWith("//")) src = "https:" + src;
+        if (src) page.googleMapUrl = src;
+        return false;
+      }
+    });
+
     return page;
 
   } catch {
 
-    return { title: null, where: null, district: null, directions: null, imageUrl: null, html: null };
+    return { title: null, where: null, district: null, directions: null, imageUrl: null, googleMapUrl: null, html: null };
 
   }
 }
@@ -393,6 +402,7 @@ async function refreshRideCache() {
         ride.lon = cached.lon;
         ride.originalAddress = cached.originalAddress;
         if (cached.district) ride.district = cached.district;
+        if (cached.googleMapUrl) ride.googleMapUrl = cached.googleMapUrl;
         status = cached.status;
         LOG.info(`CACHED   | ${ride.title}`);
         // Still need drive time
@@ -407,6 +417,7 @@ async function refreshRideCache() {
 
       if (page.title) ride.title = page.title;
       if (page.imageUrl) ride.imageUrl = page.imageUrl;
+      if (page.googleMapUrl) ride.googleMapUrl = page.googleMapUrl;
 
       // --- Fast path: h1 title already resolved this run ---
       if (titleLocationCache[ride.title]) {
@@ -415,6 +426,7 @@ async function refreshRideCache() {
         ride.lon = cached.lon;
         ride.originalAddress = cached.originalAddress;
         if (cached.district) ride.district = cached.district;
+        if (cached.googleMapUrl) ride.googleMapUrl = cached.googleMapUrl;
         status = cached.status;
         LOG.info(`CACHED   | ${ride.title}`);
         if (ride.lat && ride.lon) {
@@ -511,6 +523,7 @@ async function refreshRideCache() {
           lat: ride.lat, lon: ride.lon,
           originalAddress: ride.originalAddress || null,
           district: ride.district || null,
+          googleMapUrl: ride.googleMapUrl || null,
           status
         };
       }
