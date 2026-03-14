@@ -163,7 +163,7 @@ function getMapUrl(ride) {
     return ride.googleMapUrl;
   }
   if (ride.lat && ride.lon) {
-    return `https://maps.google.com/maps?q=${ride.lat},${ride.lon}&z=13&output=embed`;
+    return `https://maps.google.com/maps?q=${ride.lat},${ride.lon}&z=8&output=embed`;
   }
   return ride.googleMapUrl || "";
 }
