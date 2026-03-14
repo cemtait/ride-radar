@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -37,10 +36,6 @@
 
   <div id="tab-list" class="tab-panel active">
     <div id="rideList"></div>
-  </div>
-
-  <div id="tab-map" class="tab-panel">
-    <div id="map"></div>
   </div>
 
   <div id="tab-prefs" class="tab-panel">
@@ -121,17 +116,6 @@
 
 </div>
 
-<nav id="tabBar">
-  <button class="tab-btn active" data-tab="tab-list">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
-    Rides
-  </button>
-  <button class="tab-btn" data-tab="tab-map">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
-    Map
-  </button>
-</nav>
-
 <div id="rideCard">
 
   <div id="cardHeader">
@@ -185,7 +169,6 @@
 
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="app.js"></script>
 
 </body>

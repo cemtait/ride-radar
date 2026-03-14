@@ -122,116 +122,91 @@ header {
   display: block;
 }
 
-#tab-map {
-  overflow: hidden;
-}
-
-#map {
-  height: 100%;
-  width: 100%;
-}
-
-#tabBar {
-  display: flex;
-  background: #1a1a1a;
-  border-top: 1px solid #2a2a2a;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 3000;
-}
-
-.tab-btn {
-  flex: 1;
-  padding: 8px 6px 10px;
-  border: none;
-  background: #1a1a1a;
-  color: #666;
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  border-top: 2px solid transparent;
-  transition: color 0.2s, border-color 0.2s, background 0.15s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.tab-btn svg {
-  width: 20px;
-  height: 20px;
-}
-
-.tab-btn:hover {
-  color: #aaa;
-  background: rgba(255,255,255,0.06);
-}
-
-.tab-btn:active {
-  background: rgba(255,255,255,0.1);
-}
-
-.tab-btn.active {
-  color: #6aa84f;
-  border-top-color: #6aa84f;
-  background: #1a1a1a;
-}
-
-.tab-btn.active:active {
-  background: rgba(255,255,255,0.08);
-}
-
 #rideList {
   padding: 10px;
 }
 
 .ride-item {
-  border: 1px solid #333;
-  border-radius: 8px;
-  padding: 12px 14px;
+  display: flex;
+  align-items: stretch;
+  border-radius: 10px;
   margin-bottom: 10px;
   cursor: pointer;
+  overflow: hidden;
+  background: #1e1e1e;
+  border: 1px solid #2e2e2e;
+  min-height: 84px;
   transition: filter 0.15s;
 }
 
 .ride-item:hover {
-  filter: brightness(1.35);
+  filter: brightness(1.25);
+}
+
+.ride-thumb-wrap {
+  width: 84px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.ride-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ride-thumb-placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.ride-content {
+  flex: 1;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
 }
 
 .ride-item-title {
   font-weight: 600;
-  font-size: 0.95rem;
-  margin-bottom: 5px;
+  font-size: 0.92rem;
+  color: #e0e0e0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.ride-item-meta {
-  font-size: 0.78rem;
-  color: #aaa;
+.ride-meta-line {
+  font-size: 0.75rem;
+  color: #888;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ride-drive-line {
   display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
+  align-items: center;
+  gap: 7px;
 }
 
-.ride-item-meta span {
-  background: rgba(0,0,0,0.35);
-  padding: 2px 7px;
-  border-radius: 4px;
+.ride-drive {
+  font-size: 0.75rem;
+  color: #aaa;
+  font-weight: 500;
 }
 
-.ride-item-meta .ride-drive {
-  font-weight: 600;
-}
-
-.ride-type-dot {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin-right: 5px;
-  vertical-align: middle;
+.ride-map-pin {
+  width: 13px;
+  height: 13px;
+  color: #555;
+  flex-shrink: 0;
 }
 
 #rideCard {

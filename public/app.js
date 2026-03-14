@@ -6,8 +6,6 @@ let showBermBuster = true;
 let driveDisplay = "time";
 let reminderDays = 7;
 let searchQuery = "";
-let mapInitialized = false;
-let map = null;
 let userOrigin = null;
 let lastFetched = null;
 
@@ -59,17 +57,6 @@ function rideColour(type) {
   return TYPE_COLOURS[rideTypeKey(type)] || "grey";
 }
 
-function driveTimeColour(ride) {
-  if (!userOrigin || !ride.lat || !ride.lon) return null;
-  if (!driveInfo.has(ride.link)) return null;
-  const d = driveInfo.get(ride.link);
-  if (!d) return null;
-  const m = d.drive_time_minutes;
-  if (m < 60)  return { bg: "rgba(92,138,60,0.55)",   color: "#c8eaaa" };
-  if (m < 120) return { bg: "rgba(200,149,42,0.55)",  color: "#ffe5a0" };
-  if (m < 180) return { bg: "rgba(176,100,32,0.55)",  color: "#ffd0a0" };
-  return               { bg: "rgba(176,69,32,0.55)",   color: "#ffb8a0" };
-}
 
 function updateHeaderSub() {
   const el = document.getElementById("headerSub");
@@ -368,16 +355,15 @@ function updateRideDriveSpan(ride) {
   if (!driveTimeOk(ride)) {
     const row = document.querySelector(`.ride-item[data-link="${CSS.escape(ride.link)}"]`);
     if (row) row.remove();
+    updateHeaderSub();
     return;
   }
 
   const el = document.querySelector(`.ride-item[data-link="${CSS.escape(ride.link)}"] .ride-drive`);
   if (!el) return;
   const drive = formatDrive(ride);
-  el.textContent = drive ? "🚗 " + drive : "";
+  el.textContent = drive || "";
   el.style.display = drive ? "" : "none";
-  const tc = driveTimeColour(ride);
-  if (tc) { el.style.background = tc.bg; el.style.color = tc.color; }
   updateHeaderSub();
 
   if (currentRide && currentRide.link === ride.link) {
@@ -401,7 +387,6 @@ function initDriveFilter() {
         b.classList.toggle("active", b.dataset.mins === val)
       );
       renderList();
-      renderMapMarkers();
     });
   });
 }
@@ -417,14 +402,7 @@ function initBermBusterPref() {
     showBermBuster = toggle.checked;
     localStorage.setItem("rideRadarShowBermBuster", showBermBuster ? "true" : "false");
     renderList();
-    renderMapMarkers();
   });
-}
-
-function drivePillStyle(ride) {
-  const tc = driveTimeColour(ride);
-  if (!tc) return "";
-  return ` style="background:${tc.bg};color:${tc.color}"`;
 }
 
 function renderList() {
@@ -437,52 +415,32 @@ function renderList() {
   }
   container.innerHTML = visible.map(ride => {
     const colour = rideColour(ride.type);
-    const bg = rideBgColour(ride.type);
     const drive = formatDrive(ride);
     const idx = rides.indexOf(ride);
-    return `<div class="ride-item" data-link="${ride.link}" style="background:${bg}; border-left:4px solid ${colour}" onclick="openRideCard(rides[${idx}])">
-      <div class="ride-item-title">${ride.title}</div>
-      <div class="ride-item-meta">
-        <span>📅 ${ride.date}</span>
-        <span>📍 ${ride.district}</span>
-        <span>${ride.type}</span>
-        <span class="ride-drive"${drivePillStyle(ride)} ${drive ? "" : 'style="display:none"'}>${drive ? "🚗 " + drive : ""}</span>
+    const hasMap = !!(ride.lat && ride.lon) || !!ride.googleMapUrl;
+
+    const thumbHtml = ride.imageUrl
+      ? `<img class="ride-thumb" src="${ride.imageUrl}" alt="" loading="lazy">`
+      : `<div class="ride-thumb-placeholder" style="background:${rideBgColour(ride.type)}"></div>`;
+
+    const mapPinHtml = hasMap
+      ? `<svg class="ride-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`
+      : "";
+
+    return `<div class="ride-item" data-link="${ride.link}" style="border-left:4px solid ${colour}" onclick="openRideCard(rides[${idx}])">
+      <div class="ride-thumb-wrap">${thumbHtml}</div>
+      <div class="ride-content">
+        <div class="ride-item-title">${ride.title}</div>
+        <div class="ride-meta-line">${ride.date} · ${ride.district}</div>
+        <div class="ride-drive-line">
+          <span class="ride-drive"${drive ? "" : ' style="display:none"'}>${drive || ""}</span>
+          ${mapPinHtml}
+        </div>
       </div>
     </div>`;
   }).join("");
 }
 
-function initMap() {
-  if (mapInitialized) return;
-  mapInitialized = true;
-  map = L.map("map").setView([-41.2, 174.7], 6);
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: "© OpenStreetMap"
-  }).addTo(map);
-  renderMapMarkers();
-}
-
-function renderMapMarkers() {
-  if (!map) return;
-  map.eachLayer(layer => {
-    if (layer instanceof L.CircleMarker) map.removeLayer(layer);
-  });
-  const points = [];
-  visibleRides().forEach(ride => {
-    if (!ride.lat || !ride.lon) return;
-    const colour = rideColour(ride.type);
-    L.circleMarker([ride.lat, ride.lon], {
-      radius: 8,
-      color: colour,
-      fillColor: colour,
-      fillOpacity: 0.9
-    }).addTo(map).on("click", () => openRideCard(ride));
-    points.push([ride.lat, ride.lon]);
-  });
-  if (points.length > 0) {
-    map.fitBounds(points, { padding: [24, 24], maxZoom: 12 });
-  }
-}
 
 function renderTypeFilters() {
   const container = document.getElementById("typeFilters");
@@ -514,7 +472,6 @@ function renderTypeFilters() {
         }
       }
       renderList();
-      renderMapMarkers();
     });
   });
 }
@@ -678,43 +635,14 @@ function closeSearch() {
   searchQuery = "";
   searchInput.value = "";
   renderList();
-  renderMapMarkers();
 }
 
-document.querySelectorAll(".tab-btn").forEach(btn => {
-  let txStart = 0, tyStart = 0;
-
-  function switchTab() {
-    closeSearch();
-    document.getElementById("settingsBtn").classList.remove("active");
-    const target = btn.dataset.tab;
-    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
-    btn.classList.add("active");
-    document.getElementById(target).classList.add("active");
-    document.getElementById("rideCard").classList.remove("open");
-    if (target === "tab-map") {
-      initMap();
-      setTimeout(() => map && map.invalidateSize(), 50);
-    }
-  }
-
-  btn.addEventListener("touchstart", (e) => {
-    txStart = e.touches[0].clientX;
-    tyStart = e.touches[0].clientY;
-  }, { passive: true });
-
-  btn.addEventListener("touchend", (e) => {
-    const dx = Math.abs(e.changedTouches[0].clientX - txStart);
-    const dy = Math.abs(e.changedTouches[0].clientY - tyStart);
-    if (dx < 10 && dy < 10) {
-      e.preventDefault();
-      switchTab();
-    }
-  });
-
-  btn.addEventListener("click", switchTab);
-});
+function showList() {
+  document.getElementById("tab-prefs").classList.remove("active");
+  document.getElementById("tab-list").classList.add("active");
+  document.getElementById("settingsBtn").classList.remove("active");
+  document.getElementById("rideCard").classList.remove("open");
+}
 
 function initDriveDisplay() {
   const saved = localStorage.getItem("rideRadarDriveDisplay");
@@ -777,8 +705,7 @@ function initSearch() {
     if (isOpen) {
       closeSearch();
     } else {
-      document.getElementById("settingsBtn").classList.remove("active");
-      document.querySelector('.tab-btn[data-tab="tab-list"]').click();
+      showList();
       searchBar.classList.remove("hidden");
       toggleBtn.classList.add("active");
       searchInput.focus();
@@ -804,7 +731,6 @@ function initSearch() {
   searchInput.addEventListener("input", () => {
     searchQuery = searchInput.value.trim();
     renderList();
-    renderMapMarkers();
   });
 
   let ctxStart = 0, ctyStart = 0;
@@ -830,8 +756,11 @@ function initSearch() {
 
   function openSettings() {
     closeSearch();
-    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    if (settingsBtn.classList.contains("active")) {
+      showList();
+      return;
+    }
+    document.getElementById("tab-list").classList.remove("active");
     document.getElementById("tab-prefs").classList.add("active");
     document.getElementById("rideCard").classList.remove("open");
     settingsBtn.classList.add("active");
