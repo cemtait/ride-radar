@@ -200,9 +200,10 @@ function openRideCard(ride) {
     lastY = e.touches[0].clientY;
     const delta = lastY - startY;
     if (delta > 0) {
+      e.preventDefault();
       card.style.transform = `translateY(${delta}px)`;
     }
-  }, { passive: true });
+  }, { passive: false });
 
   card.addEventListener("touchend", () => {
     if (!dragging) return;
