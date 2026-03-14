@@ -108,7 +108,7 @@ header {
   outline: none;
   color: white;
   font-family: 'Inter', Arial, Helvetica, sans-serif;
-  font-size: 0.9rem;
+  font-size: 16px;
   padding: 4px 0;
 }
 
@@ -531,7 +531,7 @@ button:hover {
   border-radius: 6px;
   color: white;
   font-family: 'Inter', Arial, Helvetica, sans-serif;
-  font-size: 0.9rem;
+  font-size: 16px;
 }
 
 .pref-group input[type="text"]:focus {
