@@ -228,34 +228,48 @@ function openRideCard(ride) {
   document.getElementById("rideCard").classList.add("open");
 }
 
-// ── Dismiss gesture (drag down on header) ──────────────────────
+// ── Dismiss gesture (drag down anywhere on card) ───────────────
 (function () {
-  const header = document.getElementById("cardHeader");
   const card = document.getElementById("rideCard");
-  let startY = 0, lastY = 0, dragging = false;
+  let startX = 0, startY = 0, lastY = 0;
+  let lockDir = null, dismissing = false;
 
-  header.addEventListener("touchstart", (e) => {
+  card.addEventListener("touchstart", (e) => {
+    if (e.target.closest("textarea, input")) return;
+    startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
     lastY = startY;
-    dragging = true;
+    lockDir = null;
+    dismissing = false;
     card.style.transition = "none";
   }, { passive: true });
 
-  window.addEventListener("touchmove", (e) => {
-    if (!dragging) return;
+  card.addEventListener("touchmove", (e) => {
+    const dx = e.touches[0].clientX - startX;
+    const dy = e.touches[0].clientY - startY;
     lastY = e.touches[0].clientY;
-    const delta = lastY - startY;
-    if (delta > 0) {
+    if (!lockDir && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+      lockDir = Math.abs(dx) >= Math.abs(dy) ? "h" : "v";
+    }
+    if (lockDir !== "v") return;
+    const pageEl = document.getElementById("cardPage" + currentPage);
+    const scrolled = pageEl ? pageEl.scrollTop : 0;
+    if (dy > 0 && scrolled === 0) {
       e.preventDefault();
-      card.style.transform = `translateY(${delta}px)`;
+      dismissing = true;
+      card.style.transform = `translateY(${dy}px)`;
     }
   }, { passive: false });
 
-  window.addEventListener("touchend", () => {
-    if (!dragging) return;
-    dragging = false;
-    const delta = lastY - startY;
-    if (delta > 80) {
+  card.addEventListener("touchend", (e) => {
+    if (!dismissing) {
+      card.style.transition = "";
+      card.style.transform = "";
+      return;
+    }
+    const dy = e.changedTouches[0].clientY - startY;
+    dismissing = false;
+    if (dy > 80) {
       card.style.transform = "";
       card.style.transition = "";
       card.classList.remove("open");
