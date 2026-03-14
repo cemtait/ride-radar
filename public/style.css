@@ -238,7 +238,8 @@ header {
   border-top: 1px solid #333;
   box-shadow: 0 -8px 32px rgba(0,0,0,0.6);
   z-index: 1000;
-  max-height: 85vh;
+  min-height: 72vh;
+  max-height: 88vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -316,14 +317,14 @@ header {
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 6px 12px 76px;
+  justify-content: space-evenly;
+  padding: 6px 0 76px;
   border-top: 1px solid #2a2a2a;
 }
 
-#cardPageNav {
-  display: flex;
-  gap: 2px;
+.footer-btn svg {
+  width: 24px;
+  height: 24px;
 }
 
 .page-nav-btn.active {
@@ -389,18 +390,6 @@ header {
   background: #1e2b1a;
 }
 
-.card-actions {
-  display: flex;
-  justify-content: center;
-  gap: 28px;
-  margin-top: 18px;
-  padding: 4px 0;
-}
-
-.card-action-btn svg {
-  width: 26px;
-  height: 26px;
-}
 
 button {
   padding: 9px 14px;

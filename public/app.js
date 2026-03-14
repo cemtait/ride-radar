@@ -198,12 +198,15 @@ function openRideCard(ride) {
   document.getElementById("rideDrive").innerText = drive ? "🚗 " + drive : "";
 
   const poster = document.getElementById("ridePoster");
+  const rideInfo = document.querySelector(".rideInfo");
   if (ride.imageUrl) {
     poster.src = ride.imageUrl;
     poster.classList.remove("hidden");
+    rideInfo.classList.add("hidden");
   } else {
     poster.src = "";
     poster.classList.add("hidden");
+    rideInfo.classList.remove("hidden");
   }
 
   const navMap = document.getElementById("navPage1");
