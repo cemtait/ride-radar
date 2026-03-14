@@ -133,7 +133,6 @@ header {
   margin-bottom: 10px;
   cursor: pointer;
   overflow: hidden;
-  background: #1e1e1e;
   border: 1px solid #2e2e2e;
   transition: filter 0.15s;
 }
@@ -155,16 +154,17 @@ header {
 }
 
 .ride-thumb-wrap {
-  width: 78px;
+  width: 100px;
   flex-shrink: 0;
-  background: #111;
+  padding: 8px 6px 8px 8px;
+  box-sizing: border-box;
 }
 
 .ride-thumb {
-  width: 78px;
+  width: 100%;
   height: auto;
   display: block;
-  min-height: 60px;
+  border-radius: 6px;
 }
 
 .ride-item--portrait .ride-content {
@@ -172,12 +172,14 @@ header {
 }
 
 .ride-hero {
-  width: 100%;
+  width: calc(100% - 16px);
+  margin: 8px 8px 0;
   height: auto;
   max-height: 200px;
   object-fit: contain;
   background: #111;
   display: block;
+  border-radius: 8px;
 }
 
 .ride-content {

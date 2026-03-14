@@ -414,7 +414,8 @@ function buildCard(ride, idx, layout) {
   const hasMap = !!(ride.lat && ride.lon) || !!ride.googleMapUrl;
   const mapPin = hasMap ? MAP_PIN_SVG : "";
   const driveSpan = `<span class="ride-drive"${drive ? "" : ' style="display:none"'}>${drive || ""}</span>`;
-  const base = `data-link="${ride.link}" style="border-left:4px solid ${colour}" onclick="openRideCard(rides[${idx}])"`;
+  const bg = rideBgColour(ride.type);
+  const base = `data-link="${ride.link}" style="border-left:4px solid ${colour};background:${bg}" onclick="openRideCard(rides[${idx}])"`;
 
   const meta = `<div class="ride-content">
     <div class="ride-item-title">${ride.title}</div>
