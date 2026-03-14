@@ -669,10 +669,24 @@ function initPrefs() {
   document.getElementById("geocodeBtn").addEventListener("click", geocodeManualAddress);
 }
 
+function closeSearch() {
+  const searchBar = document.getElementById("searchBar");
+  const searchInput = document.getElementById("searchInput");
+  const toggleBtn = document.getElementById("searchToggleBtn");
+  searchBar.classList.add("hidden");
+  toggleBtn.classList.remove("active");
+  searchQuery = "";
+  searchInput.value = "";
+  renderList();
+  renderMapMarkers();
+}
+
 document.querySelectorAll(".tab-btn").forEach(btn => {
   let txStart = 0, tyStart = 0;
 
   function switchTab() {
+    closeSearch();
+    document.getElementById("settingsBtn").classList.remove("active");
     const target = btn.dataset.tab;
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
     document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
@@ -756,22 +770,36 @@ function initSearch() {
   const searchInput = document.getElementById("searchInput");
   const clearBtn = document.getElementById("searchClearBtn");
 
-  toggleBtn.addEventListener("click", () => {
+  let ttxStart = 0, ttyStart = 0;
+
+  function handleSearchToggle() {
     const isOpen = !searchBar.classList.contains("hidden");
     if (isOpen) {
-      searchBar.classList.add("hidden");
-      toggleBtn.classList.remove("active");
-      searchQuery = "";
-      searchInput.value = "";
-      renderList();
-      renderMapMarkers();
+      closeSearch();
     } else {
+      document.getElementById("settingsBtn").classList.remove("active");
+      document.querySelector('.tab-btn[data-tab="tab-list"]').click();
       searchBar.classList.remove("hidden");
       toggleBtn.classList.add("active");
       searchInput.focus();
-      document.querySelector('.tab-btn[data-tab="tab-list"]').click();
+    }
+  }
+
+  toggleBtn.addEventListener("touchstart", (e) => {
+    ttxStart = e.touches[0].clientX;
+    ttyStart = e.touches[0].clientY;
+  }, { passive: true });
+
+  toggleBtn.addEventListener("touchend", (e) => {
+    const dx = Math.abs(e.changedTouches[0].clientX - ttxStart);
+    const dy = Math.abs(e.changedTouches[0].clientY - ttyStart);
+    if (dx < 10 && dy < 10) {
+      e.preventDefault();
+      handleSearchToggle();
     }
   });
+
+  toggleBtn.addEventListener("click", handleSearchToggle);
 
   searchInput.addEventListener("input", () => {
     searchQuery = searchInput.value.trim();
@@ -779,21 +807,51 @@ function initSearch() {
     renderMapMarkers();
   });
 
-  clearBtn.addEventListener("click", () => {
-    searchQuery = "";
-    searchInput.value = "";
-    searchBar.classList.add("hidden");
-    toggleBtn.classList.remove("active");
-    renderList();
-    renderMapMarkers();
+  let ctxStart = 0, ctyStart = 0;
+
+  clearBtn.addEventListener("touchstart", (e) => {
+    ctxStart = e.touches[0].clientX;
+    ctyStart = e.touches[0].clientY;
+  }, { passive: true });
+
+  clearBtn.addEventListener("touchend", (e) => {
+    const dx = Math.abs(e.changedTouches[0].clientX - ctxStart);
+    const dy = Math.abs(e.changedTouches[0].clientY - ctyStart);
+    if (dx < 10 && dy < 10) {
+      e.preventDefault();
+      closeSearch();
+    }
   });
 
-  document.getElementById("settingsBtn").addEventListener("click", () => {
+  clearBtn.addEventListener("click", closeSearch);
+
+  const settingsBtn = document.getElementById("settingsBtn");
+  let stxStart = 0, styStart = 0;
+
+  function openSettings() {
+    closeSearch();
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
     document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
     document.getElementById("tab-prefs").classList.add("active");
     document.getElementById("rideCard").classList.remove("open");
+    settingsBtn.classList.add("active");
+  }
+
+  settingsBtn.addEventListener("touchstart", (e) => {
+    stxStart = e.touches[0].clientX;
+    styStart = e.touches[0].clientY;
+  }, { passive: true });
+
+  settingsBtn.addEventListener("touchend", (e) => {
+    const dx = Math.abs(e.changedTouches[0].clientX - stxStart);
+    const dy = Math.abs(e.changedTouches[0].clientY - styStart);
+    if (dx < 10 && dy < 10) {
+      e.preventDefault();
+      openSettings();
+    }
   });
+
+  settingsBtn.addEventListener("click", openSettings);
 }
 
 loadRides();
