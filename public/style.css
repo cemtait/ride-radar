@@ -63,6 +63,7 @@ header {
   align-items: center;
   justify-content: center;
   transition: color 0.15s, background 0.15s;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .icon-btn svg {
@@ -158,11 +159,12 @@ header {
   letter-spacing: 0.02em;
   cursor: pointer;
   border-top: 2px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
+  transition: color 0.2s, border-color 0.2s, background 0.15s;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 3px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .tab-btn svg {
@@ -172,11 +174,21 @@ header {
 
 .tab-btn:hover {
   color: #aaa;
+  background: rgba(255,255,255,0.06);
+}
+
+.tab-btn:active {
+  background: rgba(255,255,255,0.1);
 }
 
 .tab-btn.active {
   color: #6aa84f;
   border-top-color: #6aa84f;
+  background: #1a1a1a;
+}
+
+.tab-btn.active:active {
+  background: rgba(255,255,255,0.08);
 }
 
 #rideList {
