@@ -177,7 +177,6 @@ header {
   height: auto;
   max-height: 200px;
   object-fit: contain;
-  background: #111;
   display: block;
   border-radius: 8px;
 }
