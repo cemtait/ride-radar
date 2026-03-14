@@ -670,7 +670,9 @@ function initPrefs() {
 }
 
 document.querySelectorAll(".tab-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
+  let txStart = 0, tyStart = 0;
+
+  function switchTab() {
     const target = btn.dataset.tab;
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
     document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
@@ -681,7 +683,23 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
       initMap();
       setTimeout(() => map && map.invalidateSize(), 50);
     }
+  }
+
+  btn.addEventListener("touchstart", (e) => {
+    txStart = e.touches[0].clientX;
+    tyStart = e.touches[0].clientY;
+  }, { passive: true });
+
+  btn.addEventListener("touchend", (e) => {
+    const dx = Math.abs(e.changedTouches[0].clientX - txStart);
+    const dy = Math.abs(e.changedTouches[0].clientY - tyStart);
+    if (dx < 10 && dy < 10) {
+      e.preventDefault();
+      switchTab();
+    }
   });
+
+  btn.addEventListener("click", switchTab);
 });
 
 function initDriveDisplay() {
