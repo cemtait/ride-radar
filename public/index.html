@@ -102,6 +102,18 @@
       </div>
 
       <div class="pref-group">
+        <div class="pref-group-title">Calendar reminder</div>
+        <p class="manual-label">How far ahead to set a reminder when adding a ride to your calendar.</p>
+        <div class="drive-time-btns">
+          <button class="reminder-btn dt-btn" data-days="0">None</button>
+          <button class="reminder-btn dt-btn" data-days="3">3 days</button>
+          <button class="reminder-btn dt-btn" data-days="7">1 week</button>
+          <button class="reminder-btn dt-btn" data-days="14">2 weeks</button>
+          <button class="reminder-btn dt-btn" data-days="30">1 month</button>
+        </div>
+      </div>
+
+      <div class="pref-group">
         <div class="pref-group-title">Filter by ride type</div>
         <div id="typeFilters"></div>
       </div>
@@ -119,10 +131,6 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
     Map
   </button>
-  <button class="tab-btn" data-tab="tab-prefs">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="8" cy="6" r="2" fill="currentColor" stroke="none"/><circle cx="16" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="10" cy="18" r="2" fill="currentColor" stroke="none"/></svg>
-    Prefs
-  </button>
 </nav>
 
 <div id="rideCard">
@@ -136,6 +144,10 @@
     <div id="rideDrive"></div>
   </div>
   <img id="ridePoster" class="ride-poster hidden" alt="Event poster"/>
+  <div class="notes-section">
+    <label class="notes-label">Notes</label>
+    <textarea id="rideNotes" class="notes-input" placeholder="How did it go? What should you know next time?" rows="3"></textarea>
+  </div>
   <div class="buttons">
     <button id="calendarBtn">Add to Calendar</button>
     <button id="openEventBtn">Open Event Page</button>

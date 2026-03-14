@@ -286,6 +286,49 @@ header {
   border-radius: 8px;
 }
 
+.notes-section {
+  margin-top: 14px;
+}
+
+.notes-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.notes-input {
+  width: 100%;
+  background: #252525;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  color: white;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  padding: 8px 10px;
+  resize: vertical;
+  min-height: 64px;
+  transition: border-color 0.15s;
+}
+
+.notes-input:focus {
+  outline: none;
+  border-color: #6aa84f;
+}
+
+.notes-input::placeholder {
+  color: #555;
+}
+
+.notes-input.has-note {
+  border-color: #3d5c30;
+  background: #1e2b1a;
+}
+
 .buttons {
   margin-top: 14px;
   display: flex;

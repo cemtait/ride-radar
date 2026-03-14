@@ -4,6 +4,7 @@ let activeFilters = new Set();
 let maxDriveMinutes = null;
 let showBermBuster = true;
 let driveDisplay = "time";
+let reminderDays = 7;
 let searchQuery = "";
 let mapInitialized = false;
 let map = null;
@@ -133,6 +134,26 @@ function safeLink(link) {
   return encodeURIComponent(link);
 }
 
+function noteKey(title) {
+  return (title || "").toLowerCase().trim();
+}
+
+function getNote(title) {
+  const notes = JSON.parse(localStorage.getItem("rideRadarNotes") || "{}");
+  return notes[noteKey(title)] || "";
+}
+
+function saveNote(title, text) {
+  const notes = JSON.parse(localStorage.getItem("rideRadarNotes") || "{}");
+  const k = noteKey(title);
+  if (text.trim()) {
+    notes[k] = text;
+  } else {
+    delete notes[k];
+  }
+  localStorage.setItem("rideRadarNotes", JSON.stringify(notes));
+}
+
 function openRideCard(ride) {
   currentRide = ride;
   document.getElementById("rideTitle").innerText = ride.title;
@@ -153,6 +174,10 @@ function openRideCard(ride) {
     poster.classList.add("hidden");
     rideInfo.classList.remove("hidden");
   }
+  const notesEl = document.getElementById("rideNotes");
+  const note = getNote(ride.title);
+  notesEl.value = note;
+  notesEl.classList.toggle("has-note", note.length > 0);
   document.getElementById("rideCard").classList.add("open");
 }
 
@@ -167,7 +192,12 @@ document.getElementById("openEventBtn").onclick = () => {
 document.getElementById("calendarBtn").onclick = () => {
   if (!currentRide) return;
   const date = currentRide.date.replace(/[a-z]/gi, "");
-  const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nSUMMARY:${currentRide.title}\nDESCRIPTION:${currentRide.type}\nLOCATION:${currentRide.originalAddress || currentRide.district}\nURL:${currentRide.link}\nDTSTART:${date}\nEND:VEVENT\nEND:VCALENDAR`;
+  const note = getNote(currentRide.title);
+  const desc = [currentRide.type, note].filter(Boolean).join("\\n\\n");
+  const alarm = reminderDays > 0
+    ? `BEGIN:VALARM\nTRIGGER:-P${reminderDays}D\nACTION:DISPLAY\nDESCRIPTION:Reminder: ${currentRide.title}\nEND:VALARM\n`
+    : "";
+  const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nSUMMARY:${currentRide.title}\nDESCRIPTION:${desc}\nLOCATION:${currentRide.originalAddress || currentRide.district}\nURL:${currentRide.link}\nDTSTART:${date}\n${alarm}END:VEVENT\nEND:VCALENDAR`;
   const blob = new Blob([ics], { type: "text/calendar" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -176,6 +206,13 @@ document.getElementById("calendarBtn").onclick = () => {
   a.click();
   URL.revokeObjectURL(url);
 };
+
+document.getElementById("rideNotes").addEventListener("input", () => {
+  if (!currentRide) return;
+  const notesEl = document.getElementById("rideNotes");
+  saveNote(currentRide.title, notesEl.value);
+  notesEl.classList.toggle("has-note", notesEl.value.trim().length > 0);
+});
 
 function updateRideDriveSpan(ride) {
   if (!driveTimeOk(ride)) {
@@ -514,6 +551,23 @@ function initDriveDisplay() {
   });
 }
 
+function initReminder() {
+  const saved = localStorage.getItem("rideRadarReminderDays");
+  reminderDays = saved !== null ? parseInt(saved, 10) : 7;
+
+  document.querySelectorAll(".reminder-btn").forEach(btn => {
+    const val = parseInt(btn.dataset.days, 10);
+    btn.classList.toggle("active", val === reminderDays);
+    btn.addEventListener("click", () => {
+      reminderDays = val;
+      localStorage.setItem("rideRadarReminderDays", val);
+      document.querySelectorAll(".reminder-btn").forEach(b =>
+        b.classList.toggle("active", parseInt(b.dataset.days, 10) === reminderDays)
+      );
+    });
+  });
+}
+
 async function loadRides() {
   const res = await fetch("/rides");
   rides = await res.json();
@@ -521,6 +575,7 @@ async function loadRides() {
   initDriveFilter();
   initBermBusterPref();
   initDriveDisplay();
+  initReminder();
   renderList();
   renderTypeFilters();
   initPrefs();
@@ -565,7 +620,10 @@ function initSearch() {
   });
 
   document.getElementById("settingsBtn").addEventListener("click", () => {
-    document.querySelector('.tab-btn[data-tab="tab-prefs"]').click();
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    document.getElementById("tab-prefs").classList.add("active");
+    document.getElementById("rideCard").classList.remove("open");
   });
 }
 
