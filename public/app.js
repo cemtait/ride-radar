@@ -10,8 +10,11 @@ let userOrigin = null;
 let lastFetched = null;
 
 const driveInfo = new Map();
+const imageOrientations = new Map();
 let fetchQueue = [];
 let fetchRunning = false;
+
+const MAP_PIN_SVG = `<svg class="ride-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
 
 const RIDE_TYPES = ["trail","cross","enduro","moto","other"];
 
@@ -405,6 +408,48 @@ function initBermBusterPref() {
   });
 }
 
+function buildCard(ride, idx, layout) {
+  const colour = rideColour(ride.type);
+  const drive = formatDrive(ride);
+  const hasMap = !!(ride.lat && ride.lon) || !!ride.googleMapUrl;
+  const mapPin = hasMap ? MAP_PIN_SVG : "";
+  const driveSpan = `<span class="ride-drive"${drive ? "" : ' style="display:none"'}>${drive || ""}</span>`;
+  const base = `data-link="${ride.link}" style="border-left:4px solid ${colour}" onclick="openRideCard(rides[${idx}])"`;
+
+  const meta = `<div class="ride-content">
+    <div class="ride-item-title">${ride.title}</div>
+    <div class="ride-meta-line">${ride.date} · ${ride.district}</div>
+    <div class="ride-drive-line">${driveSpan}${mapPin}</div>
+  </div>`;
+
+  if (layout === "landscape") {
+    return `<div class="ride-item ride-item--landscape" ${base}>
+      <img class="ride-hero" src="${ride.imageUrl}" alt="" loading="lazy">
+      ${meta}
+    </div>`;
+  }
+  if (layout === "portrait") {
+    return `<div class="ride-item ride-item--portrait" ${base}>
+      <div class="ride-thumb-wrap"><img class="ride-thumb" src="${ride.imageUrl}" alt="" loading="lazy"></div>
+      ${meta}
+    </div>`;
+  }
+  return `<div class="ride-item ride-item--text" ${base}>${meta}</div>`;
+}
+
+function loadImageOrientation(ride, idx) {
+  const img = new Image();
+  img.onload = () => {
+    const layout = img.naturalWidth >= img.naturalHeight ? "landscape" : "portrait";
+    imageOrientations.set(ride.imageUrl, layout);
+    const el = document.querySelector(`.ride-item[data-link="${CSS.escape(ride.link)}"]`);
+    if (!el) return;
+    el.outerHTML = buildCard(ride, idx, layout);
+  };
+  img.onerror = () => imageOrientations.set(ride.imageUrl, "text");
+  img.src = ride.imageUrl;
+}
+
 function renderList() {
   const container = document.getElementById("rideList");
   const visible = visibleRides();
@@ -414,31 +459,22 @@ function renderList() {
     return;
   }
   container.innerHTML = visible.map(ride => {
-    const colour = rideColour(ride.type);
-    const drive = formatDrive(ride);
     const idx = rides.indexOf(ride);
-    const hasMap = !!(ride.lat && ride.lon) || !!ride.googleMapUrl;
-
-    const thumbHtml = ride.imageUrl
-      ? `<img class="ride-thumb" src="${ride.imageUrl}" alt="" loading="lazy">`
-      : `<div class="ride-thumb-placeholder" style="background:${rideBgColour(ride.type)}"></div>`;
-
-    const mapPinHtml = hasMap
-      ? `<svg class="ride-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`
-      : "";
-
-    return `<div class="ride-item" data-link="${ride.link}" style="border-left:4px solid ${colour}" onclick="openRideCard(rides[${idx}])">
-      <div class="ride-thumb-wrap">${thumbHtml}</div>
-      <div class="ride-content">
-        <div class="ride-item-title">${ride.title}</div>
-        <div class="ride-meta-line">${ride.date} · ${ride.district}</div>
-        <div class="ride-drive-line">
-          <span class="ride-drive"${drive ? "" : ' style="display:none"'}>${drive || ""}</span>
-          ${mapPinHtml}
-        </div>
-      </div>
-    </div>`;
+    let layout = "text";
+    if (ride.imageUrl) {
+      layout = imageOrientations.has(ride.imageUrl)
+        ? imageOrientations.get(ride.imageUrl)
+        : "text";
+    }
+    return buildCard(ride, idx, layout);
   }).join("");
+
+  visible.forEach(ride => {
+    const idx = rides.indexOf(ride);
+    if (ride.imageUrl && !imageOrientations.has(ride.imageUrl)) {
+      loadImageOrientation(ride, idx);
+    }
+  });
 }
 
 

@@ -128,14 +128,13 @@ header {
 
 .ride-item {
   display: flex;
-  align-items: stretch;
+  flex-direction: row;
   border-radius: 10px;
   margin-bottom: 10px;
   cursor: pointer;
   overflow: hidden;
   background: #1e1e1e;
   border: 1px solid #2e2e2e;
-  min-height: 84px;
   transition: filter 0.15s;
 }
 
@@ -143,22 +142,42 @@ header {
   filter: brightness(1.25);
 }
 
+.ride-item--text {
+  min-height: 64px;
+}
+
+.ride-item--portrait {
+  align-items: flex-start;
+}
+
+.ride-item--landscape {
+  flex-direction: column;
+}
+
 .ride-thumb-wrap {
-  width: 84px;
+  width: 78px;
   flex-shrink: 0;
-  overflow: hidden;
+  background: #111;
 }
 
 .ride-thumb {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 78px;
+  height: auto;
   display: block;
+  min-height: 60px;
 }
 
-.ride-thumb-placeholder {
+.ride-item--portrait .ride-content {
+  align-self: center;
+}
+
+.ride-hero {
   width: 100%;
-  height: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
+  background: #111;
+  display: block;
 }
 
 .ride-content {
