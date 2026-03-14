@@ -178,7 +178,9 @@ function openRideCard(ride) {
   const note = getNote(ride.title);
   notesEl.value = note;
   notesEl.classList.toggle("has-note", note.length > 0);
-  document.getElementById("rideCard").classList.add("open");
+  const card = document.getElementById("rideCard");
+  card.scrollTop = 0;
+  card.classList.add("open");
 }
 
 (function () {
@@ -208,11 +210,15 @@ function openRideCard(ride) {
   card.addEventListener("touchend", () => {
     if (!dragging) return;
     dragging = false;
-    card.style.transition = "";
     const delta = lastY - startY;
-    card.style.transform = "";
     if (delta > 80) {
+      card.scrollTop = 0;
+      card.style.transform = "";
+      card.style.transition = "";
       card.classList.remove("open");
+    } else {
+      card.style.transition = "";
+      card.style.transform = "";
     }
   });
 })();
