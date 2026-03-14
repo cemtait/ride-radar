@@ -410,6 +410,39 @@ button:hover {
   max-width: 500px;
 }
 
+.prefs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.prefs-header-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ddd;
+  letter-spacing: 0.02em;
+}
+
+.prefs-done-btn {
+  background: rgba(106,168,79,0.18);
+  border: 1px solid rgba(106,168,79,0.4);
+  color: #6aa84f;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.prefs-done-btn:hover {
+  background: rgba(106,168,79,0.3);
+  border-color: rgba(106,168,79,0.7);
+}
+
 #prefsPanel h2 {
   margin-top: 0;
   font-size: 1.1rem;

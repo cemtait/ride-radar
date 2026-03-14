@@ -27,11 +27,11 @@ const TYPE_COLOURS = {
 };
 
 const TYPE_BG_COLOURS = {
-  trail:  "rgba(92,138,60,0.30)",
-  cross:  "rgba(74,127,168,0.30)",
-  enduro: "rgba(200,149,42,0.30)",
-  moto:   "rgba(176,69,32,0.30)",
-  other:  "rgba(144,144,144,0.30)"
+  trail:  "rgba(92,138,60,0.25)",
+  cross:  "rgba(74,127,168,0.25)",
+  enduro: "rgba(200,149,42,0.25)",
+  moto:   "rgba(176,69,32,0.25)",
+  other:  "rgba(144,144,144,0.25)"
 };
 
 function rideBgColour(type) {
