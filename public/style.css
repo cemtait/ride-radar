@@ -596,7 +596,7 @@ button:hover {
   margin-top: 10px;
 }
 
-.dt-btn {
+.dt-btn, .dd-btn, .reminder-btn {
   padding: 8px 14px;
   border-radius: 20px;
   border: 2px solid #444;
@@ -609,13 +609,13 @@ button:hover {
   transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 
-.dt-btn:hover {
+.dt-btn:hover, .dd-btn:hover, .reminder-btn:hover {
   border-color: #6aa84f;
   color: white;
   background: rgba(106,168,79,0.1);
 }
 
-.dt-btn.active {
+.dt-btn.active, .dd-btn.active, .reminder-btn.active {
   border-color: #6aa84f;
   color: white;
   background: rgba(106,168,79,0.2);
