@@ -191,6 +191,7 @@ function openRideCard(ride) {
 
   card.addEventListener("touchstart", (e) => {
     if (e.target.closest("textarea, input")) return;
+    if (card.scrollTop > 0) return;
     startY = e.touches[0].clientY;
     lastY = startY;
     dragging = true;
