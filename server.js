@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static("public"));
 
 const EVENTS_URL = "https://silverbullet.co.nz/events.php";
+const MYRIDES_URL = "https://www.myrides.co.nz/events";
 
 // -----------------------------
 const LOG = {
@@ -328,6 +329,98 @@ async function scrapeRidePage(link) {
 }
 
 // -----------------------------
+// My Rides type inference
+// -----------------------------
+function inferMyRidesType(title, excerpt) {
+  const t = (title + " " + (excerpt || "")).toLowerCase();
+  if (t.includes("enduro")) return "Enduro";
+  if (t.includes("cross country") || /\bxc\b/.test(t)) return "Cross Country";
+  if (t.includes("motocross") || /\bmx\b/.test(t)) return "Motocross";
+  if (t.includes("adventure")) return "Adventure Ride";
+  return "Trail Ride";
+}
+
+// -----------------------------
+// My Rides scraper (myrides.co.nz)
+// -----------------------------
+async function scrapeMyRides() {
+
+  console.log("\nFetching My Rides events page...");
+
+  try {
+
+    const res = await fetch(MYRIDES_URL, {
+      headers: { "User-Agent": "Mozilla/5.0 (compatible; RideRadar/1.0)" }
+    });
+    const html = await res.text();
+    const $ = cheerio.load(html);
+
+    const rides = [];
+    const seenLinks = new Set();
+
+    $("article.eventlist-event").each((_, el) => {
+
+      const titleEl = $(el).find("h1.eventlist-title a.eventlist-title-link");
+      const title = titleEl.text().trim();
+      const href = titleEl.attr("href");
+      if (!title || !href) return;
+
+      const link = "https://www.myrides.co.nz" + href;
+      if (seenLinks.has(link)) return;
+      seenLinks.add(link);
+
+      // Date — first event-date time element
+      const dateText = $(el).find("time.event-date").first().attr("datetime") || "";
+      const dateDisplay = $(el).find("time.event-date").first().text().trim();
+
+      // Address lines — skip the bare "New Zealand" line
+      const addrLines = [];
+      $(el).find("span.eventlist-meta-address-line").each((_, line) => {
+        const txt = $(line).text().trim();
+        if (txt && txt !== "New Zealand") addrLines.push(txt);
+      });
+      const address = addrLines.length ? addrLines.join(", ") : null;
+
+      // District — last part of address before ", Region"
+      let district = null;
+      if (address) {
+        const parts = address.split(",").map(p => p.trim());
+        const regionPart = parts[parts.length - 1].replace(/\s*Region$/i, "").trim();
+        district = regionPart || parts[0];
+      }
+
+      // Poster image — prefer data-src, fall back to src
+      const imgEl = $(el).find("a.eventlist-column-thumbnail img").first();
+      const imageUrl = imgEl.attr("data-src") || imgEl.attr("src") || null;
+
+      // Excerpt
+      const excerpt = $(el).find(".eventlist-excerpt p").first().text().trim() || null;
+
+      // Type
+      const type = inferMyRidesType(title, excerpt);
+
+      rides.push({
+        title,
+        type,
+        date: dateDisplay,
+        district,
+        link,
+        imageUrl: imageUrl || null,
+        originalAddress: address ? address + ", New Zealand" : null,
+        source: "myrides",
+      });
+    });
+
+    console.log(`My Rides found: ${rides.length} events\n`);
+    return rides;
+
+  } catch (err) {
+    console.log("Error scraping My Rides:", err.message);
+    return [];
+  }
+}
+
+// -----------------------------
 // Main scraper
 // -----------------------------
 async function refreshRideCache() {
@@ -533,14 +626,95 @@ async function refreshRideCache() {
       else LOG.fail(`FAIL     | ${ride.title}`);
     }
 
-    rideCache = toProcess;
+    // -----------------------------------------------
+    // MY RIDES — scrape + geocode + drive time
+    // -----------------------------------------------
+    const myRidesRaw = await scrapeMyRides();
 
-    fs.writeFileSync(RIDES_FILE, JSON.stringify(toProcess, null, 2));
+    for (const ride of myRidesRaw) {
+
+      let status = "FAIL";
+
+      // Reuse title cache if a Silver Bullet ride shares the same location key
+      if (titleLocationCache[ride.title]) {
+        const cached = titleLocationCache[ride.title];
+        ride.lat = cached.lat;
+        ride.lon = cached.lon;
+        ride.originalAddress = ride.originalAddress || cached.originalAddress;
+        if (cached.district) ride.district = ride.district || cached.district;
+        status = cached.status;
+        LOG.info(`CACHED   | ${ride.title}`);
+      } else if (ride.originalAddress) {
+
+        const hardcodedCoords = getHardcodedCoords(ride.title);
+        if (hardcodedCoords) {
+          ride.lat = hardcodedCoords.lat;
+          ride.lon = hardcodedCoords.lon;
+          if (hardcodedCoords.address) ride.originalAddress = hardcodedCoords.address;
+          if (hardcodedCoords.district) ride.district = hardcodedCoords.district;
+          status = "GEOCODE";
+        } else {
+          const coords = await geocodeAddress(ride.originalAddress);
+          if (coords) {
+            ride.lat = coords.lat;
+            ride.lon = coords.lon;
+            status = "GEOCODE";
+          }
+        }
+
+        if (status === "FAIL") {
+          failedRides.push({
+            title: ride.title,
+            district: ride.district,
+            where: ride.originalAddress || null,
+            addressAttempted: ride.originalAddress || null,
+            link: ride.link,
+            source: "myrides",
+          });
+        }
+      } else {
+        failedRides.push({
+          title: ride.title,
+          district: ride.district,
+          where: null,
+          addressAttempted: null,
+          link: ride.link,
+          source: "myrides",
+        });
+      }
+
+      if (ride.lat && ride.lon) {
+        const drive = await getDriveInfo(ride.lat, ride.lon);
+        if (drive) {
+          ride.distance_km = drive.distance_km;
+          ride.drive_time_minutes = drive.drive_time_minutes;
+        }
+      }
+
+      if (status !== "FAIL") {
+        titleLocationCache[ride.title] = {
+          lat: ride.lat, lon: ride.lon,
+          originalAddress: ride.originalAddress || null,
+          district: ride.district || null,
+          googleMapUrl: ride.googleMapUrl || null,
+          status,
+        };
+      }
+
+      if (status === "MAP") LOG.success(`MAP      | ${ride.title} [myrides]`);
+      else if (status === "GEOCODE") LOG.warn(`GEOCODE  | ${ride.title} [myrides]`);
+      else LOG.fail(`FAIL     | ${ride.title} [myrides]`);
+    }
+
+    const allRides = [...toProcess, ...myRidesRaw];
+    rideCache = allRides;
+
+    fs.writeFileSync(RIDES_FILE, JSON.stringify(allRides, null, 2));
     fs.writeFileSync("./failedGeocodes.json", JSON.stringify(failedRides, null, 2));
 
     console.log(`\n--- FAILED RIDES (${failedRides.length}) ---`);
     failedRides.forEach(f => {
-      console.log(`  ${f.title}`);
+      console.log(`  ${f.title}${f.source ? " [" + f.source + "]" : ""}`);
       console.log(`    District:  ${f.district || "—"}`);
       console.log(`    Where:     ${f.where || "—"}`);
       console.log(`    Attempted: ${f.addressAttempted || "—"}`);
