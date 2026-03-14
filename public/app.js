@@ -158,6 +158,16 @@ function saveNote(title, text) {
 let activePages = [0, 2];
 let currentPage = 0;
 
+function getMapUrl(ride) {
+  if (ride.googleMapUrl && !ride.googleMapUrl.includes('!1m18!')) {
+    return ride.googleMapUrl;
+  }
+  if (ride.lat && ride.lon) {
+    return `https://maps.google.com/maps?q=${ride.lat},${ride.lon}&z=13&output=embed`;
+  }
+  return ride.googleMapUrl || "";
+}
+
 function setPage(pageNum, animated) {
   if (animated === undefined) animated = true;
   const track = document.getElementById("cardTrack");
@@ -169,10 +179,10 @@ function setPage(pageNum, animated) {
   document.querySelectorAll(".page-nav-btn").forEach(btn => {
     btn.classList.toggle("active", parseInt(btn.dataset.page) === pageNum);
   });
-  if (pageNum === 1 && currentRide && currentRide.googleMapUrl) {
+  if (pageNum === 1 && currentRide) {
     const frame = document.getElementById("rideMapFrame");
     if (frame.getAttribute("data-loaded") !== currentRide.link) {
-      frame.src = currentRide.googleMapUrl;
+      frame.src = getMapUrl(currentRide);
       frame.setAttribute("data-loaded", currentRide.link);
     }
   }
@@ -210,7 +220,7 @@ function openRideCard(ride) {
   }
 
   const navMap = document.getElementById("navPage1");
-  const hasMap = !!ride.googleMapUrl;
+  const hasMap = !!(ride.lat && ride.lon) || !!ride.googleMapUrl;
   navMap.style.display = hasMap ? "" : "none";
   activePages = hasMap ? [0, 1, 2] : [0, 2];
 
