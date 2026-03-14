@@ -181,9 +181,40 @@ function openRideCard(ride) {
   document.getElementById("rideCard").classList.add("open");
 }
 
-document.getElementById("closeCard").onclick = () => {
-  document.getElementById("rideCard").classList.remove("open");
-};
+(function () {
+  const card = document.getElementById("rideCard");
+  let startY = 0;
+  let lastY = 0;
+  let dragging = false;
+
+  card.addEventListener("touchstart", (e) => {
+    if (e.target.closest("textarea, input")) return;
+    startY = e.touches[0].clientY;
+    lastY = startY;
+    dragging = true;
+    card.style.transition = "none";
+  }, { passive: true });
+
+  card.addEventListener("touchmove", (e) => {
+    if (!dragging) return;
+    lastY = e.touches[0].clientY;
+    const delta = lastY - startY;
+    if (delta > 0) {
+      card.style.transform = `translateY(${delta}px)`;
+    }
+  }, { passive: true });
+
+  card.addEventListener("touchend", () => {
+    if (!dragging) return;
+    dragging = false;
+    card.style.transition = "";
+    const delta = lastY - startY;
+    card.style.transform = "";
+    if (delta > 80) {
+      card.classList.remove("open");
+    }
+  });
+})();
 
 document.getElementById("openEventBtn").onclick = () => {
   if (currentRide) window.open(currentRide.link, "_blank");

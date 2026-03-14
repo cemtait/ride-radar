@@ -329,11 +329,58 @@ header {
   background: #1e2b1a;
 }
 
-.buttons {
-  margin-top: 14px;
+.card-actions {
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 18px;
+  padding: 0 10px 4px;
+}
+
+.card-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  background: none !important;
+  border: none;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 12px;
+  transition: background 0.15s;
+}
+
+.card-action:hover,
+.card-action:active {
+  background: rgba(255,255,255,0.06) !important;
+}
+
+.card-action-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  background: #2c2c2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.card-action:active .card-action-icon {
+  background: #3a3a3c;
+}
+
+.card-action-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: #6aa84f;
+}
+
+.card-action-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #888;
+  text-align: center;
+  white-space: nowrap;
 }
 
 button {
