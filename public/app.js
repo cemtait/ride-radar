@@ -359,7 +359,7 @@ document.getElementById("calendarBtn").onclick = () => {
       reminderDays: reminderDays,
       note: note || "",
     });
-    window.open("/calendar.ics?" + params.toString(), "_blank");
+    window.location.href = "/calendar.ics?" + params.toString();
   }
 };
 

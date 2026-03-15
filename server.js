@@ -812,7 +812,7 @@ app.get("/calendar.ics", (req, res) => {
 
   const filename = ride.title.replace(/[^a-z0-9]/gi, "_").replace(/_+/g, "_") + ".ics";
   res.setHeader("Content-Type", "text/calendar; charset=utf-8");
-  res.setHeader("Content-Disposition", `inline; filename="${filename}"`);
+  res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
   res.send(ics);
 });
 
