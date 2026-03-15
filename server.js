@@ -706,10 +706,21 @@ async function refreshRideCache() {
       else LOG.fail(`FAIL     | ${ride.title} [myrides]`);
     }
 
-    const allRides = [...toProcess, ...myRidesRaw];
-    rideCache = allRides;
+    // Deduplicate by title + date — same ride listed twice (e.g. duplicate event IDs)
+    const seen = new Set();
+    const dedupedRides = [...toProcess, ...myRidesRaw].filter(ride => {
+      const key = `${ride.title.toLowerCase().trim()}|${ride.date.toLowerCase().trim()}`;
+      if (seen.has(key)) {
+        LOG.info(`DEDUP    | ${ride.title} (${ride.date})`);
+        return false;
+      }
+      seen.add(key);
+      return true;
+    });
 
-    fs.writeFileSync(RIDES_FILE, JSON.stringify(allRides, null, 2));
+    rideCache = dedupedRides;
+
+    fs.writeFileSync(RIDES_FILE, JSON.stringify(dedupedRides, null, 2));
     fs.writeFileSync("./failedGeocodes.json", JSON.stringify(failedRides, null, 2));
 
     console.log(`\n--- FAILED RIDES (${failedRides.length}) ---`);
