@@ -452,12 +452,13 @@ function initIslandFilter() {
 }
 
 function buildCard(ride, idx, layout) {
-  const colour = rideColour(ride.type);
+  const berm = isBermBuster(ride);
+  const colour = berm ? "#d4711a" : rideColour(ride.type);
+  const bg     = berm ? "rgba(212,113,26,0.22)" : rideBgColour(ride.type);
   const drive = formatDrive(ride);
   const hasMap = !!(ride.lat && ride.lon) || !!ride.googleMapUrl;
   const mapPin = hasMap ? MAP_PIN_SVG : "";
   const driveSpan = `<span class="ride-drive"${drive ? "" : ' style="display:none"'}>${drive || ""}</span>`;
-  const bg = rideBgColour(ride.type);
   const base = `data-link="${ride.link}" style="border-left:4px solid ${colour};background:${bg}" onclick="openRideCard(rides[${idx}])"`;
 
   const meta = `<div class="ride-content">
