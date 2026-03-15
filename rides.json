@@ -952,12 +952,16 @@
     "drive_time_minutes": 212
   },
   {
-    "title": "Database_Exception [  ]:",
+    "title": "Berm Buster Trail Ride Taupo",
     "type": "Trail Ride",
     "date": "Sat 27th - Sun 28th Jun",
     "district": "Taupo",
     "link": "https://silverbullet.co.nz//event.php?id=18043",
-    "originalAddress": null
+    "lat": -38.921848,
+    "lon": 176.270546,
+    "originalAddress": null,
+    "distance_km": "305.4",
+    "drive_time_minutes": 241
   },
   {
     "title": "Burt's Trail Ride Side x Side (SxS)",
