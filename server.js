@@ -745,6 +745,78 @@ async function refreshRideCache() {
 app.get("/rides", (req, res) => res.json(rideCache));
 
 // -----------------------------
+// ICS calendar endpoint — iOS Safari compatible
+// -----------------------------
+function formatIcsDate(dateStr) {
+  if (!dateStr) return "20260101";
+  const MONTHS = { jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12 };
+  const MONTHS_LONG = { january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12 };
+
+  // "Saturday, 14 March 2026" or "Sunday, 26 April 2026"
+  let m = dateStr.match(/(\d+)\s+(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{4})/i);
+  if (m) {
+    return `${m[3]}${String(MONTHS_LONG[m[2].toLowerCase()]).padStart(2,"0")}${m[1].padStart(2,"0")}`;
+  }
+
+  // "Fri, 13 Mar 2026"
+  m = dateStr.match(/(\d+)\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\s+(\d{4})/i);
+  if (m) {
+    return `${m[3]}${String(MONTHS[m[2].toLowerCase()]).padStart(2,"0")}${m[1].padStart(2,"0")}`;
+  }
+
+  // "Sat 14th Mar" or "Sun 26th Apr" — Silver Bullet format (no year, assume current/next year)
+  m = dateStr.match(/(\d+)(?:st|nd|rd|th)?\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i);
+  if (m) {
+    const month = MONTHS[m[2].toLowerCase()];
+    const day = parseInt(m[1], 10);
+    const now = new Date();
+    let year = now.getFullYear();
+    // If this month/day is already in the past this year, assume next year
+    if (new Date(year, month - 1, day) < now) year++;
+    return `${year}${String(month).padStart(2,"0")}${String(day).padStart(2,"0")}`;
+  }
+
+  return "20260101";
+}
+
+app.get("/calendar.ics", (req, res) => {
+  const link = req.query.link;
+  const ride = rideCache.find(r => r.link === link);
+  if (!ride) return res.status(404).send("Ride not found");
+
+  const dateStr = formatIcsDate(ride.date);
+  const days = parseInt(req.query.reminderDays || "0", 10);
+  const note = (req.query.note || "").replace(/\\n/g, "\n");
+  const desc = [ride.type, note].filter(Boolean).join("\\n\\n");
+  const alarm = days > 0
+    ? `BEGIN:VALARM\r\nTRIGGER:-P${days}D\r\nACTION:DISPLAY\r\nDESCRIPTION:Reminder: ${ride.title}\r\nEND:VALARM\r\n`
+    : "";
+
+  const ics = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Ride Radar//NZ//EN",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    "BEGIN:VEVENT",
+    `SUMMARY:${ride.title}`,
+    `DTSTART;VALUE=DATE:${dateStr}`,
+    `DESCRIPTION:${desc}`,
+    `LOCATION:${ride.originalAddress || ride.district || ""}`,
+    `URL:${ride.link}`,
+    `UID:${link}@rideradar`,
+    alarm.trim(),
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].filter(Boolean).join("\r\n");
+
+  const filename = ride.title.replace(/[^a-z0-9]/gi, "_").replace(/_+/g, "_") + ".ics";
+  res.setHeader("Content-Type", "text/calendar; charset=utf-8");
+  res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+  res.send(ics);
+});
+
+// -----------------------------
 // Drive-time endpoint (OSRM, cached per origin)
 // -----------------------------
 function originKey(lat, lon) {

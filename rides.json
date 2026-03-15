@@ -1,57 +1,5 @@
 [
   {
-    "title": "Whangamomona Trail ride",
-    "type": "Trail Ride",
-    "date": "Sat 14th Mar",
-    "district": "Stratford",
-    "link": "https://silverbullet.co.nz//event.php?id=18148",
-    "originalAddress": "59 Whangamomona Road, Whangamōmona 4396, New Zealand",
-    "lat": -39.1486467,
-    "lon": 174.739812,
-    "distance_km": "351.2",
-    "drive_time_minutes": 288
-  },
-  {
-    "title": "2026 Yamaha New Zealand Cross Country Nationals Rnd 4",
-    "type": "Cross Country",
-    "date": "Sat 14th Mar",
-    "district": "Nelson",
-    "link": "https://silverbullet.co.nz//event.php?id=17994",
-    "imageUrl": "https://www.silverbullet.co.nz/media/images/events/2026/NZXCChamps.jpg",
-    "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m26!1m12!1m3!1d32593.048304673102!2d173.03287228280368!3d-41.43203046280853!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m11!3e0!4m3!3m2!1d-41.4079608!2d173.0459203!4m5!1s0x6d3ba34192115bbf%3A0x970da91407694c28!2s566%20Church%20Valley%20Road%2C%20Wakefield%207095!3m2!1d-41.4561492!2d173.0592285!5e1!3m2!1sen!2snz!4v1770265087147!5m2!1sen!2snz",
-    "lat": -41.43203046280853,
-    "lon": 173.03287228280368,
-    "originalAddress": "566 Church Valley Road, Wakefield 7095 New Zealand",
-    "distance_km": "917.4",
-    "drive_time_minutes": 847
-  },
-  {
-    "title": "Honda Riding Academy - ADV TRAINING",
-    "type": "Adventure Ride",
-    "date": "Sat 14th Mar",
-    "district": "Hauraki",
-    "link": "https://silverbullet.co.nz//event.php?id=18180",
-    "imageUrl": "https://www.silverbullet.co.nz/media/images/events/2026/HondaRidingAcademy.jpg",
-    "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m26!1m12!1m3!1d35220.06242010201!2d175.20415465022182!3d-37.27696891194612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m11!3e6!4m3!3m2!1d-37.2479679!2d175.18882119999998!4m5!1s0x6d6d5debceeabf87%3A0x9c753bdb91c06965!2sMaramarua+Schumacker+Rd%2C+Maramarua+Forest+3781!3m2!1d-37.3047724!2d175.25454489999998!5e1!3m2!1sen!2snz!4v1502927425798",
-    "lat": -37.27696891194612,
-    "lon": 175.20415465022182,
-    "originalAddress": "Maramarua Schumacker Rd, Maramarua Forest 3781 New Zealand",
-    "distance_km": "72.0",
-    "drive_time_minutes": 57
-  },
-  {
-    "title": "Burt’s Trail Ride",
-    "type": "Trail Ride",
-    "date": "Sat 14th Mar",
-    "district": "Whakatane",
-    "link": "https://silverbullet.co.nz//event.php?id=18004",
-    "originalAddress": "Burt's Farm, Mimiha Road, Matata New Zealand",
-    "lat": -37.8767224,
-    "lon": 176.6940496,
-    "distance_km": "282.3",
-    "drive_time_minutes": 212
-  },
-  {
     "title": "Karamu Trail Track Trail Ride",
     "type": "Trail Ride",
     "date": "Sun 15th Mar",
@@ -204,9 +152,9 @@
     "date": "Sat 21st Mar",
     "district": "Whakatane",
     "link": "https://silverbullet.co.nz//event.php?id=18005",
+    "originalAddress": "Burt's Farm, Mimiha Road, Matata New Zealand",
     "lat": -37.8767224,
     "lon": 176.6940496,
-    "originalAddress": "Burt's Farm, Mimiha Road, Matata New Zealand",
     "distance_km": "282.3",
     "drive_time_minutes": 212
   },
@@ -340,6 +288,18 @@
     "originalAddress": "Herbert Road, Korito 4371 New Zealand",
     "distance_km": "377.3",
     "drive_time_minutes": 306
+  },
+  {
+    "title": "Burt’s Trail Ride",
+    "type": "Trail Ride",
+    "date": "Sat 28th Mar",
+    "district": "Whakatane",
+    "link": "https://silverbullet.co.nz//event.php?id=18004",
+    "lat": -37.8767224,
+    "lon": 176.6940496,
+    "originalAddress": "Burt's Farm, Mimiha Road, Matata New Zealand",
+    "distance_km": "282.3",
+    "drive_time_minutes": 212
   },
   {
     "title": "Trail & Track Open Weekend",

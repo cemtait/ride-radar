@@ -339,20 +339,13 @@ document.getElementById("openEventBtn").onclick = () => {
 
 document.getElementById("calendarBtn").onclick = () => {
   if (!currentRide) return;
-  const date = currentRide.date.replace(/[a-z]/gi, "");
   const note = getNote(currentRide.title);
-  const desc = [currentRide.type, note].filter(Boolean).join("\\n\\n");
-  const alarm = reminderDays > 0
-    ? `BEGIN:VALARM\nTRIGGER:-P${reminderDays}D\nACTION:DISPLAY\nDESCRIPTION:Reminder: ${currentRide.title}\nEND:VALARM\n`
-    : "";
-  const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nSUMMARY:${currentRide.title}\nDESCRIPTION:${desc}\nLOCATION:${currentRide.originalAddress || currentRide.district}\nURL:${currentRide.link}\nDTSTART:${date}\n${alarm}END:VEVENT\nEND:VCALENDAR`;
-  const blob = new Blob([ics], { type: "text/calendar" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "ride.ics";
-  a.click();
-  URL.revokeObjectURL(url);
+  const params = new URLSearchParams({
+    link: currentRide.link,
+    reminderDays: reminderDays,
+    note: note || "",
+  });
+  window.open("/calendar.ics?" + params.toString(), "_blank");
 };
 
 document.getElementById("rideNotes").addEventListener("input", () => {
