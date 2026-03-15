@@ -625,7 +625,7 @@ button {
   margin-top: 10px;
 }
 
-.dt-btn, .dd-btn, .reminder-btn, .island-btn {
+.dt-btn, .dd-btn, .reminder-btn, .island-btn, .cal-app-btn {
   padding: 8px 14px;
   border-radius: 20px;
   border: 2px solid #444;
@@ -641,14 +641,14 @@ button {
 }
 
 @media (hover: hover) {
-  .dt-btn:hover, .dd-btn:hover, .reminder-btn:hover, .island-btn:hover {
+  .dt-btn:hover, .dd-btn:hover, .reminder-btn:hover, .island-btn:hover, .cal-app-btn:hover {
     border-color: #6aa84f;
     color: white;
     background: rgba(106,168,79,0.1);
   }
 }
 
-.dt-btn.active, .dd-btn.active, .reminder-btn.active, .island-btn.active {
+.dt-btn.active, .dd-btn.active, .reminder-btn.active, .island-btn.active, .cal-app-btn.active {
   border-color: #6aa84f;
   color: white;
   background: rgba(106,168,79,0.2);

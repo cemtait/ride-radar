@@ -9,6 +9,7 @@ let searchQuery = "";
 let userOrigin = null;
 let lastFetched = null;
 let islandFilter = new Set(["north", "south"]);
+let calendarApp = "apple";
 
 const driveInfo = new Map();
 const imageOrientations = new Map();
@@ -340,12 +341,26 @@ document.getElementById("openEventBtn").onclick = () => {
 document.getElementById("calendarBtn").onclick = () => {
   if (!currentRide) return;
   const note = getNote(currentRide.title);
-  const params = new URLSearchParams({
-    link: currentRide.link,
-    reminderDays: reminderDays,
-    note: note || "",
-  });
-  window.open("/calendar.ics?" + params.toString(), "_blank");
+  if (calendarApp === "google") {
+    const dateStr = formatDateForGCal(currentRide.date);
+    const endStr = nextDay(dateStr);
+    const details = [currentRide.type, note].filter(Boolean).join("\n\n");
+    const params = new URLSearchParams({
+      action: "TEMPLATE",
+      text: currentRide.title,
+      dates: dateStr + "/" + endStr,
+      details,
+      location: currentRide.originalAddress || currentRide.district || "",
+    });
+    window.open("https://calendar.google.com/calendar/render?" + params.toString(), "_blank");
+  } else {
+    const params = new URLSearchParams({
+      link: currentRide.link,
+      reminderDays: reminderDays,
+      note: note || "",
+    });
+    window.open("/calendar.ics?" + params.toString(), "_blank");
+  }
 };
 
 document.getElementById("rideNotes").addEventListener("input", () => {
@@ -726,6 +741,51 @@ function initDriveDisplay() {
   });
 }
 
+function formatDateForGCal(dateStr) {
+  if (!dateStr) return "20260101";
+  const MONTHS = { jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12 };
+  const MONTHS_LONG = { january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12 };
+  let m = dateStr.match(/(\d+)\s+(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{4})/i);
+  if (m) return m[3] + String(MONTHS_LONG[m[2].toLowerCase()]).padStart(2,"0") + m[1].padStart(2,"0");
+  m = dateStr.match(/(\d+)\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\s+(\d{4})/i);
+  if (m) return m[3] + String(MONTHS[m[2].toLowerCase()]).padStart(2,"0") + m[1].padStart(2,"0");
+  m = dateStr.match(/(\d+)(?:st|nd|rd|th)?\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i);
+  if (m) {
+    const mo = MONTHS[m[2].toLowerCase()];
+    const dy = parseInt(m[1], 10);
+    const now = new Date();
+    let yr = now.getFullYear();
+    if (new Date(yr, mo - 1, dy) < now) yr++;
+    return yr + String(mo).padStart(2,"0") + String(dy).padStart(2,"0");
+  }
+  return "20260101";
+}
+
+function nextDay(yyyymmdd) {
+  const d = new Date(
+    parseInt(yyyymmdd.slice(0,4)),
+    parseInt(yyyymmdd.slice(4,6)) - 1,
+    parseInt(yyyymmdd.slice(6,8)) + 1
+  );
+  return d.getFullYear() + String(d.getMonth()+1).padStart(2,"0") + String(d.getDate()).padStart(2,"0");
+}
+
+function initCalendarAppPref() {
+  const saved = localStorage.getItem("rideRadarCalApp");
+  if (saved === "google" || saved === "apple") calendarApp = saved;
+
+  document.querySelectorAll(".cal-app-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.app === calendarApp);
+    btn.addEventListener("click", () => {
+      calendarApp = btn.dataset.app;
+      localStorage.setItem("rideRadarCalApp", calendarApp);
+      document.querySelectorAll(".cal-app-btn").forEach(b =>
+        b.classList.toggle("active", b.dataset.app === calendarApp)
+      );
+    });
+  });
+}
+
 function initReminder() {
   const saved = localStorage.getItem("rideRadarReminderDays");
   reminderDays = saved !== null ? parseInt(saved, 10) : 7;
@@ -752,6 +812,7 @@ async function loadRides() {
   initBermBusterPref();
   initDriveDisplay();
   initReminder();
+  initCalendarAppPref();
   initPageNav();
   renderList();
   renderTypeFilters();
