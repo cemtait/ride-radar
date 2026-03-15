@@ -625,6 +625,8 @@ button:hover {
   font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
   transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 
