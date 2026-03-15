@@ -8,6 +8,7 @@ let reminderDays = 7;
 let searchQuery = "";
 let userOrigin = null;
 let lastFetched = null;
+let islandFilter = new Set(["north", "south"]);
 
 const driveInfo = new Map();
 const imageOrientations = new Map();
@@ -111,12 +112,22 @@ function driveTimeOk(ride) {
   return d.drive_time_minutes <= maxDriveMinutes;
 }
 
+function rideIsland(ride) {
+  return ride.source === "myrides" ? "south" : "north";
+}
+
+function islandOk(ride) {
+  if (islandFilter.size === 2 || islandFilter.size === 0) return true;
+  return islandFilter.has(rideIsland(ride));
+}
+
 function visibleRides() {
   if (searchQuery) {
     const q = searchQuery.toLowerCase();
     return rides.filter(r => r.title.toLowerCase().includes(q));
   }
   let result = activeFilters.size === 0 ? rides : rides.filter(r => activeFilters.has(rideTypeKey(r.type)));
+  result = result.filter(islandOk);
   return result.filter(driveTimeOk);
 }
 
@@ -405,6 +416,33 @@ function initBermBusterPref() {
     showBermBuster = toggle.checked;
     localStorage.setItem("rideRadarShowBermBuster", showBermBuster ? "true" : "false");
     renderList();
+  });
+}
+
+function initIslandFilter() {
+  const saved = localStorage.getItem("rideRadarIsland");
+  if (saved) {
+    islandFilter = new Set(JSON.parse(saved));
+  }
+
+  document.querySelectorAll(".island-btn").forEach(btn => {
+    const island = btn.dataset.island;
+    btn.classList.toggle("active", islandFilter.size === 0 || islandFilter.has(island));
+
+    btn.addEventListener("click", () => {
+      if (islandFilter.has(island)) {
+        islandFilter.delete(island);
+        // If that was the last one, restore both so list is never empty
+        if (islandFilter.size === 0) islandFilter = new Set(["north", "south"]);
+      } else {
+        islandFilter.add(island);
+      }
+      localStorage.setItem("rideRadarIsland", JSON.stringify([...islandFilter]));
+      document.querySelectorAll(".island-btn").forEach(b => {
+        b.classList.toggle("active", islandFilter.size === 2 || islandFilter.has(b.dataset.island));
+      });
+      renderList();
+    });
   });
 }
 
@@ -720,6 +758,7 @@ async function loadRides() {
   rides = await res.json();
   lastFetched = new Date();
   initDriveFilter();
+  initIslandFilter();
   initBermBusterPref();
   initDriveDisplay();
   initReminder();

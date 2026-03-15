@@ -667,6 +667,18 @@
     "drive_time_minutes": 420
   },
   {
+    "title": "Sand Country Run - Charity Trail Ride",
+    "type": "Trail Ride",
+    "date": "Sun 19th Apr",
+    "district": "Horowhenua",
+    "link": "https://silverbullet.co.nz//event.php?id=18248",
+    "lat": -40.5506895,
+    "lon": 175.1978162,
+    "originalAddress": "Waitarere New Zealand",
+    "distance_km": "546.0",
+    "drive_time_minutes": 420
+  },
+  {
     "title": "Burt’s Trail Ride",
     "type": "Trail Ride",
     "date": "Sat 25th Apr",
