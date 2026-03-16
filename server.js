@@ -111,6 +111,7 @@ const HARDCODED_ADDRESSES = {
   "Tunnels Trail Ride":            "Ngatira Rd, Litchfield, New Zealand",
   "Redwoods Trail Ride":           "Ngatira Rd, Litchfield, New Zealand",
   "Mighty Mokau Trail Bike Ride":  "4775 State Highway 3, Awakino 4376, New Zealand",
+  "Underwood and Wilkins":         "449 Foster Road, Taneatua, New Zealand",
 };
 
 function getHardcodedAddress(title) {
@@ -236,6 +237,17 @@ async function geocodeAddress(address) {
 
   if (street)
     attempts.push({ query: `${street}, New Zealand` });
+
+  // If address begins with a venue/farm name (no leading digits) but a later
+  // comma-segment does start with a number (street address), try from there.
+  // e.g. "Sisams Farm, 449 Foster Road, Taneatua NZ" → "449 Foster Road, Taneatua NZ"
+  const segs = normalized.split(",").map(s => s.trim());
+  if (segs.length > 1 && !/^\d/.test(segs[0])) {
+    const numIdx = segs.findIndex(s => /^\d/.test(s));
+    if (numIdx > 0) {
+      attempts.push({ query: segs.slice(numIdx).join(", ") });
+    }
+  }
 
   for (const key in LOCALITY_CORRECTIONS) {
     if (address.toLowerCase().includes(key)) {
@@ -586,11 +598,23 @@ async function refreshRideCache() {
 
         if (!candidateAddress && page.directions && page.district) {
 
-          const lastRoadMatch = page.directions.match(/([\w\s]+) road/gi);
+          const lastRoadMatch = page.directions.match(
+            /[\w][\w\s]*?\s+(?:road|rd|street|st|avenue|ave|drive|dr|lane|ln|place|pl|crescent|cres|highway|state highway|sh\s*\d+)\b/gi
+          );
 
           candidateAddress = lastRoadMatch
             ? `${lastRoadMatch[lastRoadMatch.length - 1]}, ${page.district}`
             : page.district;
+        }
+
+        // Last resort: look for a numbered street address anywhere in otherDetails
+        if (!candidateAddress && page.otherDetails && page.district) {
+          const detailMatch = page.otherDetails.match(
+            /\d+\s+[\w\s]+(?:road|rd|street|st|avenue|ave|drive|dr|lane|highway|state highway)\b[^,\n]*/i
+          );
+          if (detailMatch) {
+            candidateAddress = `${detailMatch[0].trim()}, ${page.district}`;
+          }
         }
 
         ride.originalAddress = candidateAddress
