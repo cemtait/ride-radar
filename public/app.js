@@ -243,7 +243,7 @@ function openRideCard(ride) {
   if (mapsUrl) {
     addrEl.textContent = displayAddress(ride.originalAddress) || "Open in Maps";
     addrEl.classList.add("has-map");
-    addrEl.onclick = () => window.open(mapsUrl, "_blank");
+    addrEl.onclick = () => { window.location.href = mapsUrl; };
   } else {
     addrEl.textContent = displayAddress(ride.originalAddress) || "";
     addrEl.classList.remove("has-map");
