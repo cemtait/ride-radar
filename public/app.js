@@ -17,6 +17,7 @@ let fetchQueue = [];
 let fetchRunning = false;
 
 let loadTruckTimer = null;
+let pendingTruckReplay = false;
 
 function replayLoadTruck() {
   if (loadTruckTimer) { clearTimeout(loadTruckTimer); loadTruckTimer = null; }
@@ -370,7 +371,7 @@ function initDriveFilter() {
       document.querySelectorAll(".dt-btn").forEach(b =>
         b.classList.toggle("active", b.dataset.mins === val)
       );
-      replayLoadTruck();
+      pendingTruckReplay = true;
       renderList();
     });
   });
@@ -413,7 +414,7 @@ function initIslandFilter() {
       document.querySelectorAll(".island-btn").forEach(b => {
         b.classList.toggle("active", islandFilter.size === 2 || islandFilter.has(b.dataset.island));
       });
-      replayLoadTruck();
+      pendingTruckReplay = true;
       renderList();
     });
   });
@@ -523,7 +524,7 @@ function renderTypeFilters() {
           container.querySelectorAll(".type-filter-btn").forEach(b => b.classList.add("on"));
         }
       }
-      replayLoadTruck();
+      pendingTruckReplay = true;
       renderList();
     });
   });
@@ -695,6 +696,10 @@ function showList() {
   document.getElementById("tab-list").classList.add("active");
   document.getElementById("settingsBtn").classList.remove("active");
   document.getElementById("rideCard").classList.remove("open");
+  if (pendingTruckReplay) {
+    pendingTruckReplay = false;
+    replayLoadTruck();
+  }
 }
 
 function initDriveDisplay() {

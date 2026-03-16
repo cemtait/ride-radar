@@ -483,8 +483,10 @@
     "date": "Sat 4th Apr",
     "district": "Tararua",
     "link": "https://silverbullet.co.nz//event.php?id=18166",
+    "imageUrl": "https://www.silverbullet.co.nz/media/images/events/2026/PonyExpress.jpg",
     "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d66120.15609956038!2d175.7611846187924!3d-40.49308090470717!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x6d41a1bb5bc4d819%3A0x500ef6143a32160!2sPahiatua!3m2!1d-40.4545624!2d175.83998929999998!4m5!1s0x6d41a8762bde17bd%3A0x1b61594bd0571f7a!2s82859%20State%20Highway%202%2C%20Pahiatua%204984!3m2!1d-40.5316141!2d175.7649361!5e1!3m2!1sen!2snz!4v1768550661059!5m2!1sen!2snz",
     "startsAt": "9:00am",
+    "otherDetails": "Entry’s fees (per team):\n\n Junior team:$90\n Senior team:$120\n\nTrophies for 1st, 2nd and 3rd in class, as well as trophies for 1st, 2nd, 3rd overall",
     "lat": -40.49308090470717,
     "lon": 175.7611846187924,
     "originalAddress": "Pahiatua New Zealand",
@@ -608,6 +610,16 @@
     "originalAddress": "276 Rapson Road, Kaukapakapa 0871 New Zealand",
     "distance_km": "43.8",
     "drive_time_minutes": 39
+  },
+  {
+    "title": "Underwood and Wilkins Motorcycles Charity Trail Ride",
+    "type": "Trail Ride",
+    "date": "Sun 12th Apr",
+    "district": "Whakatane",
+    "link": "https://silverbullet.co.nz//event.php?id=18249",
+    "startsAt": "10:00am",
+    "otherDetails": "Charity Fundraising Trail rides, organised and promoted by Underwood & Wilkins Motorcycles as non competitive Family Fun for all ages and abilities. All profits go to the Taneatua Squash Club.\n\nCheck out details on Facebook (and like us) and feel free to use our website to check for rides and also use the contact us form to send us your email address.\n\nCharity Fundraising Trail rides, organised and promoted by Underwood & Wilkins Motorcycles as non competitive Family Fun for all ages and abilities.\n\nAll profits go to the Taneatua Squash Clu.\n\nAll events cater for: \n\nThe little ones on mini 2 wheelers in a smaller paddock - Parental supervision is required.\nAbsolute beginners and first time riders on a small easy track, generally 3 - 5 km long.\nExperienced and not so experienced riders on the big track, generally 20-30km long, not too hard with easy option splits. (no pillions or ATV’s / SXS’s. sorry).\nHelmets and sensible riding clothing compulsory. No gumboots.\nGood food and drinks at reasonable prices at all venues\n\nSIGN ON FROM 8.30, COMPULSORY MASS BRIEFING AT 9.45, RIDES START AT 10.00am. Tracks generally close between 2.30 & 3.00 pm.\n\nFees:  Cash only - sorry, no EFTpos \n\n$50.00 Senior: $25.00 High School: $15.00 Primary age and Younger: $100.00 Family(Max of 4 – 2 adults and 2 kids or 1 adult and 3 kids etc)\n\nThese rides are all about non racing family fun.\n\nCome and join the fun, we look forward to seeing you there.\n\nWeather Check – Check our Facebook Page (7.15am) and if in doubt listen to 1XX (90.5 FM) for cancellations or phone station on 07-306-1242",
+    "originalAddress": "Sisams Farm, 449 Fosters Road, Taneatua New Zealand"
   },
   {
     "title": "Trail ride coromandel",
