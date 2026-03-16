@@ -5,6 +5,12 @@ import fs from "fs";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use((req, res, next) => {
+  if (req.path === "/" || req.path.endsWith(".html")) {
+    res.setHeader("Cache-Control", "no-store");
+  }
+  next();
+});
 app.use(express.static("public"));
 
 const EVENTS_URL = "https://silverbullet.co.nz/events.php";
