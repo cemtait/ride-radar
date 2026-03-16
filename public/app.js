@@ -17,36 +17,10 @@ let fetchQueue = [];
 let fetchRunning = false;
 
 function initLoadTruck() {
-  const el = document.getElementById("loadTruck");
-  const sub = document.getElementById("headerSub");
-  if (!el || !sub) return;
-
-  let settleTimer = null;
-
-  function exitTruck() {
-    settleTimer = null;
-    const truck = document.getElementById("loadTruck");
-    if (!truck) return;
-    observer.disconnect();
-    const cur = truck.getBoundingClientRect().left;
-    truck.style.animation = "none";
-    truck.style.left = cur + "px";
-    truck.offsetLeft; // force reflow
-    truck.style.transition = "left 0.9s cubic-bezier(0.4, 0, 1, 0.6)";
-    truck.style.left = (window.innerWidth + 90) + "px";
-    setTimeout(() => { const t = document.getElementById("loadTruck"); if (t) t.remove(); }, 1000);
-  }
-
-  function scheduleExit() {
-    if (settleTimer) clearTimeout(settleTimer);
-    settleTimer = setTimeout(exitTruck, 1500);
-  }
-
-  const observer = new MutationObserver(scheduleExit);
-  observer.observe(sub, { childList: true, characterData: true, subtree: true });
-
-  // Hard safety net — exit no matter what after 20s
-  setTimeout(exitTruck, 20000);
+  setTimeout(() => {
+    const t = document.getElementById("loadTruck");
+    if (t) t.remove();
+  }, 31000);
 }
 
 const MAP_PIN_SVG = `<svg class="ride-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
