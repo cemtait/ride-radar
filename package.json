@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "cheerio": "^1.2.0",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "open-location-code": "^1.0.3"
   }
 }

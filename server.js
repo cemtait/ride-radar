@@ -88,7 +88,7 @@ function shouldOmit(title) {
 // -----------------------------
 const HARDCODED_COORDS = {
   "IXION": { lat: -40.949000, lon: 175.032472, address: "Maungakotukutuku Road", district: "Manawatu" },
-  "Berm Buster": { lat: -38.921848, lon: 176.270546, district: "Taupo" },
+  "Berm Buster": { lat: -38.92125, lon: 176.27125, address: "Iwitahi Forest, Taupō", district: "Taupo" },
 };
 
 function getHardcodedCoords(title) {
@@ -536,8 +536,17 @@ async function refreshRideCache() {
       }
 
       const mapData = extractGoogleMapData(page.html);
+      const hardcodedCoords = getHardcodedCoords(ride.title);
 
-      if (mapData) {
+      if (hardcodedCoords) {
+
+        ride.lat = hardcodedCoords.lat;
+        ride.lon = hardcodedCoords.lon;
+        if (hardcodedCoords.address) ride.originalAddress = hardcodedCoords.address;
+        if (hardcodedCoords.district) ride.district = hardcodedCoords.district;
+        status = "HARD";
+
+      } else if (mapData) {
 
         ride.lat = mapData.lat;
         ride.lon = mapData.lon;
@@ -546,18 +555,6 @@ async function refreshRideCache() {
         status = "MAP";
 
       } else {
-
-        const hardcodedCoords = getHardcodedCoords(ride.title);
-
-        if (hardcodedCoords) {
-
-          ride.lat = hardcodedCoords.lat;
-          ride.lon = hardcodedCoords.lon;
-          if (hardcodedCoords.address) ride.originalAddress = hardcodedCoords.address;
-          if (hardcodedCoords.district) ride.district = hardcodedCoords.district;
-          status = "GEOCODE";
-
-        } else {
 
         const hardcoded = getHardcodedAddress(ride.title);
         let candidateAddress = hardcoded || page.where;
@@ -598,7 +595,6 @@ async function refreshRideCache() {
           });
         }
 
-        } // end inner else (no hardcoded coords)
       }
 
       // -----------------------------
