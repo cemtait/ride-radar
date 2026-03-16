@@ -1605,44 +1605,6 @@
     "drive_time_minutes": 212
   },
   {
-    "title": "Yamaha bLUcRU Kids Camp - Gore",
-    "type": "Trail Ride",
-    "date": "Fri, 13 Mar 2026",
-    "district": "Southland",
-    "link": "https://www.myrides.co.nz/events/yamaha-blucru-kids-camp-gore",
-    "imageUrl": "https://images.squarespace-cdn.com/content/v1/64ec394ca80c0a1150ca2acb/1753168634459-QO6X4IWM41QNVE05YRK4/Kids+Camp+Designs-Flyer+2025.jpg",
-    "originalAddress": "Gore, Southland Region, New Zealand",
-    "source": "myrides",
-    "lat": -46.0984482,
-    "lon": 168.9447811,
-    "distance_km": "1583.3",
-    "drive_time_minutes": 1411
-  },
-  {
-    "title": "Blackmount Trailride",
-    "type": "Trail Ride",
-    "date": "Saturday, 14 March 2026",
-    "district": "Southland",
-    "link": "https://www.myrides.co.nz/events/blackmount-trailride",
-    "imageUrl": "https://images.squarespace-cdn.com/content/v1/64ec394ca80c0a1150ca2acb/1751069466016-W4MPLRWWZGAQZAI982P9/318436191_484774643641019_8768540027878110688_n.jpg",
-    "originalAddress": "Blackmount, Southland Region, New Zealand",
-    "source": "myrides",
-    "lat": -45.806149,
-    "lon": 167.6766652,
-    "distance_km": "1730.4",
-    "drive_time_minutes": 1511
-  },
-  {
-    "title": "SDBR 5 Round Series. Rnd 3",
-    "type": "Trail Ride",
-    "date": "Sunday, 15 March 2026",
-    "district": null,
-    "link": "https://www.myrides.co.nz/events/sdbr-5-round-series-rnd-3",
-    "imageUrl": "https://images.squarespace-cdn.com/content/v1/64ec394ca80c0a1150ca2acb/1750230050547-JW8SJOTU5FFME0O2AU6V/sdbr.jpg",
-    "originalAddress": null,
-    "source": "myrides"
-  },
-  {
     "title": "Ninds Dairy Services Dipton School Trailride",
     "type": "Trail Ride",
     "date": "Saturday, 21 March 2026",
@@ -1885,6 +1847,44 @@
     "lon": 172.5752135,
     "distance_km": "1061.5",
     "drive_time_minutes": 992
+  },
+  {
+    "title": "SDBR 5 Round Series. Rnd 3",
+    "type": "Trail Ride",
+    "date": "Sunday, 15 March 2026",
+    "district": null,
+    "link": "https://www.myrides.co.nz/events/sdbr-5-round-series-rnd-3",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/64ec394ca80c0a1150ca2acb/1750230050547-JW8SJOTU5FFME0O2AU6V/sdbr.jpg",
+    "originalAddress": null,
+    "source": "myrides"
+  },
+  {
+    "title": "Blackmount Trailride",
+    "type": "Trail Ride",
+    "date": "Saturday, 14 March 2026",
+    "district": "Southland",
+    "link": "https://www.myrides.co.nz/events/blackmount-trailride",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/64ec394ca80c0a1150ca2acb/1751069466016-W4MPLRWWZGAQZAI982P9/318436191_484774643641019_8768540027878110688_n.jpg",
+    "originalAddress": "Blackmount, Southland Region, New Zealand",
+    "source": "myrides",
+    "lat": -45.806149,
+    "lon": 167.6766652,
+    "distance_km": "1730.4",
+    "drive_time_minutes": 1511
+  },
+  {
+    "title": "Yamaha bLUcRU Kids Camp - Gore",
+    "type": "Trail Ride",
+    "date": "Fri, 13 Mar 2026",
+    "district": "Southland",
+    "link": "https://www.myrides.co.nz/events/yamaha-blucru-kids-camp-gore",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/64ec394ca80c0a1150ca2acb/1753168634459-QO6X4IWM41QNVE05YRK4/Kids+Camp+Designs-Flyer+2025.jpg",
+    "originalAddress": "Gore, Southland Region, New Zealand",
+    "source": "myrides",
+    "lat": -46.0984482,
+    "lon": 168.9447811,
+    "distance_km": "1583.3",
+    "drive_time_minutes": 1411
   },
   {
     "title": "Motanau Trailride **POSTPONED**",
@@ -2247,47 +2247,5 @@
     "imageUrl": "https://images.squarespace-cdn.com/content/v1/64ec394ca80c0a1150ca2acb/1750229071740-MERZKX1443ZABBTC1H2R/sdbr.jpg",
     "originalAddress": null,
     "source": "myrides"
-  },
-  {
-    "title": "Omihi School Trailride",
-    "type": "Trail Ride",
-    "date": "Sunday, 9 November 2025",
-    "district": "Canterbury",
-    "link": "https://www.myrides.co.nz/events/omihi-school-trailride",
-    "imageUrl": "https://images.squarespace-cdn.com/content/v1/64ec394ca80c0a1150ca2acb/1747030563563-HJ5D396O80BES7J2BILK/unnamed-1.jpg",
-    "originalAddress": "Omihi, Canterbury, New Zealand",
-    "source": "myrides",
-    "lat": -42.4899204,
-    "lon": 173.5233066,
-    "distance_km": "916.7",
-    "drive_time_minutes": 851
-  },
-  {
-    "title": "McIver and Veitch Lake to the Sea Trailride",
-    "type": "Trail Ride",
-    "date": "Saturday, 8 November 2025",
-    "district": "Otago",
-    "link": "https://www.myrides.co.nz/events/lake-to-sea-trailride",
-    "imageUrl": "https://images.squarespace-cdn.com/content/v1/64ec394ca80c0a1150ca2acb/1761641843019-FQ5MDZNWI1FLQ8D9IEQ4/img_251028132954-0001-1.jpg",
-    "originalAddress": "Milton, Otago, New Zealand",
-    "source": "myrides",
-    "lat": -46.1167784,
-    "lon": 169.9624539,
-    "distance_km": "1486.6",
-    "drive_time_minutes": 1331
-  },
-  {
-    "title": "Flag Swamp/Twin Peaks Trail Ride",
-    "type": "Trail Ride",
-    "date": "Sat, 25 Oct 2025",
-    "district": "9472",
-    "link": "https://www.myrides.co.nz/events/flag-swamptwin-peaks-trail-ride",
-    "imageUrl": "https://images.squarespace-cdn.com/content/v1/64ec394ca80c0a1150ca2acb/1759125389671-RMTQUTXB9XIV8GU6PXPT/555436003_1188945716596946_6074472808284141662_n.jpg",
-    "originalAddress": "Flag Swamp, Otago, 9472, New Zealand",
-    "source": "myrides",
-    "lat": -45.5505416,
-    "lon": 170.6805468,
-    "distance_km": "1387.9",
-    "drive_time_minutes": 1251
   }
 ]

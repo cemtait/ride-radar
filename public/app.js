@@ -159,10 +159,7 @@ function saveNote(title, text) {
 // ── Maps / calendar helpers ───────────────────────────────────────
 function getMapsUrl(ride) {
   if (ride.lat && ride.lon) {
-    return `https://www.google.com/maps/dir/?api=1&destination=${ride.lat},${ride.lon}`;
-  }
-  if (ride.originalAddress) {
-    return `https://maps.google.com/?q=${encodeURIComponent(ride.originalAddress)}`;
+    return `https://www.google.com/maps/search/?api=1&query=${ride.lat},${ride.lon}`;
   }
   return null;
 }
