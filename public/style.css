@@ -240,6 +240,28 @@ header {
   gap: 7px;
 }
 
+.ride-cal-col {
+  flex-shrink: 0;
+  width: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px 8px 4px;
+}
+
+.ride-cal-col svg {
+  width: 32px;
+  height: auto;
+  display: block;
+}
+
+.ride-card-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
 .ride-drive {
   font-size: 0.75rem;
   color: #aaa;

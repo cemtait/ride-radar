@@ -430,9 +430,12 @@ function buildCard(ride, idx, layout) {
   const driveSpan = `<span class="ride-drive"${drive ? "" : ' style="display:none"'}>${drive || ""}</span>`;
   const base = `data-link="${ride.link}" style="border-left:4px solid ${colour};background:${bg}" onclick="openRideCard(rides[${idx}])"`;
 
+  const calSvg = buildCalendarSvg(ride.date);
+  const calCol = `<div class="ride-cal-col">${calSvg}</div>`;
+
   const meta = `<div class="ride-content">
     <div class="ride-item-title">${ride.title}</div>
-    <div class="ride-meta-line">${ride.date} · ${ride.district}</div>
+    <div class="ride-meta-line">${ride.district}</div>
     <div class="ride-drive-line">${driveSpan}${mapPin}</div>
   </div>`;
 
@@ -441,17 +444,17 @@ function buildCard(ride, idx, layout) {
     if (layout === "landscape") {
       return `<div class="ride-item ride-item--landscape" ${base}>
         <img class="ride-hero" src="${ride.imageUrl}" alt="" loading="lazy">
-        ${meta}
+        <div class="ride-card-row">${meta}${calCol}</div>
       </div>`;
     }
     if (layout === "portrait") {
       return `<div class="ride-item ride-item--portrait" ${base}>
         <div class="ride-thumb-wrap"><img class="ride-thumb" src="${ride.imageUrl}" alt="" loading="lazy"></div>
-        ${meta}
+        ${meta}${calCol}
       </div>`;
     }
   }
-  return `<div class="ride-item ride-item--text" ${base}>${meta}</div>`;
+  return `<div class="ride-item ride-item--text" ${base}>${meta}${calCol}</div>`;
 }
 
 function loadImageOrientation(ride, idx) {
