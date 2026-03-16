@@ -353,6 +353,19 @@ header {
   gap: 4px;
 }
 
+#rideDate {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ride-date-icon svg {
+  width: 44px;
+  height: 44px;
+  display: block;
+  flex-shrink: 0;
+}
+
 .hidden {
   display: none !important;
 }

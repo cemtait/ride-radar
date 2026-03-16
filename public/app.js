@@ -199,8 +199,9 @@ function initPageNav() {
 function openRideCard(ride) {
   currentRide = ride;
   document.getElementById("rideTitle").innerText = ride.title;
-  document.getElementById("rideDate").innerText = "📅 " + ride.date;
-  document.getElementById("calendarBtn").innerHTML = buildCalendarSvg(ride.date);
+  const calSvg = buildCalendarSvg(ride.date);
+  document.getElementById("rideDate").innerHTML = `<span class="ride-date-icon">${calSvg}</span><span>${ride.date}</span>`;
+  document.getElementById("calendarBtn").innerHTML = calSvg;
   document.getElementById("rideDistrict").innerText = "📍 " + ride.district;
   document.getElementById("rideAddress").innerText = ride.originalAddress || "";
   const drive = formatDrive(ride);
