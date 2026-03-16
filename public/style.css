@@ -225,10 +225,9 @@ header {
 }
 
 .drive-icon {
-  height: 22px;
+  height: 24px;
   width: auto;
   vertical-align: middle;
-  border-radius: 3px;
   flex-shrink: 0;
 }
 
