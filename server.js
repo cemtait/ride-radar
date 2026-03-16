@@ -88,7 +88,7 @@ function shouldOmit(title) {
 // -----------------------------
 const HARDCODED_COORDS = {
   "IXION": { lat: -40.949000, lon: 175.032472, address: "Maungakotukutuku Road", district: "Manawatu" },
-  "Berm Buster": { lat: -38.92125, lon: 176.27125, address: "Iwitahi Forest, Taupō", district: "Taupo" },
+  "Berm Buster": { lat: -38.92125, lon: 176.27125, address: "Iwitahi Forest, Taupō", district: "Taupo", imageUrl: "/bermbuster.avif" },
 };
 
 function getHardcodedCoords(title) {
@@ -567,6 +567,7 @@ async function refreshRideCache() {
         ride.lon = hardcodedCoords.lon;
         if (hardcodedCoords.address) ride.originalAddress = hardcodedCoords.address;
         if (hardcodedCoords.district) ride.district = hardcodedCoords.district;
+        if (hardcodedCoords.imageUrl) ride.imageUrl = hardcodedCoords.imageUrl;
         status = "HARD";
 
       } else if (mapData) {
@@ -744,6 +745,12 @@ async function refreshRideCache() {
       seen.add(key);
       return true;
     });
+
+    // Apply hardcoded image overrides as a final pass (catches fast-path / cached rides)
+    for (const ride of dedupedRides) {
+      const hc = getHardcodedCoords(ride.title);
+      if (hc && hc.imageUrl) ride.imageUrl = hc.imageUrl;
+    }
 
     rideCache = dedupedRides;
 
