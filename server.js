@@ -89,7 +89,7 @@ function shouldOmit(title) {
 const HARDCODED_COORDS = {
   "IXION": { lat: -40.949000, lon: 175.032472, address: "Maungakotukutuku Road", district: "Manawatu" },
   "Berm Buster": { lat: -38.92125, lon: 176.27125, address: "Iwitahi Forest, Taupō", district: "Taupo", imageUrl: "/bermbuster.avif" },
-  "Sand Country Run": { lat: -40.633263, lon: 175.275593, address: "747 State Highway 1, Levin 5510" },
+  "Sand Country Run": { lat: -40.556674, lon: 175.267633, address: "747 State Highway 1, Levin 5510" },
 };
 
 function getHardcodedCoords(title) {
