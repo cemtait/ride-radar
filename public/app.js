@@ -761,8 +761,8 @@ function buildCalendarSvg(dateStr) {
   if (!month) month = "???";
   return `<svg viewBox="0 0 40 44" xmlns="http://www.w3.org/2000/svg">
     <rect x="1" y="5" width="38" height="38" rx="6" fill="#1c1c1e" stroke="#555" stroke-width="1.5"/>
-    <rect x="1" y="5" width="38" height="15" rx="6" fill="#c0392b"/>
-    <rect x="1" y="14" width="38" height="6" fill="#c0392b"/>
+    <rect x="1" y="5" width="38" height="15" rx="6" fill="#7a4848"/>
+    <rect x="1" y="14" width="38" height="6" fill="#7a4848"/>
     <line x1="13" y1="2" x2="13" y2="9" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
     <line x1="27" y1="2" x2="27" y2="9" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
     <text x="20" y="18" text-anchor="middle" fill="white" font-size="7" font-family="system-ui,Arial,sans-serif" font-weight="700" letter-spacing="1">${month}</text>
