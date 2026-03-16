@@ -31,10 +31,9 @@ function finishLoadTruck() {
   loadTruckTimer = null;
   const el = document.getElementById("loadTruck");
   if (!el) return;
-  el.classList.add("completing");
-  const w = el.parentElement.offsetWidth;
-  el.style.left = `${w + 90}px`;
-  setTimeout(() => el.remove(), 800);
+  el.style.transition = "left 0.9s cubic-bezier(0.4, 0, 1, 0.55)";
+  el.style.left = `${window.innerWidth + 90}px`;
+  setTimeout(() => el.remove(), 1000);
 }
 
 function scheduleFinishTruck() {
@@ -103,7 +102,6 @@ function updateHeaderSub() {
     ? lastFetched.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
     : "…";
   el.textContent = `${count} of ${total} rides · updated ${timeStr}`;
-  scheduleFinishTruck();
 }
 
 function formatDriveValue(distanceKm, driveTimeMinutes) {
