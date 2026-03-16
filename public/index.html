@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
 
@@ -139,6 +139,7 @@
   <div id="cardHeader">
     <div class="sheet-handle"></div>
     <h2 id="rideTitle"></h2>
+    <div id="rideStartTime" class="hidden"></div>
   </div>
 
   <div id="cardViewport">
@@ -152,6 +153,10 @@
           <div id="rideAddress"></div>
         </div>
         <img id="ridePoster" class="ride-poster" alt="Event poster"/>
+        <div id="rideDetails" class="hidden">
+          <span class="details-label">Details</span>
+          <p class="details-text"></p>
+        </div>
       </div>
 
       <div class="card-page card-page-map" id="cardPage1">
@@ -186,7 +191,7 @@
 
 </div>
 
-<script src="app.js?v=7"></script>
+<script src="app.js?v=8"></script>
 
 </body>
 </html>

@@ -237,6 +237,26 @@ function openRideCard(ride) {
   notesEl.value = note;
   notesEl.classList.toggle("has-note", note.length > 0);
 
+  const startTimeEl = document.getElementById("rideStartTime");
+  if (ride.startsAt) {
+    startTimeEl.innerHTML =
+      `<svg class="start-time-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>` +
+      `<span>Starts at ${ride.startsAt}</span>`;
+    startTimeEl.classList.remove("hidden");
+  } else {
+    startTimeEl.innerHTML = "";
+    startTimeEl.classList.add("hidden");
+  }
+
+  const detailsEl = document.getElementById("rideDetails");
+  if (ride.otherDetails) {
+    detailsEl.querySelector(".details-text").textContent = ride.otherDetails;
+    detailsEl.classList.remove("hidden");
+  } else {
+    detailsEl.querySelector(".details-text").textContent = "";
+    detailsEl.classList.add("hidden");
+  }
+
   document.querySelectorAll(".card-page").forEach(p => { p.scrollTop = 0; });
   setPage(0, false);
   document.getElementById("rideCard").classList.add("open");

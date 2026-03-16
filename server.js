@@ -284,6 +284,20 @@ async function geocodeAddress(address) {
 }
 
 // -----------------------------
+function stripHtmlToText(html) {
+  return (html || "")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/p>/gi, "\n")
+    .replace(/<p[^>]*>/gi, "")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
 async function scrapeRidePage(link) {
 
   try {
@@ -294,7 +308,7 @@ async function scrapeRidePage(link) {
 
     const $ = cheerio.load(html);
 
-    const page = { title: null, where: null, district: null, directions: null, imageUrl: null, googleMapUrl: null, html };
+    const page = { title: null, where: null, district: null, directions: null, startsAt: null, otherDetails: null, imageUrl: null, googleMapUrl: null, html };
 
     const h1 = $("h1").first().text().trim();
     if (h1) page.title = h1;
@@ -303,10 +317,13 @@ async function scrapeRidePage(link) {
 
       const label = $(el).find(".row_desc").text().trim().toLowerCase();
       const detail = $(el).find(".row_detail").text().trim();
+      const detailHtml = $(el).find(".row_detail").html() || "";
 
       if (label.includes("where")) page.where = detail;
       if (label.includes("district")) page.district = detail;
       if (label.includes("directions")) page.directions = detail;
+      if (label.includes("starts at")) page.startsAt = detail;
+      if (label.includes("other details")) page.otherDetails = stripHtmlToText(detailHtml);
     });
 
     const imgSrc = $('img[src*="media/images/events"]').last().attr("src");
@@ -502,6 +519,8 @@ async function refreshRideCache() {
         ride.originalAddress = cached.originalAddress;
         if (cached.district) ride.district = cached.district;
         if (cached.googleMapUrl) ride.googleMapUrl = cached.googleMapUrl;
+        if (cached.startsAt) ride.startsAt = cached.startsAt;
+        if (cached.otherDetails) ride.otherDetails = cached.otherDetails;
         status = cached.status;
         LOG.info(`CACHED   | ${ride.title}`);
         // Still need drive time
@@ -517,6 +536,8 @@ async function refreshRideCache() {
       if (page.title) ride.title = page.title;
       if (page.imageUrl) ride.imageUrl = page.imageUrl;
       if (page.googleMapUrl) ride.googleMapUrl = page.googleMapUrl;
+      if (page.startsAt) ride.startsAt = page.startsAt;
+      if (page.otherDetails) ride.otherDetails = page.otherDetails;
 
       // --- Fast path: h1 title already resolved this run ---
       if (titleLocationCache[ride.title]) {
@@ -526,6 +547,8 @@ async function refreshRideCache() {
         ride.originalAddress = cached.originalAddress;
         if (cached.district) ride.district = cached.district;
         if (cached.googleMapUrl) ride.googleMapUrl = cached.googleMapUrl;
+        if (cached.startsAt) ride.startsAt = cached.startsAt;
+        if (cached.otherDetails) ride.otherDetails = cached.otherDetails;
         status = cached.status;
         LOG.info(`CACHED   | ${ride.title}`);
         if (ride.lat && ride.lon) {
@@ -619,6 +642,8 @@ async function refreshRideCache() {
           originalAddress: ride.originalAddress || null,
           district: ride.district || null,
           googleMapUrl: ride.googleMapUrl || null,
+          startsAt: ride.startsAt || null,
+          otherDetails: ride.otherDetails || null,
           status
         };
       }
