@@ -225,7 +225,7 @@ header {
 }
 
 .drive-icon {
-  height: 48px;
+  height: 32px;
   width: auto;
   vertical-align: middle;
   flex-shrink: 0;
@@ -334,6 +334,11 @@ header {
 .footer-btn svg {
   width: 24px;
   height: 24px;
+}
+
+#calendarBtn svg {
+  width: 34px;
+  height: 34px;
 }
 
 .page-nav-btn.active {

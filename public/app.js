@@ -200,7 +200,7 @@ function openRideCard(ride) {
   currentRide = ride;
   document.getElementById("rideTitle").innerText = ride.title;
   document.getElementById("rideDate").innerText = "📅 " + ride.date;
-  document.getElementById("rideType").innerText = "🏍️ " + ride.type;
+  document.getElementById("calendarBtn").innerHTML = buildCalendarSvg(ride.date);
   document.getElementById("rideDistrict").innerText = "📍 " + ride.district;
   document.getElementById("rideAddress").innerText = ride.originalAddress || "";
   const drive = formatDrive(ride);
@@ -740,6 +740,33 @@ function initDriveDisplay() {
       renderList();
     });
   });
+}
+
+function buildCalendarSvg(dateStr) {
+  const MONTH_MAP = {
+    jan:"JAN",feb:"FEB",mar:"MAR",apr:"APR",may:"MAY",jun:"JUN",
+    jul:"JUL",aug:"AUG",sep:"SEP",oct:"OCT",nov:"NOV",dec:"DEC",
+    january:"JAN",february:"FEB",march:"MAR",april:"APR",june:"JUN",
+    july:"JUL",august:"AUG",september:"SEP",october:"OCT",november:"NOV",december:"DEC"
+  };
+  let month = "", day = "";
+  let m = dateStr.match(/(\d+)\s+([a-z]{3,})\s+\d{4}/i);
+  if (m) { day = m[1]; month = MONTH_MAP[m[2].toLowerCase()] || m[2].toUpperCase().slice(0,3); }
+  if (!month) {
+    m = dateStr.match(/(\d+)(?:st|nd|rd|th)?\s+([a-z]{3,})/i);
+    if (m) { day = m[1]; month = MONTH_MAP[m[2].toLowerCase()] || m[2].toUpperCase().slice(0,3); }
+  }
+  if (!day) day = "?";
+  if (!month) month = "???";
+  return `<svg viewBox="0 0 40 44" xmlns="http://www.w3.org/2000/svg">
+    <rect x="1" y="5" width="38" height="38" rx="6" fill="#1c1c1e" stroke="#555" stroke-width="1.5"/>
+    <rect x="1" y="5" width="38" height="15" rx="6" fill="#c0392b"/>
+    <rect x="1" y="14" width="38" height="6" fill="#c0392b"/>
+    <line x1="13" y1="2" x2="13" y2="9" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="27" y1="2" x2="27" y2="9" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="20" y="18" text-anchor="middle" fill="white" font-size="7" font-family="system-ui,Arial,sans-serif" font-weight="700" letter-spacing="1">${month}</text>
+    <text x="20" y="38" text-anchor="middle" fill="white" font-size="19" font-family="system-ui,Arial,sans-serif" font-weight="300">${day}</text>
+  </svg>`;
 }
 
 function formatDateForGCal(dateStr) {
