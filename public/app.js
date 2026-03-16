@@ -69,6 +69,11 @@ function rideBgColour(type) {
   return TYPE_BG_COLOURS[rideTypeKey(type)] || TYPE_BG_COLOURS.other;
 }
 
+function displayAddress(addr) {
+  if (!addr) return addr;
+  return addr.replace(/,?\s*new zealand\s*$/i, "").trim();
+}
+
 const TYPE_LABELS = {
   trail: "Trail",
   cross: "XC",
@@ -236,11 +241,11 @@ function openRideCard(ride) {
   const addrEl = document.getElementById("rideAddress");
   const mapsUrl = getMapsUrl(ride);
   if (mapsUrl) {
-    addrEl.textContent = ride.originalAddress || "Open in Maps";
+    addrEl.textContent = displayAddress(ride.originalAddress) || "Open in Maps";
     addrEl.classList.add("has-map");
     addrEl.onclick = () => window.open(mapsUrl, "_blank");
   } else {
-    addrEl.textContent = ride.originalAddress || "";
+    addrEl.textContent = displayAddress(ride.originalAddress) || "";
     addrEl.classList.remove("has-map");
     addrEl.onclick = null;
   }

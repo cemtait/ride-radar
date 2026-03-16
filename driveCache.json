@@ -713,6 +713,10 @@
     "https://www.myrides.co.nz/events/flag-swamptwin-peaks-trail-ride": {
       "distance_km": "753.7",
       "drive_time_minutes": 770
+    },
+    "https://silverbullet.co.nz//event.php?id=18249": {
+      "distance_km": "548.4",
+      "drive_time_minutes": 459
     }
   }
 }
