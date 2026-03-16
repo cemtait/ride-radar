@@ -38,7 +38,7 @@ header {
   transform: translateY(-50%);
   z-index: 20;
   pointer-events: none;
-  animation: truck-drive 11s linear forwards;
+  animation: truck-drive 22s linear forwards;
 }
 
 #loadTruck img {
