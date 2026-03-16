@@ -27,15 +27,18 @@ header {
   position: relative;
 }
 
+@keyframes truck-drive {
+  from { left: -90px; }
+  to   { left: calc(100vw + 90px); }
+}
+
 #loadTruck {
   position: absolute;
   top: 50%;
-  left: -90px;
   transform: translateY(-50%);
   z-index: 20;
   pointer-events: none;
-  transition: left 0.55s cubic-bezier(0.25, 0.1, 0.25, 1);
-  will-change: left;
+  animation: truck-drive 11s linear forwards;
 }
 
 #loadTruck img {

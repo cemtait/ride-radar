@@ -15,31 +15,38 @@ const driveInfo = new Map();
 const imageOrientations = new Map();
 let fetchQueue = [];
 let fetchRunning = false;
-let loadTotal = 0;
-let loadDone = 0;
-let loadTruckTimer = null;
 
-function setLoadProgress(frac) {
+function initLoadTruck() {
   const el = document.getElementById("loadTruck");
-  if (!el) return;
-  const w = el.parentElement.offsetWidth;
-  const tw = 90;
-  el.style.left = `${-tw + frac * (w + tw * 2)}px`;
-}
+  const sub = document.getElementById("headerSub");
+  if (!el || !sub) return;
 
-function finishLoadTruck() {
-  loadTruckTimer = null;
-  const el = document.getElementById("loadTruck");
-  if (!el) return;
-  el.style.transition = "left 0.9s cubic-bezier(0.4, 0, 1, 0.55)";
-  el.style.left = `${window.innerWidth + 90}px`;
-  setTimeout(() => el.remove(), 1000);
-}
+  let settleTimer = null;
 
-function scheduleFinishTruck() {
-  if (!document.getElementById("loadTruck")) return;
-  if (loadTruckTimer) clearTimeout(loadTruckTimer);
-  loadTruckTimer = setTimeout(finishLoadTruck, 1100);
+  function exitTruck() {
+    settleTimer = null;
+    const truck = document.getElementById("loadTruck");
+    if (!truck) return;
+    observer.disconnect();
+    const cur = truck.getBoundingClientRect().left;
+    truck.style.animation = "none";
+    truck.style.left = cur + "px";
+    truck.offsetLeft; // force reflow
+    truck.style.transition = "left 0.9s cubic-bezier(0.4, 0, 1, 0.6)";
+    truck.style.left = (window.innerWidth + 90) + "px";
+    setTimeout(() => { const t = document.getElementById("loadTruck"); if (t) t.remove(); }, 1000);
+  }
+
+  function scheduleExit() {
+    if (settleTimer) clearTimeout(settleTimer);
+    settleTimer = setTimeout(exitTruck, 1500);
+  }
+
+  const observer = new MutationObserver(scheduleExit);
+  observer.observe(sub, { childList: true, characterData: true, subtree: true });
+
+  // Hard safety net — exit no matter what after 20s
+  setTimeout(exitTruck, 20000);
 }
 
 const MAP_PIN_SVG = `<svg class="ride-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
@@ -452,7 +459,6 @@ function loadImageOrientation(ride, idx) {
     const el = document.querySelector(`.ride-item[data-link="${CSS.escape(ride.link)}"]`);
     if (!el) return;
     el.outerHTML = buildCard(ride, idx, layout);
-    scheduleFinishTruck();
   };
   img.onerror = () => imageOrientations.set(ride.imageUrl, "text");
   img.src = ride.imageUrl;
@@ -558,20 +564,14 @@ async function runFetchQueue(origin) {
     } catch {
       driveInfo.set(ride.link, null);
     }
-    loadDone++;
-    if (loadTotal > 0) setLoadProgress(0.4 + 0.6 * (loadDone / loadTotal));
   }
 
-  scheduleFinishTruck();
   fetchRunning = false;
 }
 
 function startDriveFetch(origin) {
   driveInfo.clear();
   fetchQueue = buildFetchQueue(origin);
-  loadTotal = fetchQueue.length;
-  loadDone = 0;
-  if (loadTotal === 0) scheduleFinishTruck();
   renderList();
   runFetchQueue(origin);
 }
@@ -804,8 +804,6 @@ async function loadRides() {
   const res = await fetch("/rides");
   rides = await res.json();
   lastFetched = new Date();
-  setLoadProgress(0.4);
-  setTimeout(finishLoadTruck, 14000);
   initDriveFilter();
   initIslandFilter();
   initBermBusterPref();
@@ -908,5 +906,6 @@ function initSearch() {
   settingsBtn.addEventListener("click", openSettings);
 }
 
+initLoadTruck();
 loadRides();
 initSearch();
