@@ -389,17 +389,37 @@ header {
   gap: 12px;
 }
 
-#rideDate {
+#rideRow1 {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+#rideDate {
+  flex-shrink: 0;
+  line-height: 0;
 }
 
 .ride-date-icon svg {
   width: 44px;
   height: 44px;
   display: block;
+}
+
+#rideDistrict {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#rideDrive {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .hidden {
