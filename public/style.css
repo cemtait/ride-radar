@@ -242,15 +242,15 @@ header {
 
 .ride-cal-col {
   flex-shrink: 0;
-  width: 38px;
+  width: 74px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 10px 8px 4px;
+  padding: 8px 12px 8px 4px;
 }
 
 .ride-cal-col svg {
-  width: 32px;
+  width: 64px;
   height: auto;
   display: block;
 }
