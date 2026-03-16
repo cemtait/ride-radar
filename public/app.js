@@ -222,7 +222,8 @@ function openRideCard(ride) {
 
   const titleEl = document.getElementById("rideTitle");
   titleEl.innerText = ride.title;
-  titleEl.onclick = () => window.open(ride.link, "_blank");
+  const externalLink = isBermBuster(ride) ? "https://www.epicevents.co.nz/" : ride.link;
+  titleEl.onclick = () => window.open(externalLink, "_blank");
 
   const calSvg = buildCalendarSvg(ride.date);
   const rideDateEl = document.getElementById("rideDate");
@@ -434,17 +435,20 @@ function buildCard(ride, idx, layout) {
     <div class="ride-drive-line">${driveSpan}${mapPin}</div>
   </div>`;
 
-  if (layout === "landscape") {
-    return `<div class="ride-item ride-item--landscape" ${base}>
-      <img class="ride-hero" src="${ride.imageUrl}" alt="" loading="lazy">
-      ${meta}
-    </div>`;
-  }
-  if (layout === "portrait") {
-    return `<div class="ride-item ride-item--portrait" ${base}>
-      <div class="ride-thumb-wrap"><img class="ride-thumb" src="${ride.imageUrl}" alt="" loading="lazy"></div>
-      ${meta}
-    </div>`;
+  // Berm Buster: no image in the list card (poster only shown in popup)
+  if (!berm) {
+    if (layout === "landscape") {
+      return `<div class="ride-item ride-item--landscape" ${base}>
+        <img class="ride-hero" src="${ride.imageUrl}" alt="" loading="lazy">
+        ${meta}
+      </div>`;
+    }
+    if (layout === "portrait") {
+      return `<div class="ride-item ride-item--portrait" ${base}>
+        <div class="ride-thumb-wrap"><img class="ride-thumb" src="${ride.imageUrl}" alt="" loading="lazy"></div>
+        ${meta}
+      </div>`;
+    }
   }
   return `<div class="ride-item ride-item--text" ${base}>${meta}</div>`;
 }
