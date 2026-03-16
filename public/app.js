@@ -224,8 +224,13 @@ function openRideCard(ride) {
   activePages = hasMap ? [0, 1, 2] : [0, 2];
 
   const frame = document.getElementById("rideMapFrame");
-  frame.removeAttribute("data-loaded");
-  frame.src = "";
+  if (hasMap) {
+    frame.src = getMapUrl(ride);
+    frame.setAttribute("data-loaded", ride.link);
+  } else {
+    frame.src = "";
+    frame.removeAttribute("data-loaded");
+  }
 
   const notesEl = document.getElementById("rideNotes");
   const note = getNote(ride.title);
