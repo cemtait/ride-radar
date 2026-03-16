@@ -336,10 +336,6 @@ header {
   height: 24px;
 }
 
-#calendarBtn svg {
-  width: 34px;
-  height: 34px;
-}
 
 .page-nav-btn.active {
   color: #6aa84f;

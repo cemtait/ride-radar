@@ -201,7 +201,6 @@ function openRideCard(ride) {
   document.getElementById("rideTitle").innerText = ride.title;
   const calSvg = buildCalendarSvg(ride.date);
   document.getElementById("rideDate").innerHTML = `<span class="ride-date-icon">${calSvg}</span><span>${ride.date}</span>`;
-  document.getElementById("calendarBtn").innerHTML = calSvg;
   document.getElementById("rideDistrict").innerText = "📍 " + ride.district;
   document.getElementById("rideAddress").innerText = ride.originalAddress || "";
   const drive = formatDrive(ride);
