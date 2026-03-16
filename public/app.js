@@ -22,7 +22,7 @@ function setLoadProgress(frac) {
   const el = document.getElementById("loadTruck");
   if (!el) return;
   const w = el.parentElement.offsetWidth;
-  const tw = 80;
+  const tw = 90;
   el.style.left = `${-tw + frac * (w + tw * 2)}px`;
 }
 
@@ -554,7 +554,7 @@ async function runFetchQueue(origin) {
     if (loadTotal > 0) setLoadProgress(0.4 + 0.6 * (loadDone / loadTotal));
   }
 
-  finishLoadTruck();
+  setTimeout(finishLoadTruck, 900);
   fetchRunning = false;
 }
 
@@ -563,7 +563,7 @@ function startDriveFetch(origin) {
   fetchQueue = buildFetchQueue(origin);
   loadTotal = fetchQueue.length;
   loadDone = 0;
-  if (loadTotal === 0) finishLoadTruck();
+  if (loadTotal === 0) setTimeout(finishLoadTruck, 900);
   renderList();
   runFetchQueue(origin);
 }

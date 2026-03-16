@@ -30,33 +30,38 @@ header {
 #loadTruck {
   position: absolute;
   top: 50%;
-  left: -80px;
-  transform: translateY(-64%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  left: -90px;
+  transform: translateY(-50%);
   z-index: 20;
   pointer-events: none;
   transition: left 0.55s cubic-bezier(0.25, 0.1, 0.25, 1);
   will-change: left;
 }
 
+.load-truck-inner {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+}
+
 #loadTruck img {
-  width: 50px;
+  width: 64px;
   height: auto;
   display: block;
 }
 
 .load-bike {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1;
-  position: relative;
-  left: 5px;
-  margin-bottom: -1px;
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-40%);
+  pointer-events: none;
 }
 
 #loadTruck.completing {
-  transition: left 0.38s cubic-bezier(0.55, 0, 1, 0.45);
+  transition: left 0.4s cubic-bezier(0.55, 0, 1, 0.45);
 }
 
 
