@@ -17,6 +17,7 @@ let fetchQueue = [];
 let fetchRunning = false;
 let loadTotal = 0;
 let loadDone = 0;
+let loadTruckTimer = null;
 
 function setLoadProgress(frac) {
   const el = document.getElementById("loadTruck");
@@ -27,12 +28,19 @@ function setLoadProgress(frac) {
 }
 
 function finishLoadTruck() {
+  loadTruckTimer = null;
   const el = document.getElementById("loadTruck");
   if (!el) return;
   el.classList.add("completing");
   const w = el.parentElement.offsetWidth;
-  el.style.left = `${w + 80}px`;
-  setTimeout(() => el.remove(), 450);
+  el.style.left = `${w + 90}px`;
+  setTimeout(() => el.remove(), 800);
+}
+
+function scheduleFinishTruck() {
+  if (!document.getElementById("loadTruck")) return;
+  if (loadTruckTimer) clearTimeout(loadTruckTimer);
+  loadTruckTimer = setTimeout(finishLoadTruck, 1100);
 }
 
 const MAP_PIN_SVG = `<svg class="ride-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
@@ -95,6 +103,7 @@ function updateHeaderSub() {
     ? lastFetched.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
     : "…";
   el.textContent = `${count} of ${total} rides · updated ${timeStr}`;
+  scheduleFinishTruck();
 }
 
 function formatDriveValue(distanceKm, driveTimeMinutes) {
@@ -445,6 +454,7 @@ function loadImageOrientation(ride, idx) {
     const el = document.querySelector(`.ride-item[data-link="${CSS.escape(ride.link)}"]`);
     if (!el) return;
     el.outerHTML = buildCard(ride, idx, layout);
+    scheduleFinishTruck();
   };
   img.onerror = () => imageOrientations.set(ride.imageUrl, "text");
   img.src = ride.imageUrl;
@@ -554,7 +564,7 @@ async function runFetchQueue(origin) {
     if (loadTotal > 0) setLoadProgress(0.4 + 0.6 * (loadDone / loadTotal));
   }
 
-  setTimeout(finishLoadTruck, 900);
+  scheduleFinishTruck();
   fetchRunning = false;
 }
 
@@ -563,7 +573,7 @@ function startDriveFetch(origin) {
   fetchQueue = buildFetchQueue(origin);
   loadTotal = fetchQueue.length;
   loadDone = 0;
-  if (loadTotal === 0) setTimeout(finishLoadTruck, 900);
+  if (loadTotal === 0) scheduleFinishTruck();
   renderList();
   runFetchQueue(origin);
 }
