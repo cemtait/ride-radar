@@ -24,6 +24,39 @@ header {
   display: flex;
   align-items: center;
   gap: 8px;
+  position: relative;
+}
+
+#loadTruck {
+  position: absolute;
+  top: 50%;
+  left: -80px;
+  transform: translateY(-64%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 20;
+  pointer-events: none;
+  transition: left 0.55s cubic-bezier(0.25, 0.1, 0.25, 1);
+  will-change: left;
+}
+
+#loadTruck img {
+  width: 50px;
+  height: auto;
+  display: block;
+}
+
+.load-bike {
+  font-size: 13px;
+  line-height: 1;
+  position: relative;
+  left: 5px;
+  margin-bottom: -1px;
+}
+
+#loadTruck.completing {
+  transition: left 0.38s cubic-bezier(0.55, 0, 1, 0.45);
 }
 
 

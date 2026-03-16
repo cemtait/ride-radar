@@ -15,6 +15,25 @@ const driveInfo = new Map();
 const imageOrientations = new Map();
 let fetchQueue = [];
 let fetchRunning = false;
+let loadTotal = 0;
+let loadDone = 0;
+
+function setLoadProgress(frac) {
+  const el = document.getElementById("loadTruck");
+  if (!el) return;
+  const w = el.parentElement.offsetWidth;
+  const tw = 80;
+  el.style.left = `${-tw + frac * (w + tw * 2)}px`;
+}
+
+function finishLoadTruck() {
+  const el = document.getElementById("loadTruck");
+  if (!el) return;
+  el.classList.add("completing");
+  const w = el.parentElement.offsetWidth;
+  el.style.left = `${w + 80}px`;
+  setTimeout(() => el.remove(), 450);
+}
 
 const MAP_PIN_SVG = `<svg class="ride-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
 
@@ -531,14 +550,20 @@ async function runFetchQueue(origin) {
     } catch {
       driveInfo.set(ride.link, null);
     }
+    loadDone++;
+    if (loadTotal > 0) setLoadProgress(0.4 + 0.6 * (loadDone / loadTotal));
   }
 
+  finishLoadTruck();
   fetchRunning = false;
 }
 
 function startDriveFetch(origin) {
   driveInfo.clear();
   fetchQueue = buildFetchQueue(origin);
+  loadTotal = fetchQueue.length;
+  loadDone = 0;
+  if (loadTotal === 0) finishLoadTruck();
   renderList();
   runFetchQueue(origin);
 }
@@ -771,6 +796,8 @@ async function loadRides() {
   const res = await fetch("/rides");
   rides = await res.json();
   lastFetched = new Date();
+  setLoadProgress(0.4);
+  setTimeout(finishLoadTruck, 14000);
   initDriveFilter();
   initIslandFilter();
   initBermBusterPref();
