@@ -156,86 +156,79 @@ function saveNote(title, text) {
   localStorage.setItem("rideRadarNotes", JSON.stringify(notes));
 }
 
-// ── Page system ──────────────────────────────────────────────────
-let activePages = [0, 2];
-let currentPage = 0;
-
-function getMapUrl(ride) {
+// ── Maps / calendar helpers ───────────────────────────────────────
+function getMapsUrl(ride) {
   if (ride.lat && ride.lon) {
-    return `https://maps.google.com/maps?q=${ride.lat},${ride.lon}&z=13&output=embed`;
+    return `https://www.google.com/maps/dir/?api=1&destination=${ride.lat},${ride.lon}`;
   }
-  return ride.googleMapUrl || "";
+  if (ride.originalAddress) {
+    return `https://maps.google.com/?q=${encodeURIComponent(ride.originalAddress)}`;
+  }
+  return null;
 }
 
-function setPage(pageNum, animated) {
-  if (animated === undefined) animated = true;
-  const track = document.getElementById("cardTrack");
-  track.style.transition = animated
-    ? "transform 0.32s cubic-bezier(0.4, 0, 0.2, 1)"
-    : "none";
-  track.style.transform = `translateX(${-pageNum * 100}%)`;
-  currentPage = pageNum;
-  document.querySelectorAll(".page-nav-btn").forEach(btn => {
-    btn.classList.toggle("active", parseInt(btn.dataset.page) === pageNum);
-  });
-  if (pageNum === 1 && currentRide) {
-    const frame = document.getElementById("rideMapFrame");
-    if (frame.getAttribute("data-loaded") !== currentRide.link) {
-      frame.src = getMapUrl(currentRide);
-      frame.setAttribute("data-loaded", currentRide.link);
-    }
-  }
-}
-
-function initPageNav() {
-  document.querySelectorAll(".page-nav-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const p = parseInt(btn.dataset.page);
-      if (activePages.includes(p)) setPage(p);
+function doAddToCalendar() {
+  if (!currentRide) return;
+  const note = getNote(currentRide.title);
+  if (calendarApp === "google") {
+    const dateStr = formatDateForGCal(currentRide.date);
+    const endStr = nextDay(dateStr);
+    const details = [currentRide.type, note].filter(Boolean).join("\n\n");
+    const params = new URLSearchParams({
+      action: "TEMPLATE",
+      text: currentRide.title,
+      dates: dateStr + "/" + endStr,
+      details,
+      location: currentRide.originalAddress || currentRide.district || "",
     });
-  });
+    window.open("https://calendar.google.com/calendar/render?" + params.toString(), "_blank");
+  } else {
+    const params = new URLSearchParams({
+      link: currentRide.link,
+      reminderDays: reminderDays,
+      note: note || "",
+    });
+    window.location.href = "/calendar.ics?" + params.toString();
+  }
 }
 
 function openRideCard(ride) {
   currentRide = ride;
-  document.getElementById("rideTitle").innerText = ride.title;
+
+  const titleEl = document.getElementById("rideTitle");
+  titleEl.innerText = ride.title;
+  titleEl.onclick = () => window.open(ride.link, "_blank");
+
   const calSvg = buildCalendarSvg(ride.date);
-  document.getElementById("rideDate").innerHTML = `<span class="ride-date-icon">${calSvg}</span>`;
+  const rideDateEl = document.getElementById("rideDate");
+  rideDateEl.innerHTML = `<span class="ride-date-icon">${calSvg}</span>`;
+  rideDateEl.onclick = doAddToCalendar;
+
   document.getElementById("rideDistrict").innerText = ride.district;
-  document.getElementById("rideAddress").innerText = ride.originalAddress || "";
+
+  const addrEl = document.getElementById("rideAddress");
+  const mapsUrl = getMapsUrl(ride);
+  if (mapsUrl) {
+    addrEl.textContent = ride.originalAddress || "Open in Maps";
+    addrEl.classList.add("has-map");
+    addrEl.onclick = () => window.open(mapsUrl, "_blank");
+  } else {
+    addrEl.textContent = ride.originalAddress || "";
+    addrEl.classList.remove("has-map");
+    addrEl.onclick = null;
+  }
+
   const drive = formatDrive(ride);
   document.getElementById("rideDrive").innerHTML = drive ? '<img class="drive-icon" src="/truck-icon.png" alt=""> ' + drive : "";
 
   const poster = document.getElementById("ridePoster");
-  const rideInfo = document.querySelector(".rideInfo");
   if (ride.imageUrl) {
     poster.src = ride.imageUrl;
     poster.classList.remove("hidden");
-    rideInfo.classList.add("hidden");
   } else {
     poster.src = "";
     poster.classList.add("hidden");
-    rideInfo.classList.remove("hidden");
   }
-
-  const navMap = document.getElementById("navPage1");
-  const hasMap = !!(ride.lat && ride.lon) || !!ride.googleMapUrl;
-  navMap.style.display = hasMap ? "" : "none";
-  activePages = hasMap ? [0, 1, 2] : [0, 2];
-
-  const frame = document.getElementById("rideMapFrame");
-  if (hasMap) {
-    frame.src = getMapUrl(ride);
-    frame.setAttribute("data-loaded", ride.link);
-  } else {
-    frame.src = "";
-    frame.removeAttribute("data-loaded");
-  }
-
-  const notesEl = document.getElementById("rideNotes");
-  const note = getNote(ride.title);
-  notesEl.value = note;
-  notesEl.classList.toggle("has-note", note.length > 0);
 
   const startTimeEl = document.getElementById("rideStartTime");
   if (ride.startsAt) {
@@ -257,38 +250,33 @@ function openRideCard(ride) {
     detailsEl.classList.add("hidden");
   }
 
-  document.querySelectorAll(".card-page").forEach(p => { p.scrollTop = 0; });
-  setPage(0, false);
+  const notesEl = document.getElementById("rideNotes");
+  const note = getNote(ride.title);
+  notesEl.value = note;
+  notesEl.classList.toggle("has-note", note.length > 0);
+
+  document.getElementById("cardBody").scrollTop = 0;
   document.getElementById("rideCard").classList.add("open");
 }
 
-// ── Dismiss gesture (drag down anywhere on card) ───────────────
+// ── Dismiss gesture (drag down on card header) ─────────────────
 (function () {
   const card = document.getElementById("rideCard");
-  let startX = 0, startY = 0, lastY = 0;
-  let lockDir = null, dismissing = false;
+  let startY = 0, dismissing = false;
 
   card.addEventListener("touchstart", (e) => {
     if (e.target.closest("textarea, input")) return;
-    startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
-    lastY = startY;
     lockDir = null;
     dismissing = false;
     card.style.transition = "none";
   }, { passive: true });
 
   card.addEventListener("touchmove", (e) => {
-    const dx = e.touches[0].clientX - startX;
     const dy = e.touches[0].clientY - startY;
-    lastY = e.touches[0].clientY;
-    if (!lockDir && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
-      lockDir = Math.abs(dx) >= Math.abs(dy) ? "h" : "v";
-    }
-    if (lockDir !== "v") return;
-    const pageEl = document.getElementById("cardPage" + currentPage);
-    const scrolled = pageEl ? pageEl.scrollTop : 0;
-    if (dy > 0 && scrolled === 0) {
+    const body = document.getElementById("cardBody");
+    const scrolled = body ? body.scrollTop : 0;
+    if (dy > 8 && scrolled === 0) {
       e.preventDefault();
       dismissing = true;
       card.style.transform = `translateY(${dy}px)`;
@@ -313,80 +301,6 @@ function openRideCard(ride) {
     }
   });
 })();
-
-// ── Horizontal page swipe (on viewport) ───────────────────────
-(function () {
-  const viewport = document.getElementById("cardViewport");
-  const track = document.getElementById("cardTrack");
-  let startX = 0, startY = 0, lockDir = null, baseOffset = 0;
-
-  viewport.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    lockDir = null;
-    const m = track.style.transform.match(/translateX\(([-0-9.]+)%\)/);
-    baseOffset = m ? parseFloat(m[1]) : 0;
-    track.style.transition = "none";
-  }, { passive: true });
-
-  viewport.addEventListener("touchmove", (e) => {
-    const dx = e.touches[0].clientX - startX;
-    const dy = e.touches[0].clientY - startY;
-    if (!lockDir && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
-      lockDir = Math.abs(dx) >= Math.abs(dy) ? "h" : "v";
-    }
-    if (lockDir !== "h") return;
-    e.preventDefault();
-    const pct = (dx / viewport.offsetWidth) * 100;
-    let offset = baseOffset + pct;
-    const minOff = -(activePages[activePages.length - 1] * 100);
-    if (offset > 0) offset *= 0.2;
-    if (offset < minOff) offset = minOff + (offset - minOff) * 0.2;
-    track.style.transform = `translateX(${offset}%)`;
-  }, { passive: false });
-
-  viewport.addEventListener("touchend", (e) => {
-    if (lockDir !== "h") return;
-    const dx = e.changedTouches[0].clientX - startX;
-    const idx = activePages.indexOf(currentPage);
-    if (dx < -50 && idx < activePages.length - 1) {
-      setPage(activePages[idx + 1]);
-    } else if (dx > 50 && idx > 0) {
-      setPage(activePages[idx - 1]);
-    } else {
-      setPage(currentPage);
-    }
-  });
-})();
-
-document.getElementById("openEventBtn").onclick = () => {
-  if (currentRide) window.open(currentRide.link, "_blank");
-};
-
-document.getElementById("calendarBtn").onclick = () => {
-  if (!currentRide) return;
-  const note = getNote(currentRide.title);
-  if (calendarApp === "google") {
-    const dateStr = formatDateForGCal(currentRide.date);
-    const endStr = nextDay(dateStr);
-    const details = [currentRide.type, note].filter(Boolean).join("\n\n");
-    const params = new URLSearchParams({
-      action: "TEMPLATE",
-      text: currentRide.title,
-      dates: dateStr + "/" + endStr,
-      details,
-      location: currentRide.originalAddress || currentRide.district || "",
-    });
-    window.open("https://calendar.google.com/calendar/render?" + params.toString(), "_blank");
-  } else {
-    const params = new URLSearchParams({
-      link: currentRide.link,
-      reminderDays: reminderDays,
-      note: note || "",
-    });
-    window.location.href = "/calendar.ics?" + params.toString();
-  }
-};
 
 document.getElementById("rideNotes").addEventListener("input", () => {
   if (!currentRide) return;
@@ -866,7 +780,6 @@ async function loadRides() {
   initDriveDisplay();
   initReminder();
   initCalendarAppPref();
-  initPageNav();
   renderList();
   renderTypeFilters();
   initPrefs();
