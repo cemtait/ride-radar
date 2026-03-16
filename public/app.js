@@ -204,7 +204,7 @@ function openRideCard(ride) {
   document.getElementById("rideDistrict").innerText = "📍 " + ride.district;
   document.getElementById("rideAddress").innerText = ride.originalAddress || "";
   const drive = formatDrive(ride);
-  document.getElementById("rideDrive").innerText = drive ? "🚗 " + drive : "";
+  document.getElementById("rideDrive").innerHTML = drive ? '<img class="drive-icon" src="/truck-icon.jpeg" alt=""> ' + drive : "";
 
   const poster = document.getElementById("ridePoster");
   const rideInfo = document.querySelector(".rideInfo");
@@ -386,7 +386,7 @@ function updateRideDriveSpan(ride) {
   updateHeaderSub();
 
   if (currentRide && currentRide.link === ride.link) {
-    document.getElementById("rideDrive").innerText = drive ? "🚗 " + drive : "";
+    document.getElementById("rideDrive").innerHTML = drive ? '<img class="drive-icon" src="/truck-icon.jpeg" alt=""> ' + drive : "";
   }
 }
 

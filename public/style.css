@@ -224,6 +224,14 @@ header {
   font-weight: 500;
 }
 
+.drive-icon {
+  height: 22px;
+  width: auto;
+  vertical-align: middle;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
 .ride-map-pin {
   width: 13px;
   height: 13px;
