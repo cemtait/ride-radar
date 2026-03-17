@@ -1,0 +1,17 @@
+{
+  "name": "Ride Radar",
+  "short_name": "Ride Radar",
+  "description": "NZ motorcycle events, drive times and maps",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#111111",
+  "icons": [
+    {
+      "src": "/icon-app.png",
+      "sizes": "871x871",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
