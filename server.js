@@ -928,8 +928,35 @@ app.listen(PORT, "0.0.0.0", () => {
   console.log(`Ride Radar server running on port ${PORT}`);
 
   refreshRideCache().catch((err) => console.error(err));
+  scheduleNextScrape();
 
 });
 
 // -----------------------------
-setInterval(refreshRideCache, 1000 * 60 * 60);
+// Schedule scrapes at midnight and midday NZ time (Pacific/Auckland).
+// Runs once immediately on startup, then calculates ms until the next
+// 00:00 or 12:00 NZ and recurses after each run.
+// -----------------------------
+function scheduleNextScrape() {
+  const nzNow = new Date(new Date().toLocaleString("en-US", { timeZone: "Pacific/Auckland" }));
+  const h = nzNow.getHours();
+  const m = nzNow.getMinutes();
+  const s = nzNow.getSeconds();
+
+  // Minutes remaining until next 00:00 or 12:00 NZ
+  let minsUntil;
+  if (h < 12) {
+    minsUntil = (12 - h) * 60 - m;
+  } else {
+    minsUntil = (24 - h) * 60 - m;
+  }
+  const msUntil = (minsUntil * 60 - s) * 1000;
+
+  const nextLabel = h < 12 ? "midday" : "midnight";
+  console.log(`Next scrape at NZ ${nextLabel} — in ${Math.round(msUntil / 60000)} minutes`);
+
+  setTimeout(async () => {
+    await refreshRideCache().catch((err) => console.error(err));
+    scheduleNextScrape();
+  }, msUntil);
+}
