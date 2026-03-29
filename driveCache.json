@@ -717,6 +717,34 @@
     "https://silverbullet.co.nz//event.php?id=18249": {
       "distance_km": "548.4",
       "drive_time_minutes": 459
+    },
+    "https://silverbullet.co.nz//event.php?id=18257": {
+      "distance_km": "863.0",
+      "drive_time_minutes": 836
+    },
+    "https://silverbullet.co.nz//event.php?id=18251": {
+      "distance_km": "254.1",
+      "drive_time_minutes": 418
+    },
+    "https://silverbullet.co.nz//event.php?id=18254": {
+      "distance_km": "137.6",
+      "drive_time_minutes": 116
+    },
+    "https://silverbullet.co.nz//event.php?id=18255": {
+      "distance_km": "452.3",
+      "drive_time_minutes": 421
+    },
+    "https://silverbullet.co.nz//event.php?id=18259": {
+      "distance_km": "42.2",
+      "drive_time_minutes": 60
+    },
+    "https://silverbullet.co.nz//event.php?id=18256": {
+      "distance_km": "28.5",
+      "drive_time_minutes": 26
+    },
+    "https://silverbullet.co.nz//event.php?id=18260": {
+      "distance_km": "34.5",
+      "drive_time_minutes": 40
     }
   }
 }

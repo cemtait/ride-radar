@@ -1,10 +1,45 @@
 [
   {
+    "title": "Kids Day In The Dirt",
+    "district": "Wellington",
+    "where": "opposite 306 state highway 59 Paekakariki",
+    "addressAttempted": "opposite 306 state highway 59 Paekakariki New Zealand",
+    "link": "https://silverbullet.co.nz//event.php?id=18264"
+  },
+  {
+    "title": "Kapiti Coast Led Trail Ride",
+    "district": "Wellington",
+    "where": "opposite 306 state highway 59 Paekakariki",
+    "addressAttempted": "opposite 306 state highway 59 Paekakariki New Zealand",
+    "link": "https://silverbullet.co.nz//event.php?id=18265"
+  },
+  {
     "title": "Waihi east school and Waitata school trail ride",
     "district": "Hauraki",
     "where": null,
     "addressAttempted": null,
     "link": "https://silverbullet.co.nz//event.php?id=18245"
+  },
+  {
+    "title": "NZ Enduro Championship - Round 3",
+    "district": "Wellington",
+    "where": null,
+    "addressAttempted": "3 8 August - Taikorea - Sprints, Wellington New Zealand",
+    "link": "https://silverbullet.co.nz//event.php?id=18252"
+  },
+  {
+    "title": "NZ Enduro Championship - Round 4",
+    "district": "South Wairarapa",
+    "where": "Ruakakapatuna",
+    "addressAttempted": "Ruakakapatuna New Zealand",
+    "link": "https://silverbullet.co.nz//event.php?id=18253"
+  },
+  {
+    "title": "Nutbuster Hard Enduro",
+    "district": "Christchurch",
+    "where": null,
+    "addressAttempted": null,
+    "link": "https://silverbullet.co.nz//event.php?id=18258"
   },
   {
     "title": "Taungatara Hard Trail Ride",
@@ -58,22 +93,6 @@
     "where": null,
     "addressAttempted": null,
     "link": "https://www.myrides.co.nz/events/sdbr-twilight-mx-series-rnd-3",
-    "source": "myrides"
-  },
-  {
-    "title": "SDBR Twilight MX Series Rnd 2",
-    "district": null,
-    "where": null,
-    "addressAttempted": null,
-    "link": "https://www.myrides.co.nz/events/sdbr-twilight-mx-series",
-    "source": "myrides"
-  },
-  {
-    "title": "SDBR Twilight MX Series Rnd 1",
-    "district": null,
-    "where": null,
-    "addressAttempted": null,
-    "link": "https://www.myrides.co.nz/events/sdbr-twilight-mx-series-rnd-1",
     "source": "myrides"
   }
 ]

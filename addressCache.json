@@ -1314,5 +1314,35 @@
     "lat": -38.0756334,
     "lon": 176.962908,
     "original": "449 Foster Road, Taneatua, New Zealand"
+  },
+  "Sea Farm Holdings, 299 Akatore Rd New Zealand": {
+    "lat": -46.098207,
+    "lon": 170.1843634,
+    "original": "Sea Farm Holdings, 299 Akatore Rd New Zealand"
+  },
+  "Wanaka New Zealand": {
+    "lat": -44.6941691,
+    "lon": 169.1364637,
+    "original": "Wanaka New Zealand"
+  },
+  "Taikorea New Zealand": {
+    "lat": -40.3678979,
+    "lon": 175.4037666,
+    "original": "Taikorea New Zealand"
+  },
+  "Moonshine New Zealand": {
+    "lat": -38.1862604,
+    "lon": 176.2927798,
+    "original": "Moonshine New Zealand"
+  },
+  "Haywards New Zealand": {
+    "lat": -41.1503049,
+    "lon": 174.9786457,
+    "original": "Haywards New Zealand"
+  },
+  "948 Cairn Road, Slopedown, Otago Region, 9583, New Zealand": {
+    "lat": -46.3416208,
+    "lon": 169.3178547,
+    "original": "948 Cairn Road, Slopedown, Otago Region, 9583, New Zealand"
   }
 }
